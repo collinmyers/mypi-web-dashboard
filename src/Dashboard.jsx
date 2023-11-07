@@ -35,8 +35,8 @@ export default function Dashboard() {
 
     <div className="content">
       <h1 className="dashTitle">Welcome to the Admin Dashboard!</h1>
-      <Button variant="contained" color="primary" onClick={handleLogout}> Sign Out</Button>
+      <Button className="SignOutButton" variant="contained" color="primary" onClick={handleLogout}> Sign Out</Button>
     </div>
 
   );
-}
+  }

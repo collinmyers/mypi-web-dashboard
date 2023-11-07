@@ -4,7 +4,7 @@ import Dash from "../src/Dashboard.jsx";
 import Signin from "../src/auth/SignIn.jsx";
 import "./index.css";
 import { BrowserRouter,Route, Routes} from "react-router-dom";
-import ForgotPassword from "../src/auth/ForgotPassword.jsx"
+import ForgotPassword from "../src/auth/ForgotPassword.jsx";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(

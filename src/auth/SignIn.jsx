@@ -53,7 +53,7 @@ export default function LoginScreen({ handleLoginSuccess }) {
 
       setEmail("");
       setPassword("");
-      
+      ValidCreds();
       navigateToDash();
       // Navigation can be handled using React Router's Link component.
     } catch (error) {
@@ -64,23 +64,21 @@ export default function LoginScreen({ handleLoginSuccess }) {
   };
 
   return (
-    <div>
+    <div className="container">
       <ToastContainer/>
       <div className="center">
       <h2 className="AuthTitle">Sign In</h2>
           <TextField
             className="EmailTextfield"
             label="Email"
-            variant="outlined"
             fullWidth
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onBlur={() => validateEmail(email, setEmail)}
           />
           <TextField
-            // className={AuthStyle.userInput}
+            className="PasswordText"
             label="Password"
-            variant="outlined"
             fullWidth
             type="password"
             value={password}
@@ -90,11 +88,10 @@ export default function LoginScreen({ handleLoginSuccess }) {
             variant="contained"
             color="primary"
             onClick={handleLogin}
-            // className={AuthStyle.ButtonOpacity}
           >
             Sign In
           </Button>
-          <Link to="/forgotPassword">Forgot Password</Link>
+          <Link className="ForgotPassLink" to="/forgotPassword">Forgot Password</Link>
           </div>
     </div>
   );
