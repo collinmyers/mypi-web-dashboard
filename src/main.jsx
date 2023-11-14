@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import Signin from "./Pages/auth/SignIn";
 import Dash from "./Pages/dashboard/Dash";   
+import EventsEditor from "./Pages/dashboard/EventsEdit";
 
 
 
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/" element={<Signin />} />
             <Route path="/dash" element={<Dash />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
+            <Route path="/events" element={<EventsEditor/>} />
         </Routes>
     </BrowserRouter>,
 );
