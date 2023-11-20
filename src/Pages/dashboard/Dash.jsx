@@ -15,8 +15,8 @@ export default function Dashboard() {
         navigate("/");
     };
 
-    const navigateToNewEvent = () => {
-        navigate("/newEvent");
+    const navigateToEvents = () => {
+        navigate("/events");
     };
 
 
@@ -45,8 +45,9 @@ export default function Dashboard() {
         <div className="container">
             <div className="content">
                 <h1 className="dashTitle">Welcome to the Admin Dashboard!</h1>
+                <Button className="EditEventsButton" variant="contained" color="primary" onClick={navigateToEvents}> Edit Events</Button>
                 <Button className="SignOutButton" variant="contained" color="primary" onClick={handleLogout}> Sign Out</Button>
-                <Button className="NewEventButton" variant="contained" color="primary" onClick={navigateToNewEvent}> New Event</Button>
+                <Button className="NewEventButton" variant="contained" color="primary" onClick={navigateToEvents}> New Event</Button>
 
             </div>
         </div>
