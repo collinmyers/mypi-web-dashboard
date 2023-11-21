@@ -5,6 +5,7 @@ body {
   }  
   .title {
     color: #8FA063; 
+    font-size: x-large;
  }
   
   .newEventContainer {
@@ -21,7 +22,7 @@ body {
   .newEventContainer button {
     margin-top: 20px; /* Add spacing above the button */
   }
-  .newEventContainer .uploader {
-    width: 60%; /* Make the file input take full width */
+ .newEventContainer .uploader {
+    width: 99%; /* Make the file input take full width */
     margin: 10px 0; /* Add spacing to the top and bottom of the file input */
   }

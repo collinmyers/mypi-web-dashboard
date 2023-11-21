@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+  }  
+  .deleteTitle {
+    color: #8FA063; 
+    font-size: x-large;
+    display: flex;
+    justify-content: center;
+ }
+/* Add these styles to adjust the spacing */
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-toggle {
+    /* padding: 10px; */
+    background-color: #eee;
+    cursor: pointer;
+    width: 175px;
+  }
+  
+  .dropdown-wrapper {
+    position: absolute;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .dropdown-item {
+    padding: 12px;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+ /* Adjust as needed */
+
+  }
+  .dropdown-item:hover{
+    background-color: #f1f1f1; /* Change the background color on hover */
+
+  }
+  
+  
+  .dropdown-item:last-child {
+    border-bottom: none;
+  }
+  
+  /* Add margin-bottom to the dropdown-toggle */
+  .dropdown-toggle {
+    margin-bottom: 0; /* Adjust as needed */
+    border-radius: 0px;
+    color: #134C77;  
+}
+  /*Green: #8FA063
+Blue: #134C77*/
+.submit{
+    display: flex;
+  justify-content: center;
+  margin-top: 350px;
+  margin-left: 20px;
+}
