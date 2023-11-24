@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Databases, Client,ID, Account, Storage} from "appwrite";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import "../../styling/CreateEventStyle.css";
+import "../../../styling/CreateEventStyle.css";
 import { toast,ToastContainer } from "react-toastify";
 
 

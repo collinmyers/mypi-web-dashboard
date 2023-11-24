@@ -7,4 +7,6 @@
     flex: 2; /* Each component takes an equal portion of the available space */
     margin: 50px; /* Optional: Add some margin between components */
   }
-  
+  .DashButton{
+    display: flex;
+  }

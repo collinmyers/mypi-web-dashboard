@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "../../styling/DeleteEventStyle.css";
+import "../../../styling/DeleteEventStyle.css";
 import { Databases, Client } from "appwrite";
+import { toast,ToastContainer } from "react-toastify";
+
 
 export default function DeleteEvent() {
   const [list, setList] = useState([]);
@@ -10,6 +12,26 @@ export default function DeleteEvent() {
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
+
+  function pause(milliseconds) {
+    return new Promise(resolve => {
+      setTimeout(resolve, milliseconds);
+    });
+  }
+  
+  const SuccessfullDeletion = () => {
+    toast.success("Event Deleted", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  
+  };
+  
+  const DeletionFailed = () => {
+    toast.error("Failed to Delete Event", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  
 
   useEffect(() => {
     const client = new Client()
@@ -47,10 +69,16 @@ export default function DeleteEvent() {
           // Optional: You can update the list to reflect the changes after deletion
           // Clear the selected item
           setSelectedItem(null);
+          SuccessfullDeletion();
+          await pause(2000);
           window.location.reload();
         } catch (error) {
+          DeletionFailed();
           console.error("Error deleting document:", error);
         }
+      }else{
+        DeletionFailed();
+
       }
   }; 
 
@@ -69,6 +97,7 @@ export default function DeleteEvent() {
 
   return (
     <div>
+    <ToastContainer/>
     <div className="dropdown-container">
     <h1 className="deleteTitle">Delete Event</h1>
         <button className="dropdown-toggle" onClick={toggleDropdown}>

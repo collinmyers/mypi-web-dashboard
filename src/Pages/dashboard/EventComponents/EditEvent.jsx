@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styling/EditEventStyle.css";
+import "../../../styling/EditEventStyle.css";
 
 
 
