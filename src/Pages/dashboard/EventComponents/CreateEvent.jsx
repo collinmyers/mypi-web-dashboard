@@ -95,9 +95,9 @@ const creationFailed = () => {
       const data = { // add lat and long 
         FileID: fileID,
         Name: name,
-        Date: date,
-        ShortDescription: shortDescription,
-        LongDescription: longDescription,
+        DateTime: date,
+        EventListDescription: shortDescription,
+        EventDetailsDescription: longDescription,
         Latitude: latitude,
         Longitude: longitude,
       };
@@ -128,8 +128,8 @@ const creationFailed = () => {
         <input className= "eventDate" type="text" placeholder="Date" value={date} onChange={(e) => setDate(e.target.value)} />
         <input type="text" placeholder="Short Description" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} />
         <input type="text" placeholder="Long Description" value={longDescription} onChange={(e) => setLongDescription(e.target.value)} />
-        <input type="text" placeholder="Latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)} />
-        <input type="text" placeholder="Longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)} />
+        <input type="number" placeholder="Latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)} />
+        <input type="number" placeholder="Longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)} />
         <button onClick={handleButtonClick}>Submit</button>
         <Button className="SignOutButton" variant="contained" color="primary" onClick={handleLogout}> Sign Out</Button>
         </div>
