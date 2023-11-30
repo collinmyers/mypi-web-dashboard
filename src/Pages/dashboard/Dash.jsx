@@ -45,9 +45,12 @@ export default function Dashboard() {
         <div className="container">
             <div className="content">
                 <h1 className="dashTitle">Welcome to the Admin Dashboard!</h1>
-                <Button className="EditEventsButton" variant="contained" color="primary" onClick={navigateToEvents}> Edit Events</Button>
-                <Button className="SignOutButton" variant="contained" color="primary" onClick={handleLogout}> Sign Out</Button>
+                <div className="buttonContainer">
+                    <Button className="EditEventsButton dashSelection" variant="contained" color="primary" onClick={navigateToEvents}> Edit Events</Button>
+                    <Button className="SignOutButton dashSelection" variant="contained" color="primary" onClick={handleLogout}> Sign Out</Button>
 
+                </div>
+                
             </div>
         </div>
 

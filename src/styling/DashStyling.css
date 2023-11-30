@@ -16,3 +16,14 @@
     text-align: 'center';
 
 }
+.buttonContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 15vh;
+    width: 20vw;
+}
+
+/* .dashSelection {
+    margin-bottom: 2rem;
+} */
