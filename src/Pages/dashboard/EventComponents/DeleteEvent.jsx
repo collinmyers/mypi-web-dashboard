@@ -13,11 +13,7 @@ export default function DeleteEvent() {
     setDropdownVisible(!dropdownVisible);
   };
 
-  function pause(milliseconds) {
-    return new Promise(resolve => {
-      setTimeout(resolve, milliseconds);
-    });
-  }
+
   
   const SuccessfullDeletion = () => {
     toast.success("Event Deleted", {
@@ -34,25 +30,43 @@ export default function DeleteEvent() {
   
 
   useEffect(() => {
+  
     const client = new Client()
       .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
       .setProject(import.meta.env.VITE_APPWRITE_PROJECT);
+    const handleSubscription = () =>{
+      getEvents();
+    }
 
-    // Initialize the Databases class
-    const database = new Databases(client);
-    const databaseID = "653ae4b2740b9f0a5139";
-    const collectionId = "655280f07e30eb37c8e8";
+    client.subscribe(
+      "databases.653ae4b2740b9f0a5139.collections.655280f07e30eb37c8e8.documents",
+      handleSubscription
+  );
+  getEvents();
 
-    database
-      .listDocuments(databaseID, collectionId)
-      .then((response) => {
-        console.log("Documents:", response.documents);
-        setList(response.documents);
-      })
-      .catch((error) => {
-        console.error("Error fetching documents:", error);
-      });
   }, []);
+
+  const getEvents = async () => {
+
+    const client = new Client()
+    .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
+    .setProject(import.meta.env.VITE_APPWRITE_PROJECT);
+
+  // Initialize the Databases class
+  const database = new Databases(client);
+  const databaseID = "653ae4b2740b9f0a5139";
+  const collectionId = "655280f07e30eb37c8e8";
+
+  database
+    .listDocuments(databaseID, collectionId)
+    .then((response) => {
+      console.log("Documents:", response.documents);
+      setList(response.documents);
+    })
+    .catch((error) => {
+      console.error("Error fetching documents:", error);
+    });
+  }
 
   const  handleSelectEvent = async () =>{
     if (selectedItem) {
@@ -69,9 +83,8 @@ export default function DeleteEvent() {
           // Optional: You can update the list to reflect the changes after deletion
           // Clear the selected item
           setSelectedItem(null);
-          SuccessfullDeletion();
-          await pause(2000);
-          window.location.reload();
+          SuccessfullDeletion(); //success pop up
+          
         } catch (error) {
           DeletionFailed();
           console.error("Error deleting document:", error);
