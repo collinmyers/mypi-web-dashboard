@@ -8,26 +8,26 @@ import { toast,ToastContainer } from "react-toastify";
 
 
 
-export default function CreateEvent(){
+export default function CreateEvent({onDataChange}){
+  const [responseData, setResponseData] = useState(null);
   const[fileID,setFileID] = useState("");
+  const[file,setFile] = useState("");
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
   const [latitude,setLatitude] = useState("");
   const [longitude,setLongitude] = useState("");
-
+  const [uploaderKey, setUploaderKey] = useState(false);
+  const client = new Client()
+      .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
+      .setProject(import.meta.env.VITE_APPWRITE_PROJECT);
 
 const navigate = useNavigate();
   
   const navigateToLogin = () => {
     navigate("/");
 };
-function pause(milliseconds) {
-  return new Promise(resolve => {
-    setTimeout(resolve, milliseconds);
-  });
-}
 
 const SuccessfullCreation = () => {
   toast.success("New Event Created", {
@@ -44,23 +44,19 @@ const creationFailed = () => {
 
 
 useEffect(() => {
-  
-  const client = new Client()
-    .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
-    .setProject(import.meta.env.VITE_APPWRITE_PROJECT);
+console.log("mount");
+if (responseData) {
+  // console.log("Response received:", responseData);
  
+    onDataChange();
+    setResponseData(null); // Call onDataChange when responseData changes
+ }
 
-  client.subscribe(
-    "databases.653ae4b2740b9f0a5139.collections.655280f07e30eb37c8e8.documents",
-);
+}, [responseData,onDataChange]);
 
-}, []);
 
   const handleLogout = async () => {
     try {
-        const client = new Client()
-            .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
-            .setProject(import.meta.env.VITE_APPWRITE_PROJECT);
 
         const account = new Account(client);
 
@@ -75,9 +71,6 @@ useEffect(() => {
 
 
 const handleButtonClick = async () => {
-
-
-  setFileID(document.getElementById("uploader").files[0].name);
     const data = { // add lat and long 
       FileID: fileID,
       Name: name,
@@ -88,57 +81,64 @@ const handleButtonClick = async () => {
       Longitude: longitude,
     };
 
-    try {// Initialize the Appwrite client
-      const client = new Client()
-      
-      .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT) // Replace with your Appwrite endpoint
-      .setProject(import.meta.env.VITE_APPWRITE_PROJECT); // Replace with your Appwrite project ID;
 
-  //new storage session  
       const storage = new Storage(client);
-//create file for uimage upload
       const promise = storage.createFile(
         "653ae4d2b3fcc68c10bf",
         fileID,
-        document.getElementById("uploader").files[0]
+        file
         );
 
       promise.then(function (response) {
-        console.log(response); // Success
+        createdDoc(data);
     }, function (error) {
+      creationFailed();
         console.log(error); // Failure
     });
-        
-    // Initialize the Appwrite database service
-    const database = new Databases(client);
-
-      // Replace with your collection ID
-      const collectionId = "655280f07e30eb37c8e8";
-      const databaseID = "653ae4b2740b9f0a5139";
-    //   const documnetID ="";
-
-      // Your data to be inserted into the collection
-
-      // Call the Appwrite SDK method to create a document in the collection
-      const response = await database.createDocument(databaseID,collectionId, ID.unique(), data);
-      console.log(response);
-      SuccessfullCreation();
-   
-      // Handle success or update UI as needed
-      
-    } catch (error) {
-      creationFailed();
-      console.error(error);
-      // Handle error or show error message
-    }
   };
 
+  const createdDoc = async (data) =>{
+try{
+      const database = new Databases(client);
+
+      const collectionId = "655280f07e30eb37c8e8";
+      const databaseID = "653ae4b2740b9f0a5139";
+
+      const response = await database.createDocument(databaseID,collectionId, ID.unique(), data);
+      setResponseData(response);
+      SuccessfullCreation();
+      clearInput();
+      
+  }catch(error){
+    creationFailed();
+  }
+ 
+  };
+
+  const clearInput = () =>{
+    setFile("");
+    setFileID("");
+    setName("");
+    setDate("");
+    setShortDescription("");
+    setLongDescription("");
+    setLatitude("");
+    setLongitude("");
+    setUploaderKey((prevValue) => !prevValue);
+  };
+
+  const handleFileChange = (e) => {
+    
+    setFile(e.target.files[0]);
+    setFileID(e.target.files[0].name);
+  };
+  
   return (
     <div>
     <ToastContainer/>
     <div className="newEventContainer">
     <h1 className="title">New Event</h1>
-        <input className="uploader" type="file" id="uploader" />
+        <input className="uploader" type="file" key={uploaderKey} id="uploader" onChange={handleFileChange} />
         <input className="eventName" type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
         <input className= "eventDate" type="text" placeholder="Date" value={date} onChange={(e) => setDate(e.target.value)} />
         <input type="text" placeholder="Short Description" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} />
