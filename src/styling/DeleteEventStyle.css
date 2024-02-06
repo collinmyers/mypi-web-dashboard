@@ -11,8 +11,9 @@ body {
  }
 /* Add these styles to adjust the spacing */
 .dropdown-container {
-    position: relative;
-    display: inline-block;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   }
   
   .dropdown-toggle {
@@ -23,8 +24,8 @@ body {
   }
   
   .dropdown-wrapper {
-    position: absolute;
-    left: 0;
+    position: relative;
+    /* left: 0; */
     background-color: #fff;
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
