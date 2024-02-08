@@ -11,6 +11,7 @@ import EventsEditor from "./Pages/dashboard/EventsEdit";
 import EditEvent from "./Pages/dashboard/EventComponents/EditEvent";
 import CreateEvent from "./Pages/dashboard/EventComponents/CreateEvent";
 import DeleteEvent from "./Pages/dashboard/EventComponents/DeleteEvent";
+import POIEdit from "../src/Pages/dashboard/POIEdit";
 
 
 
@@ -24,6 +25,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/editEvent" element={<EditEvent/>} />
             <Route path="/deleteEvent" element={<DeleteEvent/>} />
             <Route path="/createEvent" element={<CreateEvent/>} />
+            <Route path="/poiEdit" element={<POIEdit/>} />
+
+
 
         </Routes>
     </BrowserRouter>,

@@ -18,6 +18,9 @@ export default function Dashboard() {
     const navigateToEvents = () => {
         navigate("/events");
     };
+    const navigateToPOI = () => {
+        navigate("/poiEdit");
+    };
 
 
     const handleLogout = async () => {
@@ -47,6 +50,7 @@ export default function Dashboard() {
                 <h1 className="dashTitle">Welcome to the Admin Dashboard!</h1>
                 <div className="buttonContainer">
                     <Button className="EditEventsButton dashSelection" variant="contained" color="primary" onClick={navigateToEvents}> Edit Events</Button>
+                    <Button className="EditEventsButton dashSelection" variant="contained" color="primary" onClick={navigateToPOI}> Edit POI </Button>
                     <Button className="SignOutButton dashSelection" variant="contained" color="primary" onClick={handleLogout}> Sign Out</Button>
 
                 </div>
