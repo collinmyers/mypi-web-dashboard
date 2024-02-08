@@ -24,13 +24,14 @@ flex-direction: column;
 }
 
 .dropdown-wrapper {
-  position: absolute;
+  position: relative;
   /* left: 0; */
   background-color: #fff;
   border: 1px solid #ccc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   max-height: 300px;
   overflow-y: auto;
+  z-index: 1000;
 }
 
 .dropdown-item {
@@ -59,8 +60,5 @@ flex-direction: column;
 
 .dropdown-container input {
   margin: 10px 0; /* Add spacing to the top and bottom of each input field */
-}
-.editEventSubmit{
-  setRemountEditEvent((prevValue) => !prevValue);
 }
 
