@@ -6,12 +6,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import Signin from "./Pages/auth/SignIn";
-import Dash from "./Pages/dashboard/Dash";   
-import EventsEditor from "./Pages/dashboard/EventsEdit";
+import Dash from "./Pages/dashboard/MainComponents/Dash";   
+import EventsEditor from "./Pages/dashboard/MainComponents/EventsEdit";
 import EditEvent from "./Pages/dashboard/EventComponents/EditEvent";
 import CreateEvent from "./Pages/dashboard/EventComponents/CreateEvent";
 import DeleteEvent from "./Pages/dashboard/EventComponents/DeleteEvent";
-import POIEdit from "../src/Pages/dashboard/POIEdit";
+import POIEdit from "./Pages/dashboard/MainComponents/POIEdit";
+import EditPOI from "./Pages/dashboard/POIComponents/EditPOI";
 
 
 
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/deleteEvent" element={<DeleteEvent/>} />
             <Route path="/createEvent" element={<CreateEvent/>} />
             <Route path="/poiEdit" element={<POIEdit/>} />
+            <Route path = "/editPOI" element={<EditPOI/>}/>
 
 
 

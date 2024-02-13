@@ -5,24 +5,27 @@ import { useNavigate } from "react-router-dom";
 import "../../../styling/EditPOIStyle.css";
 import { toast,ToastContainer } from "react-toastify";
 
+import { useLocation } from "react-router-dom";
+
+import { useParams } from "react-router-dom";
+
+
 
 export default function EditPOI(){
 
-
+    const location = useLocation();
+    const navigate = useNavigate();
+    // get userId
+    let ID = location.state.poiID;
 
 
     return(
-        <div className="editPOIContainer">
-        <h1 className="title">Edit POI</h1>
-        <input className="uploader" type="file"  id="uploader" />
-        <input className="eventName" type="text" placeholder="Name"  />
-        <input className= "eventDate" type="text" placeholder="Date"  />
-        <input type="text" placeholder="Short Description"  />
-        <input type="text" placeholder="Long Description" />
-        <input type="number" placeholder="Latitude"  />
-        <input type="number" placeholder="Longitude"  />
-        <button >Edit POI</button>
-        </div>
+        <div>
+      <h1>Edit POI with ID: {ID}</h1>
+      {/* Other edit form components */}
+      <button onClick={() => navigate(-1)}>go back</button>
+
+    </div>
 
     );
 }
