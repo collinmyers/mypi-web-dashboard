@@ -1,0 +1,29 @@
+.custom-table {
+  width: 100;
+  border-collapse: collapse;
+  background-color: #fff;
+  max-height: 500px; /* Set the background color to white */
+  overflow-y: scroll;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 8px;
+  border: none; /* Remove the border */
+}
+
+.custom-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.table-row:hover {
+  background-color: #f9f9f9;
+}
+
+.action-button {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  cursor: pointer;
+}
