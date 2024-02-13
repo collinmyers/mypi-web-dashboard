@@ -1,8 +1,13 @@
 import "../../../styling/EditEventStyle.css";
 import React, { useState, useEffect } from "react";
-import { Databases, Client,Storage } from "appwrite";
+// import { Databases, Client,Storage } from "appwrite";
 import { toast,ToastContainer } from "react-toastify";
-
+import {account} from "../../../utils/AppwriteConfig";
+import {database} from "../../../utils/AppwriteConfig";
+import {storage} from "../../../utils/AppwriteConfig";
+import {BUCKET_ID} from "../../../utils/AppwriteConfig";
+import {EVENTS_COLLECTION_ID} from "../../../utils/AppwriteConfig";
+import {DATABASE_ID} from "../../../utils/AppwriteConfig";
 
 
 
@@ -24,14 +29,24 @@ export default function EditEvent({onDataChange}){
   const [list, setList] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const client = new Client()
-  .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
-  .setProject(import.meta.env.VITE_APPWRITE_PROJECT);
+
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
 
+  const SuccessfullEdit = () => {
+    toast.success("New Event Created", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  
+  };
+  
+  const EditFailed = () => {
+    toast.error("Failed to Create Event", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
 
 
   useEffect(() => {
@@ -64,12 +79,10 @@ export default function EditEvent({onDataChange}){
 
 
   // Initialize the Databases class
-  const database = new Databases(client);
-  const databaseID = "653ae4b2740b9f0a5139";
-  const collectionId = "655280f07e30eb37c8e8";
+
 
   database
-    .listDocuments(databaseID, collectionId)
+    .listDocuments(DATABASE_ID, EVENTS_COLLECTION_ID)
     .then((response) => {
       setList(response.documents);
     })
@@ -79,10 +92,8 @@ export default function EditEvent({onDataChange}){
   };
 
   const createImage = async () =>{
- 
 
-    const storage = new Storage(client); 
-    const promise = storage.createFile("653ae4d2b3fcc68c10bf",newFile.name,newFile);
+    const promise = storage.createFile(BUCKET_ID,newFile.name,newFile);
 
     promise.then(function (response) {
       console.log(response); // Success
@@ -93,9 +104,8 @@ export default function EditEvent({onDataChange}){
 
   const deleteImage = async () => {
    
-    const storage = new Storage(client);
     console.log(currentFile.name);
-    const promise = storage.deleteFile("653ae4d2b3fcc68c10bf",currentFile.name);
+    const promise = storage.deleteFile(BUCKET_ID,currentFile.name);
 
     promise.then(function (response) {
       console.log(response); // Success
@@ -107,9 +117,8 @@ export default function EditEvent({onDataChange}){
   const getImage = async () => {
     try {
      
-      const storage = new Storage(client);
   
-      const response = await storage.getFileView("653ae4d2b3fcc68c10bf", selectedItem.FileID);
+      const response = await storage.getFileView(BUCKET_ID, selectedItem.FileID);
   
       setImageUrl((prevImageUrl) => {
         if (response.href) {
@@ -125,8 +134,7 @@ export default function EditEvent({onDataChange}){
   
   const getCurrentFile = async()=>{
     try {
-      const storage = new Storage(client);
-      const response = await storage.getFile("653ae4d2b3fcc68c10bf", selectedItem.FileID);
+      const response = await storage.getFile(BUCKET_ID, selectedItem.FileID);
   
      setCurrentFile(response);
       console.log(response); // Success
@@ -157,19 +165,18 @@ export default function EditEvent({onDataChange}){
       };
 
         try {
-        
-          const database = new Databases(client);
-          const databaseID = "653ae4b2740b9f0a5139";
-          const collectionId = "655280f07e30eb37c8e8";
+       
 
-          await database.updateDocument(databaseID,collectionId,selectedItem.$id,data);
+          await database.updateDocument(DATABASE_ID,EVENTS_COLLECTION_ID,selectedItem.$id,data);
   
          
           setSuccessfullyUpdated(true);
+          SuccessfullEdit();
           clearInput();
             
         } catch (error) {
           setSuccessfullyUpdated(false);
+          EditFailed();
           console.error("Error updating document:", error);
         }
       }else{
@@ -212,13 +219,7 @@ export default function EditEvent({onDataChange}){
           {selectedItem ? selectedItem.Name : "Select Event"}
         </button>
         {dropdownVisible && (<div className="dropdown-wrapper">{list.map((item) => renderList({ item }))}</div>)}
-        {imageUrl && (
-          <img
-            src={imageUrl}
-            alt={"Event Image"}
-            style={{ width: "200px", height: "150px" }} // Set your desired width and height
-          />
-        )}
+        {imageUrl && (<img src={imageUrl} alt={"Event Image"} style={{ width: "200px", height: "150px" }}/>)}
         <input className="uploader" type="file" key={uploaderKey} id="uploader"  onChange={(e) => setNewFile(e.target.files[0])}/>
         <input className="eventName" type="text" placeholder={selectedItem ? selectedItem.Name: "Name"} id = "eventName" value={name} onChange={(e) => setName(e.target.value)} />
         <input className= "eventDate" type="text" placeholder={selectedItem ? selectedItem.DateTime: "Date"} value={date} onChange={(e) => setDate(e.target.value)} />

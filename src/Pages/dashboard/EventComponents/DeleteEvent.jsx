@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import "../../../styling/DeleteEventStyle.css";
-import { Databases, Client, Storage } from "appwrite";
 import { toast,ToastContainer } from "react-toastify";
+import {account} from "../../../utils/AppwriteConfig";
+import {database} from "../../../utils/AppwriteConfig";
+import {storage} from "../../../utils/AppwriteConfig";
+import {BUCKET_ID} from "../../../utils/AppwriteConfig";
+import {EVENTS_COLLECTION_ID} from "../../../utils/AppwriteConfig";
+import {DATABASE_ID} from "../../../utils/AppwriteConfig";
 
 
 export default function DeleteEvent({onDataChange}) {
   const [list, setList] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [dropdownVisible, setDropdownVisible] = useState(false);
   const [successfullDeletion, setSuccessfullDeletion] = useState(false);
   
-  const client = new Client()
-  .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
-  .setProject(import.meta.env.VITE_APPWRITE_PROJECT);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  
  
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
@@ -48,14 +51,8 @@ export default function DeleteEvent({onDataChange}) {
 
   const getEvents = async () => {
 
-
-  // Initialize the Databases class
-  const database = new Databases(client);
-  const databaseID = "653ae4b2740b9f0a5139";
-  const collectionId = "655280f07e30eb37c8e8";
-
   database
-    .listDocuments(databaseID, collectionId)
+    .listDocuments(DATABASE_ID, EVENTS_COLLECTION_ID,100)
     .then((response) => {
       console.log("Documents:", response.documents);
       setList(response.documents);
@@ -69,13 +66,8 @@ export default function DeleteEvent({onDataChange}) {
     if (selectedItem) {
         try {
         
-          const database = new Databases(client);
-          const databaseID = "653ae4b2740b9f0a5139";
-          const collectionId = "655280f07e30eb37c8e8";
-          // const storage = new Storage(client);
-
-
-          await database.deleteDocument(databaseID, collectionId, selectedItem.$id);
+          
+          await database.deleteDocument(DATABASE_ID, EVENTS_COLLECTION_ID, selectedItem.$id);
 
           // Optional: You can update the list to reflect the changes after deletion
           // Clear the selected item
@@ -96,8 +88,7 @@ export default function DeleteEvent({onDataChange}) {
   }; 
 
   const deleteImage = async () =>{
-    const storage = new Storage(client);
-    const promise = storage.deleteFile("653ae4d2b3fcc68c10bf",selectedItem.FileID);
+    const promise = storage.deleteFile(BUCKET_ID,selectedItem.FileID);
 
     promise.then(function (response) {
       console.log(response); // Success
@@ -132,5 +123,7 @@ export default function DeleteEvent({onDataChange}) {
       </div>
       
     </div>
+
+    
   );
 }

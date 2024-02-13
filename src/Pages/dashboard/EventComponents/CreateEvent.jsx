@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Databases, Client,ID, Account, Storage} from "appwrite";
+import { ID} from "appwrite";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "../../../styling/CreateEventStyle.css";
 import { toast,ToastContainer } from "react-toastify";
+import {account} from "../../../utils/AppwriteConfig";
+import {database} from "../../../utils/AppwriteConfig";
+import {storage} from "../../../utils/AppwriteConfig";
+import {BUCKET_ID} from "../../../utils/AppwriteConfig";
+import {EVENTS_COLLECTION_ID} from "../../../utils/AppwriteConfig";
+import {DATABASE_ID} from "../../../utils/AppwriteConfig";
+
 
 
 
@@ -19,9 +26,9 @@ export default function CreateEvent({onDataChange}){
   const [latitude,setLatitude] = useState("");
   const [longitude,setLongitude] = useState("");
   const [uploaderKey, setUploaderKey] = useState(false);
-  const client = new Client()
-      .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
-      .setProject(import.meta.env.VITE_APPWRITE_PROJECT);
+  // const client = new Client()
+  //     .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
+  //     .setProject(import.meta.env.VITE_APPWRITE_PROJECT);
 
 const navigate = useNavigate();
   
@@ -44,10 +51,9 @@ const creationFailed = () => {
 
 
 useEffect(() => {
-console.log("mount");
+
 if (responseData) {
   // console.log("Response received:", responseData);
- 
     onDataChange();
     setResponseData(null); // Call onDataChange when responseData changes
  }
@@ -58,10 +64,7 @@ if (responseData) {
   const handleLogout = async () => {
     try {
 
-        const account = new Account(client);
-
         await account.deleteSessions("current");
-
         navigateToLogin();
 
     } catch (error) {
@@ -80,14 +83,7 @@ const handleButtonClick = async () => {
       Latitude: latitude,
       Longitude: longitude,
     };
-
-
-      const storage = new Storage(client);
-      const promise = storage.createFile(
-        "653ae4d2b3fcc68c10bf",
-        fileID,
-        file
-        );
+      const promise = storage.createFile(BUCKET_ID,fileID,file);
 
       promise.then(function (response) {
         createdDoc(data);
@@ -99,12 +95,10 @@ const handleButtonClick = async () => {
 
   const createdDoc = async (data) =>{
 try{
-      const database = new Databases(client);
 
-      const collectionId = "655280f07e30eb37c8e8";
-      const databaseID = "653ae4b2740b9f0a5139";
+     
 
-      const response = await database.createDocument(databaseID,collectionId, ID.unique(), data);
+      const response = await database.createDocument(DATABASE_ID,EVENTS_COLLECTION_ID, ID.unique(), data);
       setResponseData(response);
       SuccessfullCreation();
       clearInput();
