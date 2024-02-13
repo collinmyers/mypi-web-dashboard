@@ -9,6 +9,7 @@ import {storage} from "../../../utils/AppwriteConfig";
 import {BUCKET_ID} from "../../../utils/AppwriteConfig";
 import {MAP_COLLECTION_ID} from "../../../utils/AppwriteConfig";
 import {DATABASE_ID} from "../../../utils/AppwriteConfig";
+import { toast,ToastContainer } from "react-toastify";
 
 
 export default function CreatePOI(){
@@ -18,6 +19,21 @@ const [latitude,setLatitude] = useState("");
 const [longitude,setLongitude] = useState("");
 const [status, setStatus] = useState("Open");
 const [type, setType] = useState("");
+const navigate = useNavigate();
+
+const SuccessfullCreation = () => {
+    toast.success("New POI Created", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  
+  };
+  
+  const creationFailed = () => {
+    toast.error("Failed to Create POI", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  
 
 useEffect(()=>{
 
@@ -41,8 +57,9 @@ const handleSubmit = async () => {
 
    try{
     const response = await database.createDocument(DATABASE_ID,MAP_COLLECTION_ID, ID.unique(), data);
-    
+    SuccessfullCreation();
    }catch(response){
+    creationFailed();
     console.log(response);
    }
 
@@ -65,6 +82,8 @@ const handleSubmit = async () => {
 
         
         <button onClick={handleSubmit}>Create POI</button>
+        <button onClick={() => navigate(-1)}>go back</button>
+
         </div>
 
     );

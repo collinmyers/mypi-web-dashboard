@@ -1,15 +1,27 @@
+
 .custom-table {
-  width: 100;
+  width: 75%;
+  margin: 0 auto;
+  table-layout: fixed;
   border-collapse: collapse;
   background-color: #fff;
-  max-height: 500px; /* Set the background color to white */
-  overflow-y: scroll;
+  max-height: 500px;
+
+}
+.table-container {
+  min-height: 500px; /* Set a minimum height */
+  max-height: 500px; /* Set a maximum height */
+  position: relative;
 }
 
 .custom-table th,
 .custom-table td {
   padding: 8px;
-  border: none; /* Remove the border */
+  border: none;
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Show ellipsis for overflow text */
+  text-align: center;
 }
 
 .custom-table th {
@@ -26,4 +38,37 @@
   border: 1px solid #ddd;
   background-color: #fff;
   cursor: pointer;
+
+}
+
+.pagination{
+  margin: 0 auto;
+}
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+.page{
+  color: #f9f9f9;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+
+
+.create-event-container {
+  position: absolute;
+  top: 20;
+  right: 0;
+  padding: 10px;
 }

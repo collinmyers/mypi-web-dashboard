@@ -12,9 +12,9 @@ import { toast,ToastContainer } from "react-toastify";
 
 export default function POIEdit() {
   const [data, setData] = useState([]);
-  const [totalDocuments, setTotalDocuments] = useState(0);
+  const [allData,setAllData] = useState([]);
   const [page, setPage] = useState(1);
-  const pageSize = 8; // Number of items per page
+  const [pageSize] = useState(8); // Number of items per page
 
   const navigate = useNavigate();
 
@@ -22,9 +22,8 @@ export default function POIEdit() {
     toast.success("Event Deleted", {
       position: toast.POSITION.TOP_CENTER,
     });
-  
   };
-  
+
   const DeletionFailed = () => {
     toast.error("Failed to Delete Event", {
       position: toast.POSITION.TOP_CENTER,
@@ -33,31 +32,28 @@ export default function POIEdit() {
 
   useEffect(() => {
     getPOI();
-  }, [page]); // Fetch data when page changes
+  }, []); // Fetch all data initially
 
   const navigateToDash = () => {
     navigate("/dash");
   };
 
- 
-
   const getPOI = async () => {
-    const offset = (page - 1) * pageSize;
     try {
       const response = await database.listDocuments(
         DATABASE_ID,
         MAP_COLLECTION_ID,
         [
-          Query.limit(pageSize),
-          Query.offset(offset)
+          Query.limit(1000), // Fetch all documents
+          Query.offset(0)
         ]
       );
       setData(response.documents);
+      setAllData(response.documents);
     } catch (error) {
       console.error("Error fetching documents:", error);
     }
   };
-  
 
   const editEvent = (id) => {
     navigate("/editPOI", {
@@ -65,6 +61,10 @@ export default function POIEdit() {
         poiID: id,
       }
     });
+  };
+
+  const createPOI = () => {
+    navigate("/createPOI");
   };
 
   const deleteEvent = async (id) => {
@@ -78,20 +78,22 @@ export default function POIEdit() {
     }
   };
 
+  const totalPages = Math.ceil(data.length / pageSize);
+
+  // Get the current page of data based on pageSize and currentPage
+  const currentPageData = data.slice((page - 1) * pageSize, page * pageSize);
+
   const fetchPreviousPage = () => {
     setPage((prevPage) => Math.max(prevPage - 1, 1)); // Decrement page number, but not below 1
   };
 
   const fetchNextPage = () => {
-    if (data.length === 0 || data.length % pageSize !== 0) {
-      // No more data, or last page reached, do nothing
-      return;
+    const totalPages = Math.ceil(data.length / pageSize);
+    if (page < totalPages) {
+      setPage((prevPage) => prevPage + 1); // Increment page number
     }
-    setPage((prevPage) => prevPage + 1); // Increment page number
   };
   
-
-  const totalPages = Math.ceil(totalDocuments / pageSize);
 
   return (
     <div>
@@ -102,13 +104,14 @@ export default function POIEdit() {
       </div>
       <div className="poiEdit">
         <CustomTable
-          data={data}
+          data={currentPageData}
           onDelete={deleteEvent}
           onEdit={editEvent}
           fetchPreviousPage={fetchPreviousPage}
           fetchNextPage={fetchNextPage}
           currentPage={page}
           totalPages={totalPages}
+          onCreate={createPOI}
         />
       </div>
     </div>
