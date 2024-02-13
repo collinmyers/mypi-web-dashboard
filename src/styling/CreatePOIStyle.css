@@ -56,4 +56,11 @@ body {
   .dropdown-item:hover {
     background-color: #f0f0f0;
   }
-  
+  .statusLabel{
+
+    color: #ccc;
+    margin-right: 10px; 
+ }
+ .poiStatus{
+  margin-left: 10px;
+ }
