@@ -1,10 +1,10 @@
 // EventEdit.jsx
 
 import React, { useState } from "react";
-import CreateEvent from "./EventComponents/CreateEvent";
-import DeleteEvent from "./EventComponents/DeleteEvent";
-import EditEvent from "./EventComponents/EditEvent";
-import "../../styling/EventsEditStyle.css";
+import CreateEvent from "../EventComponents/CreateEvent";
+import DeleteEvent from "../EventComponents/DeleteEvent";
+import EditEvent from "../EventComponents/EditEvent";
+import "../../../styling/EventsEditStyle.css";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
