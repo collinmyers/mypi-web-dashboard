@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "../../styling/AuthStyle.css";
+import "/src/styling/AuthStyle.css";
 import {account} from "../../utils/AppwriteConfig";
-
+import myPIIcon from "/src/assets/myPI-Icon.png";
 
 
 export default function LoginScreen() {
@@ -82,6 +82,7 @@ export default function LoginScreen() {
     <div className="container">
       <ToastContainer />
       <div className="center">
+        <img src={myPIIcon} alt="myPI Icon" className="myPIICon" />
         <h2 className="AuthTitle">Sign In</h2>
         <TextField
           className="EmailTextfield"
@@ -91,7 +92,7 @@ export default function LoginScreen() {
           onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
-          className="PasswordText"
+          className="PasswordTextField"
           label="Password"
           fullWidth
           type="password"

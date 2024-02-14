@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import Signin from "./Pages/auth/SignIn";
 import Dash from "./Pages/dashboard/MainComponents/Dash";   
