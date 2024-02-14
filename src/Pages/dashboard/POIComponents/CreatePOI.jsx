@@ -3,13 +3,11 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "../../../styling/CreatePOIStyle.css";
 import {ID} from "appwrite";
-import {account} from "../../../utils/AppwriteConfig";
 import {database} from "../../../utils/AppwriteConfig";
-import {storage} from "../../../utils/AppwriteConfig";
-import {BUCKET_ID} from "../../../utils/AppwriteConfig";
+
 import {MAP_COLLECTION_ID} from "../../../utils/AppwriteConfig";
 import {DATABASE_ID} from "../../../utils/AppwriteConfig";
-import { toast,ToastContainer } from "react-toastify";
+import { toast ,ToastContainer} from "react-toastify";
 
 
 export default function CreatePOI(){
@@ -66,6 +64,8 @@ const handleSubmit = async () => {
 };
 
     return(
+        <div>
+        <ToastContainer/>
         <div className="createPOIContainer">
         <h1 className="title">New POI</h1>
         <input className="poiName" type="text" placeholder="Name" onChange={(e) => setName(e.target.value)}  />
@@ -85,6 +85,6 @@ const handleSubmit = async () => {
         <button onClick={() => navigate(-1)}>go back</button>
 
         </div>
-
+        </div>
     );
 }
