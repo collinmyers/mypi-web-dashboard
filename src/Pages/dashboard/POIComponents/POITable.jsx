@@ -42,7 +42,7 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
       </div>
       <div className="table-container">
         <div className="create-event-container">
-          <button onClick={() => onCreate()} className="create-event-button">Create POI</button>
+          <button onClick={() => onCreate()} className="create-poi-button">Create POI</button>
         </div>
         <table className="custom-table">
           <thead>

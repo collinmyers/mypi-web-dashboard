@@ -1,6 +1,6 @@
 import React, { useState} from "react";
 import { Account, Client } from "appwrite";
-import { Button } from "@mui/material";
+
 import { useNavigate } from "react-router-dom";
 import "../../../styling/DashStyling/DashStyle.css";
 
@@ -49,9 +49,9 @@ export default function Dashboard() {
             <div className="content">
                 <h1 className="dashTitle">Welcome to the Admin Dashboard!</h1>
                 <div className="buttonContainer">
-                    <Button className="EditEventsButton dashSelection" variant="contained" color="primary" onClick={navigateToEvents}> Edit Events</Button>
-                    <Button className="EditEventsButton dashSelection" variant="contained" color="primary" onClick={navigateToPOI}> Edit POI </Button>
-                    <Button className="SignOutButton dashSelection" variant="contained" color="primary" onClick={handleLogout}> Sign Out</Button>
+                    <button className="EditEventsButton dashSelection"  color="primary" onClick={navigateToEvents}> Edit Events</button>
+                    <button className="EditEventsButton dashSelection"  color="primary" onClick={navigateToPOI}> Edit POI </button>
+                    <button className="SignOutButton dashSelection"  color="primary" onClick={handleLogout}> Sign Out</button>
 
                 </div>
                 

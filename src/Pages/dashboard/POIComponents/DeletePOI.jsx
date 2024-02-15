@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "../../../styling/POIStyling/DeletePOIStyle.css";
 import { toast,ToastContainer } from "react-toastify";

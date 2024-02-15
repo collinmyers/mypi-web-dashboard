@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
 import "../../../styling/POIStyling/POIEditStyle.css";
 import { Query } from "appwrite";
 import CustomTable from "../POIComponents/POITable";
@@ -79,11 +78,10 @@ export default function POIEdit() {
   return (
     <div>
     <ToastContainer/>
-      <div className="DashButton">
-        <Button variant="contained" color="primary" onClick={navigateToDash}>
+        <button className="DashButton" onClick={navigateToDash}>
           Back to Dashboard
-        </Button>
-      </div>
+        </button>
+      
       <div className="poiEdit">
         <CustomTable allData={allData} onDelete={deletePOI} onEdit={editPOI} onCreate={createPOI}/>
       </div>

@@ -4,7 +4,6 @@ import React, { useState, useEffect} from "react";
 import { Query } from "appwrite";
 
 import "../../../styling/EventsStyling/EventsEditStyle.css";
-import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import EventsTable from "../EventComponents/EventsTable";
 import {database} from "../../../utils/AppwriteConfig";
@@ -82,12 +81,10 @@ getEvents();
 
 
   return (
-    <div>
-      <div className="DashButton">
-        <Button variant="contained" color="primary" onClick={navigateToDash}>
+    <div>        
+    <button className="DashButton" onClick={navigateToDash}>
           Back to Dashboard
-        </Button>
-      </div>
+        </button>
       <div className="eventsEdit">
         <EventsTable 
         data = {data}
