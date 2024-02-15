@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { validateEmail } from "../../utils/Validators";
 import { Account, Client } from "appwrite";
 import { useNavigate } from "react-router-dom";
-import "../../styling/ForgotPassword.css";
+import "../../styling/AuthStyling/ForgotPassword.css";
 
 
 export default function ForgotPassword(){

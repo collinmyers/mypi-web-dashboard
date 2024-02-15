@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "/src/styling/AuthStyle.css";
+import "/src/styling/AuthStyling/AuthStyle.css";
 import {account} from "../../utils/AppwriteConfig";
 import myPIIcon from "/src/assets/myPI-Icon.png";
 

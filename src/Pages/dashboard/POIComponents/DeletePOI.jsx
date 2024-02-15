@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import "../../../styling/DeletePOIStyle.css";
+import "../../../styling/POIStyling/DeletePOIStyle.css";
 import { toast,ToastContainer } from "react-toastify";
 import {database} from "../../../utils/AppwriteConfig";
 import {MAP_COLLECTION_ID} from "../../../utils/AppwriteConfig";

@@ -2,7 +2,7 @@ import React, { useState} from "react";
 import { Account, Client } from "appwrite";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import "../../../styling/DashStyling.css";
+import "../../../styling/DashStyling/DashStyle.css";
 
 
 export default function Dashboard() {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../../styling/DeleteEventStyle.css";
+import "../../../styling/EventsStyling/DeleteEventStyle.css";
 import { toast,ToastContainer } from "react-toastify";
 import {account} from "../../../utils/AppwriteConfig";
 import {database} from "../../../utils/AppwriteConfig";

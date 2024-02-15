@@ -1,4 +1,4 @@
-import "../../../styling/EditEventStyle.css";
+import "../../../styling/EventsStyling/EditEventStyle.css";
 import React, { useState, useEffect } from "react";
 // import { Databases, Client,Storage } from "appwrite";
 import { toast,ToastContainer } from "react-toastify";

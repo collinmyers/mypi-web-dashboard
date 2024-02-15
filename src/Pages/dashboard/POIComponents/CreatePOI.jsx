@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import "../../../styling/CreatePOIStyle.css";
+import "../../../styling/POIStyling/CreatePOIStyle.css";
 import {ID} from "appwrite";
 import {database} from "../../../utils/AppwriteConfig";
 

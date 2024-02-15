@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../../styling/POITable.css";
+import "../../../styling/POIStyling/POITable.css";
 
 const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
