@@ -1,44 +1,57 @@
-.container{
+.container {
     height: 100vh;
     width: 100vw;
-}
-.myPIICon {
-    width: 200px;
-    height: 200px;
-    border: 2px solid #3498db; /* Change the color to your preferred border color */
-    /* border-radius: 50%; Optional: for a circular border on a square icon */
-    
-    }
-/* "Sign In" */
-.AuthTitle {
-    font-size: 70px;
-    color: #005588;
+    justify-content: center;
 }
 
-.EmailTextfield {
-    border: 2px solid #3498db;
+.myPIIcon {
+    width: 200px;
+    height: 200px;
+    justify-content: center;
+}
+
+.sign-in-container {
+    align-items: center;
+    background-color: #005588;
+    padding: 10%;
+    border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* "Sign In" */
+.AuthTitle {
+    font-size: 48px;
+    color: #FFB238;
+    text-align: center;
+    margin: 0;
+}
+
+.EmailTextfield,
+.PasswordTextField {
+    border: 2px solid #FFFFFF;
+    color: "#FFFFF";
     border-radius: 6px;
     padding: 10px;
     font-size: 16px;
-
-}
-
-.PasswordTextField {
-    border: 2px solid #3498db;
-    border-radius: 4px;
-    padding: 10px;
-    font-size: 16px;
+    margin-bottom: 2%;
 }
 
 .center {
     display: flex;
-    justify-content: center; /* Centers horizontally */
-    align-items: center; /* Centers vertically */
+    justify-content: center;
+    /* Centers horizontally */
+    align-items: center;
+    /* Centers vertically */
     flex-direction: column;
-    width: 325px; /* Adjust width as needed */
-    margin: 0 auto; /* Centers the element horizontally */
+    width: 325px;
+    /* Adjust width as needed */
+    margin: 0 auto;
+    /* Centers the element horizontally */
+    height: 100vh;
 }
 
 .ForgotPassLink {
-    color: #005588;
+    color: #FFB238;
 }
