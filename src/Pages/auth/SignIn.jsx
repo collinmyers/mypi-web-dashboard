@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "../../styling/AuthStyling/AuthStyle.css";
 import { account } from "../../utils/AppwriteConfig";
 import myPIIcon from "/src/assets/myPI-Icon.png";
 
+import "../../styling/AuthStyling/AuthStyle.css";
 
 export default function LoginScreen() {
     const navigate = useNavigate();
@@ -28,10 +27,6 @@ export default function LoginScreen() {
         navigate("/dash");
     };
 
-    // const navigateToNewEvent = () => {
-    //   navigate("/newEvent");
-    // };
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -40,8 +35,6 @@ export default function LoginScreen() {
         // Check if the user is already logged in
         const checkLoggedInStatus = async () => {
             try {
-
-
                 // Check if the user is already logged in
                 if (await account.get()) {
                     setIsLoggedIn(true);
@@ -58,15 +51,12 @@ export default function LoginScreen() {
 
     const handleLogin = async () => {
         try {
-
-
             await account.createEmailSession(email, password);
 
             setEmail("");
             setPassword("");
             ValidCreds();
             navigateToDash();
-
         } catch (error) {
             InvalidCreds();
             console.error(error);
@@ -82,29 +72,30 @@ export default function LoginScreen() {
         <div className="container">
             <ToastContainer />
             <div className="center">
-                <img src={myPIIcon} alt="myPI Icon" className="myPIICon" />
-                <h2 className="AuthTitle">Sign In</h2>
-                <TextField
-                    className="EmailTextfield"
-                    label="Email"
-                    fullWidth
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <TextField
-                    className="PasswordTextField"
-                    label="Password"
-                    fullWidth
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <Button variant="contained" color="primary" onClick={handleLogin}>
-                    Sign In
-                </Button>
-                <Link className="ForgotPassLink" to="/forgotPassword">
-                    Forgot Password
-                </Link>
+                <img src={myPIIcon} alt="myPI Icon" className="myPIIcon" />
+                <div className="sign-in-container">
+                    <h2 className="AuthTitle">Sign In</h2>
+                    <input
+                        className="EmailTextfield"
+                        type="text"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <input
+                        className="PasswordTextField"
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button className="button" onClick={handleLogin}>
+                        Sign In
+                    </button>
+                    <Link className="ForgotPassLink" to="/forgotPassword">
+                        Forgot Password
+                    </Link>
+                </div>
             </div>
         </div>
     );
