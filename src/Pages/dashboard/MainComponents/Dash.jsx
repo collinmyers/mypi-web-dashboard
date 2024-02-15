@@ -16,12 +16,14 @@ export default function Dashboard() {
     };
 
     const navigateToEvents = () => {
-        navigate("/events");
+        navigate("/eventEditor");
     };
     const navigateToPOI = () => {
-        navigate("/poiEdit");
+        navigate("/poiEditor");
     };
-
+    const navigateToNotifcations = () =>{
+        navigate("/notificationEditor");
+    };
 
     const handleLogout = async () => {
         if(!isSigningOut){
@@ -49,8 +51,9 @@ export default function Dashboard() {
             <div className="content">
                 <h1 className="dashTitle">Welcome to the Admin Dashboard!</h1>
                 <div className="buttonContainer">
-                    <button className="EditEventsButton dashSelection"  color="primary" onClick={navigateToEvents}> Edit Events</button>
-                    <button className="EditEventsButton dashSelection"  color="primary" onClick={navigateToPOI}> Edit POI </button>
+                    <button className="EditEventButton" onClick={navigateToEvents}> Event Editor</button>
+                    <button className="EditPOIButton"  onClick={navigateToPOI}> POI Editor </button>
+                    <button className="EditNotificationButton"  onClick={navigateToNotifcations}> Notfication Editor </button>
                     <button className="SignOutButton dashSelection"  color="primary" onClick={handleLogout}> Sign Out</button>
 
                 </div>

@@ -3,9 +3,9 @@
 import React, { useState, useEffect} from "react";
 import { Query } from "appwrite";
 
-import "../../../styling/EventsStyling/EventsEditStyle.css";
+import "../../../styling/EventsStyling/EventEditorStyle.css";
 import { useNavigate } from "react-router-dom";
-import EventsTable from "../EventComponents/EventsTable";
+import EventsTable from "../EventComponents/EventTable";
 import {database} from "../../../utils/AppwriteConfig";
 import { EVENTS_COLLECTION_ID } from "../../../utils/AppwriteConfig";
 import { DATABASE_ID } from "../../../utils/AppwriteConfig";

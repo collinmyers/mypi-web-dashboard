@@ -1,5 +1,5 @@
 import {React,useState} from "react";
-import "../../../styling/EventsStyling/EventsTableStyle.css";
+import "../../../styling/EventsStyling/EventTableStyle.css";
 
 
 
