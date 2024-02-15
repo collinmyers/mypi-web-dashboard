@@ -1,95 +1,57 @@
 import "../../../styling/EventsStyling/EditEventStyle.css";
 import React, { useState, useEffect } from "react";
-// import { Databases, Client,Storage } from "appwrite";
 import { toast,ToastContainer } from "react-toastify";
-import {account} from "../../../utils/AppwriteConfig";
 import {database} from "../../../utils/AppwriteConfig";
 import {storage} from "../../../utils/AppwriteConfig";
 import {BUCKET_ID} from "../../../utils/AppwriteConfig";
 import {EVENTS_COLLECTION_ID} from "../../../utils/AppwriteConfig";
 import {DATABASE_ID} from "../../../utils/AppwriteConfig";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
-
-export default function EditEvent({onDataChange}){
+export default function EditEvent(){
   const[currentFile,setCurrentFile] = useState("");
   const[newFile,setNewFile] = useState("");
-  const [successfullyUpdated,setSuccessfullyUpdated] = useState(false);
+  const navigate = useNavigate();
+  
+    const location = useLocation();
+    // get userId
+   
+    let selectedItem = location.state.Event;
 
   const[imageUrl, setImageUrl] = useState("");
 
-  const [name, setName] = useState("");
-  const [date, setDate] = useState("");
-  const [shortDescription, setShortDescription] = useState("");
-  const [longDescription, setLongDescription] = useState("");
-  const [latitude,setLatitude] = useState("");
-  const [longitude,setLongitude] = useState("");
+  const [name, setName] = useState(selectedItem.Name);
+  const [date, setDate] = useState(selectedItem.DateTime);
+  const [shortDescription, setShortDescription] = useState(selectedItem.EventListDescription);
+  const [longDescription, setLongDescription] = useState(selectedItem.EventDetailsDescription);
+  const [latitude,setLatitude] = useState(selectedItem.Latitude);
+  const [longitude,setLongitude] = useState(selectedItem.Longitude);
   const [uploaderKey,setUploaderKey] = useState(false);
 
-  const [list, setList] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [dropdownVisible, setDropdownVisible] = useState(false);
+useEffect(() =>{
+getImage();
+getCurrentFile();
+},[]);
 
 
-  const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);
-  };
 
   const SuccessfullEdit = () => {
-    toast.success("New Event Created", {
+    toast.success("Event Edited", {
       position: toast.POSITION.TOP_CENTER,
     });
   
   };
   
   const EditFailed = () => {
-    toast.error("Failed to Create Event", {
+    toast.error("Failed to Edit Event", {
       position: toast.POSITION.TOP_CENTER,
     });
   };
 
 
-  useEffect(() => {
-     getEvents();
-     console.log("mount");
-
-  if (selectedItem) {
-    getCurrentFile();
-    setDate(selectedItem.DateTime);
-    setLongDescription(selectedItem.EventDetailsDescription);
-    setShortDescription(selectedItem.EventListDescription);
-    setLatitude(selectedItem.Latitude);
-    setLongitude(selectedItem.Longitude);
-    setName(selectedItem.Name);
-    getImage();
-  }
-  
 
 
-  if(successfullyUpdated){
-    
-  onDataChange();    
-  setSuccessfullyUpdated(false);
-  }
-  }, [selectedItem,onDataChange,successfullyUpdated]);
-
-
-
-  const getEvents = async () => {
-
-
-  // Initialize the Databases class
-
-
-  database
-    .listDocuments(DATABASE_ID, EVENTS_COLLECTION_ID)
-    .then((response) => {
-      setList(response.documents);
-    })
-    .catch((error) => {
-      console.error("Error fetching documents:", error);
-    });
-  };
 
   const createImage = async () =>{
 
@@ -144,7 +106,7 @@ export default function EditEvent({onDataChange}){
   };
   
   
-  const  handleSelectEvent = async () =>{
+  const  handleSubmit = async () =>{
     //call create and delete file if a new one has been uploaded.
    if(newFile){
     deleteImage();
@@ -170,12 +132,10 @@ export default function EditEvent({onDataChange}){
           await database.updateDocument(DATABASE_ID,EVENTS_COLLECTION_ID,selectedItem.$id,data);
   
          
-          setSuccessfullyUpdated(true);
           SuccessfullEdit();
           clearInput();
             
         } catch (error) {
-          setSuccessfullyUpdated(false);
           EditFailed();
           console.error("Error updating document:", error);
         }
@@ -186,7 +146,6 @@ export default function EditEvent({onDataChange}){
 
 
   const clearInput = () =>{
-    setSelectedItem(null);
     setName("");
     setDate("");
     setShortDescription("");
@@ -197,37 +156,35 @@ export default function EditEvent({onDataChange}){
     setImageUrl("");
     setUploaderKey((prevValue) => !prevValue);
   };
+
+  const handleUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        setNewFile(file);
+        setImageUrl(URL.createObjectURL(file));
+        setUploaderKey((prevKey) => prevKey + 1);
+    }
+};
   
-  const renderList = ({ item }) => {
-    return (
-      <div key={item.$id} className="dropdown-item" >
-      <p style={{ color: selectedItem === item ? "#8FA063" : "#134C77" }} onClick={() => {
-        clearInput();
-        setSelectedItem(item);
-        setDropdownVisible(false);       
-          }}>{item.Name}</p>
-      </div>
-      );
-   };
+
 
   return (
     <div>
     <ToastContainer/>
     <div className="dropdown-container">
     <h1 className="editEventTitle">Edit Event</h1>
-        <button className="dropdown-toggle" onClick={toggleDropdown}>
-          {selectedItem ? selectedItem.Name : "Select Event"}
-        </button>
-        {dropdownVisible && (<div className="dropdown-wrapper">{list.map((item) => renderList({ item }))}</div>)}
+    
         {imageUrl && (<img src={imageUrl} alt={"Event Image"} style={{ width: "200px", height: "150px" }}/>)}
-        <input className="uploader" type="file" key={uploaderKey} id="uploader"  onChange={(e) => setNewFile(e.target.files[0])}/>
-        <input className="eventName" type="text" placeholder={selectedItem ? selectedItem.Name: "Name"} id = "eventName" value={name} onChange={(e) => setName(e.target.value)} />
-        <input className= "eventDate" type="text" placeholder={selectedItem ? selectedItem.DateTime: "Date"} value={date} onChange={(e) => setDate(e.target.value)} />
-        <input type="text" placeholder={selectedItem ? selectedItem.EventListDescription: "Short Description"} value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} />
-        <input type="text" placeholder={selectedItem ? selectedItem.EventDetailsDescription: "Long Description"} value={longDescription} onChange={(e) => setLongDescription(e.target.value)} />
-        <input type="number" placeholder={selectedItem ? selectedItem.Latitude: "Latitude"} value={latitude} onChange={(e) => setLatitude(e.target.value)} />
-        <input type="number" placeholder={selectedItem ? selectedItem.Longitude: "Longitude"} value={longitude} onChange={(e) => setLongitude(e.target.value)} />
-        <button className="editEventSubmit" onClick={handleSelectEvent} >Edit Event</button>
+        <input className="uploader" type="file" key={uploaderKey} id="uploader"  onChange={handleUpload}/>
+        <input className="eventName" type="text" placeholder={"Name"} id = "eventName" value={name} onChange={(e) => setName(e.target.value)} />
+        <input className= "eventDate" type="text" placeholder={"Date"} value={date} onChange={(e) => setDate(e.target.value)} />
+        <input type="text" placeholder={"Short Description"} value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} />
+        <input type="text" placeholder={ "Long Description"} value={longDescription} onChange={(e) => setLongDescription(e.target.value)} />
+        <input type="number" placeholder={"Latitude"} value={latitude} onChange={(e) => setLatitude(e.target.value)} />
+        <input type="number" placeholder={ "Longitude"} value={longitude} onChange={(e) => setLongitude(e.target.value)} />
+        <button className="editEventSubmit" onClick={handleSubmit} >Edit Event</button>
+        <button onClick={() => navigate(-1)}>go back</button>
+
       </div>
     </div>
   );
