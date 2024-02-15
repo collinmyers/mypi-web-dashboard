@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-import "../../../styling/POIEditStyle.css";
+import "../../../styling/POIStyling/POIEditStyle.css";
 import { Query } from "appwrite";
 import CustomTable from "../POIComponents/POITable";
 import { database } from "../../../utils/AppwriteConfig";
@@ -51,7 +51,7 @@ export default function POIEdit() {
     }
   };
 
-  const editEvent = (item) => {
+  const editPOI = (item) => {
     navigate("/editPOI", {
       state: {
         poi: item,
@@ -63,11 +63,11 @@ export default function POIEdit() {
     navigate("/createPOI");
   };
 
-  const deleteEvent = async (id) => {
+  const deletePOI = async (id) => {
     try {
       await database.deleteDocument(DATABASE_ID, MAP_COLLECTION_ID, id);
-      getPOI();
       SuccessfullDeletion();
+      getPOI();
     } catch (error) {
       console.error("Error deleting document:", error);
       DeletionFailed();
@@ -85,12 +85,7 @@ export default function POIEdit() {
         </Button>
       </div>
       <div className="poiEdit">
-        <CustomTable
-          allData={allData}
-          onDelete={deleteEvent}
-          onEdit={editEvent}
-          onCreate={createPOI}
-        />
+        <CustomTable allData={allData} onDelete={deletePOI} onEdit={editPOI} onCreate={createPOI}/>
       </div>
     </div>
   );
