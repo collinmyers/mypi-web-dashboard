@@ -1,6 +1,7 @@
-.DashButton{
-    display: flex;
-  }
+.DashButton {
+  background-color: #005588; /* Red color */
+  color: #ffffff; /* White text color */
+}
   .poiEdit {
     display: flex;
     width: 100%;
