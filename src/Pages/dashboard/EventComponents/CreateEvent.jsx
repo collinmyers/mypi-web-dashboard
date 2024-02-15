@@ -15,7 +15,7 @@ import {DATABASE_ID} from "../../../utils/AppwriteConfig";
 
 
 
-export default function CreateEvent({onDataChange}){
+export default function CreateEvent(){
   const [responseData, setResponseData] = useState(null);
   const[fileID,setFileID] = useState("");
   const[file,setFile] = useState("");
@@ -54,11 +54,10 @@ useEffect(() => {
 
 if (responseData) {
   // console.log("Response received:", responseData);
-    onDataChange();
     setResponseData(null); // Call onDataChange when responseData changes
  }
 
-}, [responseData,onDataChange]);
+}, [responseData]);
 
 
   const handleLogout = async () => {
@@ -140,7 +139,8 @@ try{
         <input type="number" placeholder="Latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)} />
         <input type="number" placeholder="Longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)} />
         <button onClick={handleButtonClick}>Submit</button>
-        <Button className="SignOutButton" variant="contained" color="primary" onClick={handleLogout}> Sign Out</Button>
+        <button onClick={() => navigate(-1)}>go back</button>
+
         </div>
       </div>
   );
