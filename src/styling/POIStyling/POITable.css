@@ -6,27 +6,38 @@
   border-collapse: collapse;
   background-color: #fff;
   max-height: 500px;
+  border: 1px solid black; 
+  border-radius: 10px;
+
+}
+
+.table-row{
+  border-bottom: 1px solid black; /* Add black border for horizontal lines */
 
 }
 .table-container {
-  min-height: 500px; /* Set a minimum height */
-  max-height: 500px; /* Set a maximum height */
+  min-height: 500px;
+  max-height: 500px; 
   position: relative;
+  
 }
 
 .custom-table th,
 .custom-table td {
   padding: 8px;
-  border: none;
+  
   white-space: nowrap; /* Prevent text wrapping */
   overflow: hidden;
   text-overflow: ellipsis; /* Show ellipsis for overflow text */
   text-align: center;
+ 
 }
 
 .custom-table th {
-  background-color: #f2f2f2;
+  background-color: #005588;
   font-weight: bold;
+  color: white;
+  
 }
 
 .table-row:hover {
@@ -71,4 +82,9 @@
   top: 20;
   right: 0;
   padding: 10px;
+}
+
+.create-poi-button{
+  background-color: #005588;
+  color: #ffffff;
 }
