@@ -13,7 +13,7 @@ import DeleteEvent from "./Pages/dashboard/EventComponents/DeleteEvent";
 import POIEditor from "./Pages/dashboard/MainComponents/POIEditor";
 import EditPOI from "./Pages/dashboard/POIComponents/EditPOI";
 import CreatePOI from "./Pages/dashboard/POIComponents/CreatePOI";
-
+import NotificationEditor from "./Pages/dashboard/MainComponents/NotificationEditor";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -29,6 +29,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/poiEditor" element={<POIEditor/>} />
             <Route path = "/editPOI" element={<EditPOI/>}/>
             <Route path = "/createPOI" element={<CreatePOI/>}/>
+            <Route path = "/notificationEditor" element={<NotificationEditor/>}/>
 
 
 
