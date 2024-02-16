@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+  }  
+  .title {
+    color: #8FA063; 
+    font-size: x-large;
+ }
+  
+  .createNotificationContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%; /* Set width to 100% to take the full width of the page */
+  }
+  
+  .createNotificationContainer input {
+    margin: 10px 0; /* Add spacing to the top and bottom of each input field */
+  }
+  
+  .createNotificationContainer button {
+    margin-top: 20px; /* Add spacing above the button */
+  }
+ .createNotificationContainer .uploader {
+    width: 100%; /* Make the file input take full width */
+    margin: 10px 0; /* Add spacing to the top and bottom of the file input */
+  }
+  .dropdown-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .dropdown-label {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dropdown {
+    margin-top: 5px; /* Adjust as needed */
+  }
+  
