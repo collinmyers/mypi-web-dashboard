@@ -67,8 +67,10 @@
 
 
 .create-event-container {
-  position: absolute;
-  top: 20;
-  right: 0;
-  padding: 10px;
+ margin-left: 77%;
+ margin-bottom: 10px;
+}
+.create-event-button{
+  background-color: #005588;
+  color:white;
 }
