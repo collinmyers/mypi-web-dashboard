@@ -38,10 +38,10 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
   return (
     <div>
       <div className="search-container">
-        <input type="text" placeholder="Search by name..." value={searchTerm} onChange={handleSearchChange} />
+        <input type="text" className = "searchBar" placeholder="Search by name..." value={searchTerm} onChange={handleSearchChange} />
       </div>
       <div className="table-container">
-        <div className="create-event-container">
+        <div className="create-poi-container">
           <button onClick={() => onCreate()} className="create-poi-button">Create POI</button>
         </div>
         <table className="custom-table">
@@ -68,8 +68,9 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
                   <button onClick={() => onEdit(item)} className="edit-button">Edit</button>
                 </td>
                 <td>
-                  <button onClick={() => handleDeleteClick(item.$id)} className="delete-button">Delete</button>
-                </td>
+                <button onClick={() => handleDeleteClick(item.$id)} className="btn btn-danger">
+                Delete</button>                
+              </td>
               </tr>
             ))}
           </tbody>
