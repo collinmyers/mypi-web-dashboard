@@ -54,10 +54,10 @@ export default function Dashboard() {
                     <button className="EditEventButton" onClick={navigateToEvents}> Event Editor</button>
                     <button className="EditPOIButton"  onClick={navigateToPOI}> POI Editor </button>
                     <button className="EditNotificationButton"  onClick={navigateToNotifcations}> Notfication Editor </button>
-                    <button className="SignOutButton dashSelection"  color="primary" onClick={handleLogout}> Sign Out</button>
-
-                </div>
-                
+                    
+                    </div>
+                    <button className="SignOutButton"  color="primary" onClick={handleLogout}> Sign Out</button>
+                    
             </div>
         </div>
 

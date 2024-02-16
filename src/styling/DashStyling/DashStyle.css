@@ -18,12 +18,33 @@
 }
 .buttonContainer{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
-    height: 15vh;
-    width: 20vw;
+   
 }
 
 /* .dashSelection {
     margin-bottom: 2rem;
 } */
+.EditNotificationButton{
+    background-color: #005588;
+    color:white;
+    margin-left: 5%;
+
+}
+.EditEventButton{
+    background-color: #005588;
+    color:white;
+    margin-right: 5%;
+}
+.EditPOIButton{
+    background-color: #005588;
+    color:white;
+    margin-right: 5%;
+    margin-left: 5%;
+}
+.SignOutButton{
+    background-color: #005588;
+    color:white;
+    margin-top: 10%;
+}
