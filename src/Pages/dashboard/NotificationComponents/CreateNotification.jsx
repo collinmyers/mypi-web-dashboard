@@ -69,7 +69,7 @@ const clearInput = () =>{
         <div>
         <ToastContainer/>
             <div className="createNotificationContainer">
-                <h1 className="title">New POI</h1>
+                <h1 className="title">New Notification</h1>
                     <input type="text" placeholder="Title" onChange={(e) => setTitle(e.target.value)}  />
                     <input type="text" placeholder="Details" onChange={(e) => setDetails(e.target.value)} />
 
