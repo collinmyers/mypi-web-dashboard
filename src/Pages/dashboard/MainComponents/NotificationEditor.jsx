@@ -8,7 +8,7 @@ import { DATABASE_ID } from "../../../utils/AppwriteConfig";
 import { toast,ToastContainer } from "react-toastify";
 
 
-export default function POIEdit() {
+export default function NotificationEdit() {
   const [allData,setAllData] = useState([]);
 
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ export default function POIEdit() {
   };
 
   const createNotification = () => {
-    navigate("/dash");
+    navigate("/createNotification");
   };
 
   const deleteNotification = async (id) => {

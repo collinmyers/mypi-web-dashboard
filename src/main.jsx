@@ -14,7 +14,7 @@ import POIEditor from "./Pages/dashboard/MainComponents/POIEditor";
 import EditPOI from "./Pages/dashboard/POIComponents/EditPOI";
 import CreatePOI from "./Pages/dashboard/POIComponents/CreatePOI";
 import NotificationEditor from "./Pages/dashboard/MainComponents/NotificationEditor";
-
+import CreateNotification from "./Pages/dashboard/NotificationComponents/CreateNotification";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
@@ -30,6 +30,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path = "/editPOI" element={<EditPOI/>}/>
             <Route path = "/createPOI" element={<CreatePOI/>}/>
             <Route path = "/notificationEditor" element={<NotificationEditor/>}/>
+            <Route path = "/createNotification" element={<CreateNotification/>}/>
 
 
 
