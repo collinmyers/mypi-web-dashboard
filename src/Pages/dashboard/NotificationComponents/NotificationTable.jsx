@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../../styling/NotificationStyling/NotificationTableStyle.css";
 
 const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -41,7 +42,7 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
       </div>
       <div className="table-container">
         <div className="create-notification-container">
-          <button onClick={() => onCreate()} className="create-notification-button">Create POI</button>
+          <button onClick={() => onCreate()} className="create-notification-button">Create Notification</button>
         </div>
         <table className="custom-table">
           <thead>

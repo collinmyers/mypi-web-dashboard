@@ -1,0 +1,77 @@
+
+.custom-table {
+    width: 75%;
+    margin: 0 auto;
+    table-layout: fixed;
+    border-collapse: collapse;
+    background-color: #fff;
+    max-height: 500px;
+  
+  }
+  .table-container {
+    min-height: 500px; /* Set a minimum height */
+    max-height: 500px; /* Set a maximum height */
+    position: relative;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    padding: 8px;
+    border: none;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+    text-align: center;
+  }
+  
+  .custom-table th {
+    background-color: #005588;
+    font-weight: bold;
+  }
+  
+  .table-row:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .action-button {
+    padding: 4px 8px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+  
+  }
+  
+  .pagination{
+    margin: 0 auto;
+  }
+  .search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .page{
+    color: #f9f9f9;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+  
+  
+  
+  .create-notification-container {
+    margin-left: 73%;
+    margin-bottom: 10px;
+  }
+  
+  .create-notification-button{
+    background-color: #005588;
+    color: white;
+  }
