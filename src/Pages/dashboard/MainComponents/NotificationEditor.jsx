@@ -50,9 +50,9 @@ export default function NotificationEdit() {
   };
 
   const editNotification = (item) => {
-    navigate("/dash", {
+    navigate("/editNotification", {
       state: {
-        poi: item,
+        notification: item,
       }
     });
   };
