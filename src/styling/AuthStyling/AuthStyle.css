@@ -1,62 +1,35 @@
-.container {
-    height: 100vh;
-    width: 100vw;
-    justify-content: center;
-    display: flex;
-}
-
-.wrapper-container {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #005588;
-    border-radius: 5px;
-    overflow: hidden;
-    width: 60%;
-    margin: 0 auto;
-}
-
-.logo-container {
-    width: 100%;
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .myPIIcon {
     width: 200px;
     height: 200px;
+    justify-content: center;
 }
 
 .sign-in-container {
     align-items: center;
     background-color: #005588;
-    padding: 5%;
-    border-radius: 10px;
+    padding: 4% 10%;
+
+    border-radius: 5%;
     display: flex;
     flex-direction: column;
-    border: 1px solid #005588;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 30%; /* Adjust the width of the login form container */
-    margin: 0 auto;
 }
 
 .AuthTitle {
     font-size: 32px;
     color: #FFB238;
     text-align: center;
-    margin: 10px 0;
+    margin: 0;
+    margin-bottom: 5%;
 }
 
 .EmailTextfield,
 .PasswordTextField {
     border: 2px solid #FFFFFF;
-    color: #000000;
+    color: #005588;
     border-radius: 6px;
     padding: 10px;
-    font-size: 14px;
-    margin-bottom: 2%;
-    width: 100%;
+    font-size: 16px;
+    margin: 2.5%;
 }
 
 .center {
@@ -64,12 +37,13 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 100%;
+    width: 40%;
+    margin: 0 auto;
     height: 100vh;
 }
 
 .ForgotPassLink {
-    color: #FFB238;
+    color: #FFFFFF;
 }
 
 .ForgotPassLink:hover {
@@ -79,12 +53,12 @@
 
 .SignInButton {
     background-color: #FFB238;
-    color: #005588;
+    color: #ffffff;
     border: none;
     border-radius: 6px;
     padding: 10px;
     font-size: 16px;
-    margin-top: 2%;
+    margin: 5%;
     width: 50%;
     cursor: pointer;
 }
