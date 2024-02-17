@@ -16,35 +16,25 @@
     text-align: 'center';
 
 }
-.buttonContainer{
+
+.buttonContainer {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-   
+    width: 50vw;
 }
 
-/* .dashSelection {
-    margin-bottom: 2rem;
-} */
-.EditNotificationButton{
+.EditNotificationButton,
+.EditEventButton,
+.EditPOIButton {
     background-color: #005588;
-    color:white;
-    margin-left: 5%;
+    color: white;
+    width: 25%;
+    margin: 0 5%;
+}
 
-}
-.EditEventButton{
+.SignOutButton {
     background-color: #005588;
-    color:white;
-    margin-right: 5%;
-}
-.EditPOIButton{
-    background-color: #005588;
-    color:white;
-    margin-right: 5%;
-    margin-left: 5%;
-}
-.SignOutButton{
-    background-color: #005588;
-    color:white;
-    margin-top: 10%;
+    color: white;
+    margin-top: 5%;
 }

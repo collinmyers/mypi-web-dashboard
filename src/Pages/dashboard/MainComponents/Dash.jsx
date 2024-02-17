@@ -1,13 +1,17 @@
-import React, { useState} from "react";
-import { Account, Client } from "appwrite";
+import React, { useEffect, useState } from "react";
+import { account } from "../../../utils/AppwriteConfig";
 
 import { useNavigate } from "react-router-dom";
 import "../../../styling/DashStyling/DashStyle.css";
 
 
 export default function Dashboard() {
-    
+
     const [isSigningOut, setIsSigningOut] = useState(false);
+    const [profileInfo, setProfileInfo] = useState({
+        name: "",
+        permissions: ""
+    });
 
     const navigate = useNavigate();
 
@@ -21,43 +25,46 @@ export default function Dashboard() {
     const navigateToPOI = () => {
         navigate("/poiEditor");
     };
-    const navigateToNotifcations = () =>{
+    const navigateToNotifcations = () => {
         navigate("/notificationEditor");
     };
 
     const handleLogout = async () => {
-        if(!isSigningOut){
+        if (!isSigningOut) {
             setIsSigningOut(true);
-        try {
-            const client = new Client()
-                .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
-                .setProject(import.meta.env.VITE_APPWRITE_PROJECT);
+            try {
+                await account.deleteSessions("current");
 
-            const account = new Account(client);
+                navigateToLogin();
 
-            await account.deleteSessions("current");
-
-            navigateToLogin();
-
-        } catch (error) {
-            console.error(error);
+            } catch (error) {
+                console.error(error);
+            }
         }
-    }
 
     };
+
+    const getCurrentUser = async () => {
+        const response = await account.get();
+        setProfileInfo({ ...profileInfo, name: response.name });
+    };
+
+    useEffect(() => {
+        getCurrentUser();
+    });
 
     return (
         <div className="container">
             <div className="content">
-                <h1 className="dashTitle">Welcome to the Admin Dashboard!</h1>
+                <h1 className="dashTitle">Welcome {profileInfo.name}</h1>
                 <div className="buttonContainer">
-                    <button className="EditEventButton" onClick={navigateToEvents}> Event Editor</button>
-                    <button className="EditPOIButton"  onClick={navigateToPOI}> POI Editor </button>
-                    <button className="EditNotificationButton"  onClick={navigateToNotifcations}> Notfication Editor </button>
-                    
-                    </div>
-                    <button className="SignOutButton"  color="primary" onClick={handleLogout}> Sign Out</button>
-                    
+                    <button className="EditEventButton" onClick={navigateToEvents}> Events</button>
+                    <button className="EditPOIButton" onClick={navigateToPOI}> Points of Interest </button>
+                    <button className="EditNotificationButton" onClick={navigateToNotifcations}> Notifications </button>
+
+                </div>
+                <button className="SignOutButton" color="primary" onClick={handleLogout}> Sign Out</button>
+
             </div>
         </div>
 
