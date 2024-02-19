@@ -68,8 +68,17 @@ const handleSubmit = async () => {
         <div className="createPOIContainer">
         <h1 className="title">New POI</h1>
         <input className="poiName" type="text" placeholder="Name" onChange={(e) => setName(e.target.value)}  />
-        <input type="number" placeholder="Latitude" onChange={(e) => setLatitude(e.target.value)} />
-        <input type="number" placeholder="Longitude" onChange={(e) => setLongitude(e.target.value)}/>
+        <input type="text" placeholder="Latitude" value={latitude}  onChange={(e) => {
+            const value = e.target.value;
+            if (/^-?\d*\.?\d*$/.test(value)) {
+              setLatitude(value);
+            }
+          }}/>
+          <input type="text" placeholder="Longitude" value={longitude} onChange={(e) => {const value = e.target.value;
+            if (/^-?\d*\.?\d*$/.test(value)) {
+              setLongitude(value);
+            }
+          }}/>
         <label className="statusLabel">
         Status:      
         <select name="poiStatus" value={status} onChange={(e) => setStatus(e.target.value)}>

@@ -82,14 +82,24 @@ const handleButtonClick = async () => {
       Latitude: latitude,
       Longitude: longitude,
     };
-      const promise = storage.createFile(BUCKET_ID,fileID,file);
+    const allFieldsFilled = Object.values(data).every(value => value !== undefined && value !== null && value !== "");
 
+    if (allFieldsFilled) {
+      const promise = storage.createFile(BUCKET_ID, fileID, file);
       promise.then(function (response) {
         createdDoc(data);
     }, function (error) {
-      creationFailed();
-        console.log(error); // Failure
+      if (error.code == "409"){
+        createdDoc(data);
+      }else{
+        creationFailed();
+        console.log(error); 
+      }
     });
+
+    } else {
+      creationFailed();
+    }
   };
 
   const createdDoc = async (data) =>{
@@ -136,8 +146,17 @@ try{
         <input className= "eventDate" type="text" placeholder="Date" value={date} onChange={(e) => setDate(e.target.value)} />
         <input type="text" placeholder="Short Description" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} />
         <input type="text" placeholder="Long Description" value={longDescription} onChange={(e) => setLongDescription(e.target.value)} />
-        <input type="number" placeholder="Latitude" value={latitude} onChange={(e) => setLatitude(e.target.value)} />
-        <input type="number" placeholder="Longitude" value={longitude} onChange={(e) => setLongitude(e.target.value)} />
+        <input type="text" placeholder="Latitude" value={latitude}  onChange={(e) => {
+          const value = e.target.value;
+          if (/^-?\d*\.?\d*$/.test(value)) {
+            setLatitude(value);
+          }
+        }}/>
+        <input type="text" placeholder="Longitude" value={longitude} onChange={(e) => {const value = e.target.value;
+          if (/^-?\d*\.?\d*$/.test(value)) {
+            setLongitude(value);
+          }
+        }}/>
         <button onClick={handleButtonClick}>Submit</button>
         <button onClick={() => navigate(-1)}>go back</button>
 
