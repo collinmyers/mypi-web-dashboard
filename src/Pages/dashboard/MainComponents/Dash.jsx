@@ -44,14 +44,13 @@ export default function Dashboard() {
 
     };
 
-    const getCurrentUser = async () => {
-        const response = await account.get();
-        setProfileInfo({ ...profileInfo, name: response.name });
-    };
-
     useEffect(() => {
+        const getCurrentUser = async () => {
+            const response = await account.get();
+            setProfileInfo({ ...profileInfo, name: response.name });
+        };
         getCurrentUser();
-    });
+    }, []);
 
     return (
         <div className="container">

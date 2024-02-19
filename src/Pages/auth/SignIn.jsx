@@ -36,11 +36,12 @@ export default function LoginScreen() {
         const checkLoggedInStatus = async () => {
             try {
                 // Check if the user is already logged in
-                if (await account.get()) {
-                    setIsLoggedIn(true);
-                    // Redirect to the dashboard or another protected route
-                    navigateToDash();
-                }
+                await account.get();
+
+                setIsLoggedIn(true);
+                // Redirect to the dashboard or another protected route
+                navigateToDash();
+
             } catch (error) {
                 console.log("not Logged in");
             }
@@ -90,7 +91,7 @@ export default function LoginScreen() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <button className="SignInButton" onClick={handleLogin}>Sign In</button>
-                    
+
                     <Link className="ForgotPassLink" to="/forgotPassword">
                         Forgot Password
                     </Link>
