@@ -1,5 +1,8 @@
 import React, { useState, useEffect} from "react";
 import { ID} from "appwrite";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
 
 import { useNavigate } from "react-router-dom";
 import "../../../styling/EventsStyling/CreateEventStyle.css";
@@ -16,19 +19,53 @@ import {DATABASE_ID} from "../../../utils/AppwriteConfig";
 
 
 export default function CreateEvent(){
-  const [responseData, setResponseData] = useState(null);
   const[fileID,setFileID] = useState("");
   const[file,setFile] = useState("");
   const [name, setName] = useState("");
-  const [date, setDate] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
   const [latitude,setLatitude] = useState("");
   const [longitude,setLongitude] = useState("");
   const [uploaderKey, setUploaderKey] = useState(false);
-  // const client = new Client()
-  //     .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
-  //     .setProject(import.meta.env.VITE_APPWRITE_PROJECT);
+
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [dateMode, setDateMode] = useState("range"); // 'range' or 'single'
+
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+
+  const formatDate = (date) => format(date, "MMMM d, yyyy"); //format the dates
+
+
+
+  const toggleMode = () => {
+    setDateMode(dateMode === "range" ? "single" : "range");
+    setStartDate(null);
+    setEndDate(null);
+  };
+
+  let dateRangeString = "";
+  if (startDate && endDate) {
+    if (startDate.getTime() === endDate.getTime()) { // single date
+      dateRangeString = formatDate(startDate);
+    } else { // date range
+      dateRangeString = `${formatDate(startDate)} - ${formatDate(endDate)}`;
+    }
+  }
+
+  
+  let timeRangeString = "";
+  if (startTime && endTime) {
+    const start = new Date(`2022-01-01T${startTime}`);
+    const end = new Date(`2022-01-01T${endTime}`);
+    timeRangeString = `${start.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })} - ${end.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`; 
+  }else{
+    const start = new Date(`2022-01-01T${startTime}`);
+    timeRangeString = `${start.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`; 
+
+  }
+ 
 
 const navigate = useNavigate();
   
@@ -52,12 +89,8 @@ const creationFailed = () => {
 
 useEffect(() => {
 
-if (responseData) {
-  // console.log("Response received:", responseData);
-    setResponseData(null); // Call onDataChange when responseData changes
- }
 
-}, [responseData]);
+}, []);
 
 
   const handleLogout = async () => {
@@ -74,27 +107,26 @@ if (responseData) {
 
 const handleButtonClick = async () => {
     const data = { // add lat and long 
-      FileID: fileID,
       Name: name,
-      DateTime: date,
+      Date: dateRangeString,
+      Time: timeRangeString,
       EventListDescription: shortDescription,
       EventDetailsDescription: longDescription,
       Latitude: latitude,
       Longitude: longitude,
     };
+
+
     const allFieldsFilled = Object.values(data).every(value => value !== undefined && value !== null && value !== "");
 
     if (allFieldsFilled) {
-      const promise = storage.createFile(BUCKET_ID, fileID, file);
+      const promise = storage.createFile(BUCKET_ID, ID.unique(), file);
       promise.then(function (response) {
+        console.log(response);
+        data.FileID = response.$id;
         createdDoc(data);
     }, function (error) {
-      if (error.code == "409"){
-        createdDoc(data);
-      }else{
         creationFailed();
-        console.log(error); 
-      }
     });
 
     } else {
@@ -104,25 +136,23 @@ const handleButtonClick = async () => {
 
   const createdDoc = async (data) =>{
 try{
-
-     
-
       const response = await database.createDocument(DATABASE_ID,EVENTS_COLLECTION_ID, ID.unique(), data);
-      setResponseData(response);
+      // setResponseData(response);
       SuccessfullCreation();
       clearInput();
       
   }catch(error){
     creationFailed();
+
   }
  
   };
+
 
   const clearInput = () =>{
     setFile("");
     setFileID("");
     setName("");
-    setDate("");
     setShortDescription("");
     setLongDescription("");
     setLatitude("");
@@ -131,9 +161,7 @@ try{
   };
 
   const handleFileChange = (e) => {
-    
     setFile(e.target.files[0]);
-    setFileID(e.target.files[0].name);
   };
   
   return (
@@ -143,7 +171,35 @@ try{
     <h1 className="title">New Event</h1>
         <input className="uploader" type="file" key={uploaderKey} id="uploader" onChange={handleFileChange} />
         <input className="eventName" type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-        <input className= "eventDate" type="text" placeholder="Date" value={date} onChange={(e) => setDate(e.target.value)} />
+        
+        <button onClick={toggleMode}>
+        {dateMode === "range" ? "Select Single Date" : "Select Date Range"}
+      </button>
+      {dateMode === "range" ? (
+        <div>
+          <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} selectsStart startDate={startDate} endDate={endDate} placeholderText="Start Date"/>
+          <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} selectsEnd startDate={startDate} endDate={endDate} minDate={startDate} placeholderText="End Date"/>
+        </div>
+      ) : (
+        <DatePicker selected={startDate} onChange={(date) => {
+            setStartDate(date);
+            setEndDate(date); // Set end date to the same date for single date selection
+          }}
+          placeholderText="Select Date"
+        />
+      )}
+
+      <label>
+      Start Time:
+      <input type="time" onChange={(e) => setStartTime(e.target.value)} />
+    </label>
+    <br />
+    <label>
+      End Time:
+      <input type="time" onChange={(e) => setEndTime(e.target.value)} />
+    </label>
+    <br />
+
         <input type="text" placeholder="Short Description" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} />
         <input type="text" placeholder="Long Description" value={longDescription} onChange={(e) => setLongDescription(e.target.value)} />
         <input type="text" placeholder="Latitude" value={latitude}  onChange={(e) => {
