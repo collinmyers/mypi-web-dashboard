@@ -4,7 +4,7 @@ import "../../../styling/POIStyling/POITable.css";
 const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(8);
+  const [pageSize] = useState(7);
 
   const handleSearchChange = (event) => {
     const value = event.target.value.toLowerCase();
