@@ -3,11 +3,21 @@ body {
     padding: 0;
     justify-content: center;
   }  
+
+  .createNotifTitle {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    color: #005588;
+  }
   .title {
-    color: #8FA063; 
+    color: #005588; 
     font-size: x-large;
  }
   
+ .createNotificationContainer label {
+    margin-bottom: 5px; /* Add spacing above the label */
+  }
   .createNotificationContainer {
     display: flex;
     align-items: center;
@@ -16,8 +26,12 @@ body {
   }
   
   .createNotificationContainer input {
-    margin: 10px 0; /* Add spacing to the top and bottom of each input field */
-  }
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
   
   .createNotificationContainer button {
     margin-top: 20px; /* Add spacing above the button */
@@ -38,5 +52,21 @@ body {
   
   .dropdown {
     margin-top: 5px; /* Adjust as needed */
+  }
+
+  .createNotifButton {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    color: #005588;
+    border-color: #FFB238;
+  }
+
+  .backButton {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    color: #005588;
+    border-color: #FFB238;
   }
   

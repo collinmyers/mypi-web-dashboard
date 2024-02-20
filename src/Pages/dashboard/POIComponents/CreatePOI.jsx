@@ -8,7 +8,6 @@ import {MAP_COLLECTION_ID} from "../../../utils/AppwriteConfig";
 import {DATABASE_ID} from "../../../utils/AppwriteConfig";
 import { toast ,ToastContainer} from "react-toastify";
 
-
 export default function CreatePOI(){
 
 const [name,setName] = useState("");
@@ -66,7 +65,7 @@ const handleSubmit = async () => {
         <div>
         <ToastContainer/>
         <div className="createPOIContainer">
-        <h1 className="title">New POI</h1>
+        <h1 className="createPOITitle">New POI</h1>
         <input className="poiName" type="text" placeholder="Name" onChange={(e) => setName(e.target.value)}  />
         <input type="text" placeholder="Latitude" value={latitude}  onChange={(e) => {
             const value = e.target.value;
@@ -89,8 +88,8 @@ const handleSubmit = async () => {
         <input className="poiType" type="text" placeholder="Type" onChange={(e) => setType(e.target.value)} />
 
         
-        <button onClick={handleSubmit}>Create POI</button>
-        <button onClick={() => navigate(-1)}>go back</button>
+        <button className="createPOIButton" onClick={handleSubmit}>Create POI</button>
+        <button className="backPOIButton" onClick={() => navigate(-1)}>Back to POI Menu</button>
 
         </div>
         </div>
