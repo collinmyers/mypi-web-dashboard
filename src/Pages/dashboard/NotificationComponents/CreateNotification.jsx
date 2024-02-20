@@ -58,9 +58,7 @@ const handleSubmit = async () => {
 };
 
 const clearInput = () =>{
-    setAlertType("");
     setDetails("");
-    setNotificationType("");
     setTitle("");
 
 };
