@@ -53,7 +53,8 @@ const EventsTable = ({ data,deleteEvent,editEvent,createEvent}) => {
               <th>Latitude</th>
               <th>Longitude</th>
               <th>FileID</th>
-              <th>DateTime</th>
+              <th>Date</th>
+              <th>Time</th>
               <th>Description</th>
               <th>Long Description</th>
               <th>Edit</th>
@@ -67,7 +68,8 @@ const EventsTable = ({ data,deleteEvent,editEvent,createEvent}) => {
                 <td>{item.Latitude}</td>
                 <td>{item.Longitude}</td>
                 <td>{item.FileID}</td>
-                <td>{item.DateTime}</td>
+                <td>{item.Date}</td>
+                <td>{item.Time}</td>
                 <td>{item.EventListDescription}</td>
                 <td>{item.EventDetailsDescription}</td>
 
