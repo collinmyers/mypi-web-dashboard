@@ -58,45 +58,62 @@ const handleSubmit = async () => {
 };
 
 const clearInput = () =>{
-    setAlertType("");
+    setAlertType("both");
     setDetails("");
-    setNotificationType("");
+    setNotificationType("alerts");
     setTitle("");
 
 };
 
-    return(
-        <div>
-        <ToastContainer/>
-            <div className="createNotificationContainer">
-                <h1 className="title">New Notification</h1>
-                    <input type="text" placeholder="Title" onChange={(e) => setTitle(e.target.value)}  />
-                    <input type="text" placeholder="Details" onChange={(e) => setDetails(e.target.value)} />
+    return (
+      <div>
+        <ToastContainer />
+        <div className="createNotificationContainer">
+          <h1 className="createNotifTitle" >New Notification</h1>
+          <label htmlFor="title">Title:</label>
+          <input
+            type="text"
+            placeholder="Title"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <label htmlFor="details">Details:</label>
+          <input
+            type="text"
+            placeholder="Details"
+            onChange={(e) => setDetails(e.target.value)}
+          />
 
-        <div className="dropdown-container">
+          <div className="dropdown-container">
             <label className="dropdown-label">
-                Alert Type:      
-                <select className="dropdown" value={alertType} onChange={(e) => setAlertType(e.target.value)}>
+              Alert Type:
+              <select
+                className="dropdown"
+                value={alertType}
+                onChange={(e) => setAlertType(e.target.value)}
+              >
                 <option value="in-app">In-App</option>
                 <option value="push">Push</option>
                 <option value="both">Both</option>
-                </select>
-            </label>        
+              </select>
+            </label>
 
             <label className="dropdown-label">
-                Notification Type:      
-                <select className="dropdown" value={notificationType} onChange={(e) => setNotificationType(e.target.value)}>
+              Notification Type:
+              <select
+                className="dropdown"
+                value={notificationType}
+                onChange={(e) => setNotificationType(e.target.value)}
+              >
                 <option value="alerts">Alerts</option>
                 <option value="events">Events</option>
                 <option value="promos">Promos</option>
-                </select>
-            </label>  
-        </div>
-        
-        <button onClick={handleSubmit}>Create Notification</button>
-        <button onClick={() => navigate(-1)}>go back</button>
+              </select>
+            </label>
+          </div>
 
+          <button className="createNotifButton" onClick={handleSubmit}>Create Notification</button>
+          <button className="backButton" onClick={() => navigate(-1)}>Back to Notification Menu</button>
         </div>
-        </div>
+      </div>
     );
 }
