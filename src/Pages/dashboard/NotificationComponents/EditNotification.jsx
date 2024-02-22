@@ -68,8 +68,8 @@ const handleSubmit = async () => {
         <ToastContainer/>
             <div className="editNotificationContainer">
                 <h1 className="title">Edit Notification</h1>
-                    <input type="text" value= {notification.Title} onChange={(e) => setTitle(e.target.value)}  />
-                    <input type="text" value={notification.Details} onChange={(e) => setDetails(e.target.value)} />
+                    <input type="text" placeholder="Title" value= {title} onChange={(e) => setTitle(e.target.value)}  />
+                    <input type="text" value={details} onChange={(e) => setDetails(e.target.value)} />
 
         <div className="dropdown-container">
             <label className="dropdown-label">
