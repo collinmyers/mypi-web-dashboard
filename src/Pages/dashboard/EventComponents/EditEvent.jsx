@@ -35,8 +35,8 @@ export default function EditEvent(){
   const [endDate, setEndDate] = useState(null);
   const [dateMode, setDateMode] = useState("range"); // 'range' or 'single'
 
-  const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
 
   const formatDate = (date) => format(date, "MMMM d, yyyy"); //format the dates
 
@@ -58,16 +58,19 @@ export default function EditEvent(){
   
   
   let timeRangeString = "";
-  if (startTime && endTime) {
+  if (startTime) {
     const start = new Date(`2022-01-01T${startTime}`);
-    const end = new Date(`2022-01-01T${endTime}`);
-    timeRangeString = `${start.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })} - ${end.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`; 
-  }else{
-    const start = new Date(`2022-01-01T${startTime}`);
-    timeRangeString = `${start.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`; 
-    // console.log(timeRangeString);   
-    
+    const formattedStartTime = start.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  
+    if (endTime) {
+      const end = new Date(`2022-01-01T${endTime}`);
+      const formattedEndTime = end.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+      timeRangeString = `${formattedStartTime} - ${formattedEndTime}`;
+    } else {
+      timeRangeString = formattedStartTime;
+    }
   }
+  
 
   
   const formatTime = (time) => {
@@ -101,13 +104,14 @@ export default function EditEvent(){
         setDateMode(mode);
         setStartDate(startDate);
         setEndDate(endDate);
-
-        const timeParts = selectedItem.Time.split(" - "); //split time range
+      
+        const timeParts = selectedItem.Time ? selectedItem.Time.split(" - ") : ""; //split time range if Time is not null/ set tp emptry string if null
         const startTime = timeParts[0] || null;   
         const endTime = timeParts[1] || null; 
 
-        const formattedStartTime = formatTime(startTime);//format time
-        const formattedEndTime = endTime ? formatTime(endTime) : null; //format time
+
+        const formattedStartTime = startTime ? formatTime(startTime) : "";//format time
+        const formattedEndTime = endTime ? formatTime(endTime) : ""; //format time
 
         setStartTime(formattedStartTime);
         setEndTime(formattedEndTime);
@@ -194,9 +198,10 @@ export default function EditEvent(){
   
   const  handleSubmit = async () =>{
     //call create and delete file if a new one has been uploaded.
+    console.log(data.timeRangeString);
    if(newFile){
-   await deleteImage();
-   await createImage();
+    await deleteImage();
+    await createImage();
    }else{
     data.FileID = currentFile.$id; // set FileID to current File ID
     updateDoc(data);

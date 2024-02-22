@@ -56,15 +56,19 @@ export default function CreateEvent(){
 
   
   let timeRangeString = "";
-  if (startTime && endTime) {
+  if (startTime) {
     const start = new Date(`2022-01-01T${startTime}`);
-    const end = new Date(`2022-01-01T${endTime}`);
-    timeRangeString = `${start.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })} - ${end.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`; 
-  }else{
-    const start = new Date(`2022-01-01T${startTime}`);
-    timeRangeString = `${start.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`; 
-
+    const formattedStartTime = start.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  
+    if (endTime) {
+      const end = new Date(`2022-01-01T${endTime}`);
+      const formattedEndTime = end.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+      timeRangeString = `${formattedStartTime} - ${formattedEndTime}`;
+    } else {
+      timeRangeString = formattedStartTime;
+    }
   }
+  
  
 
 const navigate = useNavigate();
@@ -109,7 +113,6 @@ const handleButtonClick = async () => {
     const data = { // add lat and long 
       Name: name,
       Date: dateRangeString,
-      Time: timeRangeString,
       EventListDescription: shortDescription,
       EventDetailsDescription: longDescription,
       Latitude: latitude,
@@ -118,6 +121,11 @@ const handleButtonClick = async () => {
 
 
     const allFieldsFilled = Object.values(data).every(value => value !== undefined && value !== null && value !== "");
+    if (timeRangeString){
+      data.Time = timeRangeString;
+    }else{
+      data.Time = null;
+    }
 
     if (allFieldsFilled) {
       const promise = storage.createFile(BUCKET_ID, ID.unique(), file);
@@ -126,10 +134,12 @@ const handleButtonClick = async () => {
         data.FileID = response.$id;
         createdDoc(data);
     }, function (error) {
+      console.log(error);
         creationFailed();
     });
 
     } else {
+      console.log("not all fields filled");
       creationFailed();
     }
   };
@@ -142,6 +152,7 @@ try{
       clearInput();
       
   }catch(error){
+    console.log(error);
     creationFailed();
 
   }
