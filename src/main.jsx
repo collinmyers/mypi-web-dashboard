@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import Signin from "./Pages/auth/SignIn";
@@ -16,26 +17,29 @@ import CreatePOI from "./Pages/dashboard/POIComponents/CreatePOI";
 import NotificationEditor from "./Pages/dashboard/MainComponents/NotificationEditor";
 import CreateNotification from "./Pages/dashboard/NotificationComponents/CreateNotification";
 import EditNotification from "./Pages/dashboard/NotificationComponents/EditNotification";
+import Layout from "./Pages/dashboard/MainComponents/Layout"; 
+const theme = createTheme();
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <BrowserRouter>
-        <Routes >
-            <Route path="/" element={<Signin />} />
-            <Route path="/dash" element={<Dash />} />
-            <Route path="/forgotPassword" element={<ForgotPassword />} />
-            <Route path="/eventEditor" element={<EventEditor/>} />
-            <Route path="/editEvent" element={<EditEvent/>} />
-            <Route path="/deleteEvent" element={<DeleteEvent/>} />
-            <Route path="/createEvent" element={<CreateEvent/>} />
-            <Route path="/poiEditor" element={<POIEditor/>} />
-            <Route path = "/editPOI" element={<EditPOI/>}/>
-            <Route path = "/createPOI" element={<CreatePOI/>}/>
-            <Route path = "/notificationEditor" element={<NotificationEditor/>}/>
-            <Route path = "/createNotification" element={<CreateNotification/>}/>
-            <Route path = "/editNotification" element={<EditNotification/>}/>
-
-
-
-        </Routes>
-    </BrowserRouter>,
+    <ThemeProvider theme={theme}>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Signin />} />
+                <Route path="/dash" element={<Dash />} />
+                <Route path="/forgotPassword" element={<ForgotPassword />} />
+                <Route path="/eventEditor" element={<EventEditor />} />
+                <Route path="/editEvent" element={<EditEvent />} />
+                <Route path="/deleteEvent" element={<DeleteEvent />} />
+                <Route path="/createEvent" element={<CreateEvent />} />
+                <Route path="/poiEditor" element={<POIEditor />} />
+                <Route path="/editPOI" element={<EditPOI />} />
+                <Route path="/createPOI" element={<CreatePOI />} />
+                <Route path="/notificationEditor" element={<NotificationEditor />} />
+                <Route path="/createNotification" element={<CreateNotification />} />
+                <Route path="/editNotification" element={<EditNotification />} />
+                <Route path="/dashLayout" element={<Layout />} />
+            </Routes>
+        </BrowserRouter>
+    </ThemeProvider>,
 );
