@@ -6,6 +6,7 @@ import { database } from "../../../utils/AppwriteConfig";
 import { ALERTS_COLLECTION_ID } from "../../../utils/AppwriteConfig";
 import { DATABASE_ID } from "../../../utils/AppwriteConfig";
 import { toast,ToastContainer } from "react-toastify";
+import Layout from "./Layout";
 
 
 export default function NotificationEdit() {
@@ -75,6 +76,7 @@ export default function NotificationEdit() {
 
 
   return (
+    <Layout>
     <div>
     <ToastContainer/>
         <button className="DashButton" onClick={navigateToDash}>
@@ -84,5 +86,6 @@ export default function NotificationEdit() {
         <CustomTable allData={allData} onDelete={deleteNotification} onEdit={editNotification} onCreate={createNotification}/>
       </div>
     </div>
+    </Layout>
   );
 }

@@ -7,6 +7,14 @@ import "../../../styling/DashStyling/DashStyle.css";
 
 export default function Dashboard() {
 
+    const promise = account.listLogs();
+    promise.then(function(response){
+        console.log(response);
+    }, function (error){
+        console.log(error);
+    });
+
+
     const [isSigningOut, setIsSigningOut] = useState(false);
     const [profileInfo, setProfileInfo] = useState({
         name: "",
@@ -27,6 +35,9 @@ export default function Dashboard() {
     };
     const navigateToNotifcations = () => {
         navigate("/notificationEditor");
+    };
+    const navigateToNewDash = () =>{
+        navigate("/newDash");
     };
 
     const handleLogout = async () => {
@@ -60,6 +71,7 @@ export default function Dashboard() {
                     <button className="EditEventButton" onClick={navigateToEvents}> Events</button>
                     <button className="EditPOIButton" onClick={navigateToPOI}> Points of Interest </button>
                     <button className="EditNotificationButton" onClick={navigateToNotifcations}> Notifications </button>
+                    <button className="NewDashButton" onClick={navigateToNewDash}> New Dash </button>
 
                 </div>
                 <button className="SignOutButton" color="primary" onClick={handleLogout}> Sign Out</button>

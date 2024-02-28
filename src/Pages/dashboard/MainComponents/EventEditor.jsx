@@ -1,27 +1,23 @@
-// EventEdit.jsx
-
 import React, { useState, useEffect} from "react";
 import { Query } from "appwrite";
 
 import "../../../styling/EventsStyling/EventEditorStyle.css";
 import { useNavigate } from "react-router-dom";
 import EventsTable from "../EventComponents/EventTable";
-import {database} from "../../../utils/AppwriteConfig";
+import { database } from "../../../utils/AppwriteConfig";
 import { EVENTS_COLLECTION_ID } from "../../../utils/AppwriteConfig";
 import { DATABASE_ID } from "../../../utils/AppwriteConfig";
 import { storage } from "../../../utils/AppwriteConfig";
 import { BUCKET_ID } from "../../../utils/AppwriteConfig";
-
-
+import Layout from "./Layout"; 
 
 export default function EventsEdit(){
   const [data,setData] = useState([]);
   const navigate = useNavigate();
 
-useEffect(() => {
-getEvents();
-},[]);
-
+  useEffect(() => {
+    getEvents();
+  },[]);
 
   const navigateToDash = () => {
     navigate("/dash");
@@ -43,15 +39,14 @@ getEvents();
     }
   };
 
-
   const  deleteEvent = async (event) =>{
-        try {
-          await database.deleteDocument(DATABASE_ID, EVENTS_COLLECTION_ID, event.$id);
-          deleteImage(event);
-          getEvents();
-        } catch (error) {
-          console.error("Error deleting document:", error);
-        }
+    try {
+      await database.deleteDocument(DATABASE_ID, EVENTS_COLLECTION_ID, event.$id);
+      deleteImage(event);
+      getEvents();
+    } catch (error) {
+      console.error("Error deleting document:", error);
+    }
   }; 
 
   const deleteImage = async (event) =>{
@@ -59,12 +54,11 @@ getEvents();
 
     promise.then(function (response) {
       console.log(response); // Success
-  }, function (error) {
+    }, function (error) {
       console.log(error); // Failure
-  }); 
+    }); 
   };
 
-  
   const editEvent = (event) => {
     navigate("/editEvent", {
       state: {
@@ -76,24 +70,21 @@ getEvents();
     navigate("/createEvent");
   };
 
-
-
-
-
   return (
-    <div>        
-    <button className="DashButton" onClick={navigateToDash}>
+    <Layout> {/* Wrap your content inside the Layout component */}
+      <div>        
+        <button className="DashButton" onClick={navigateToDash}>
           Back to Dashboard
         </button>
-      <div className="eventsEdit">
-        <EventsTable 
-        data = {data}
-        deleteEvent = {deleteEvent}  
-        editEvent = {editEvent}
-        createEvent = {createEvent}
-        />
+        <div className="eventsEdit">
+          <EventsTable 
+            data={data}
+            deleteEvent={deleteEvent}  
+            editEvent={editEvent}
+            createEvent={createEvent}
+          />
+        </div>
       </div>
-  </div>
+    </Layout>
   );
 }
-

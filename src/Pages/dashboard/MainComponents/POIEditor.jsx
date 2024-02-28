@@ -7,6 +7,7 @@ import { database } from "../../../utils/AppwriteConfig";
 import { MAP_COLLECTION_ID } from "../../../utils/AppwriteConfig";
 import { DATABASE_ID } from "../../../utils/AppwriteConfig";
 import { toast,ToastContainer } from "react-toastify";
+import Layout from "./Layout";
 
 
 export default function POIEdit() {
@@ -76,15 +77,15 @@ export default function POIEdit() {
 
 
   return (
+    <Layout>
     <div>
     <ToastContainer/>
-        <button className="DashButton" onClick={navigateToDash}>
-          Back to Dashboard
-        </button>
+      
       
       <div className="poiEdit">
         <CustomTable allData={allData} onDelete={deletePOI} onEdit={editPOI} onCreate={createPOI}/>
       </div>
     </div>
+    </Layout>
   );
 }
