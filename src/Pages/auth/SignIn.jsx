@@ -24,7 +24,7 @@ export default function LoginScreen() {
     };
 
     const navigateToDash = () => {
-        navigate("/dash");
+        navigate("/dashLayout");
     };
 
     const [email, setEmail] = useState("");
