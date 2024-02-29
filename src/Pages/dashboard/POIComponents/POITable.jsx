@@ -19,14 +19,16 @@ import {
 import { styled } from "@mui/system";
 
 const ScrollableTableCell = styled(TableCell)({
-  minWidth: 0,
-  maxWidth: 200,
-  width: 200,
+  minWidth: 105,
+  maxWidth: 100,
+  width: 230,
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",
-  maxHeight: 100
+  backgroundColor: "#f5f5f5",
+  textAlign: "center",
 });
+
 
 const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -53,22 +55,24 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
   const startIndex = (currentPage - 1) * pageSize;
   const currentPageData = filteredData.slice(startIndex, startIndex + pageSize);
 
+  const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
+
   return (
-    <Card>
+    <Card sx ={{height: 580 }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 800 }}>
         <TextField
-          label="Search by name..."
+          placeholder="Search"
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
-          sx={{ mb: 2 }}
+          sx={{ mb: 2, ml:1,width: 350, height: 1, mt:1}}
         />
-        <Button className="NewPOI" onClick={onCreate} startIcon={<AddIcon/>} sx={{ mb: 2, mr:3 }}>
+        <Button className="NewPOI" onClick={onCreate} startIcon={<AddIcon/>} sx={{ mb: 2, mr:3, textAlign: "center"}}>
           New
         </Button>
       </Box>
-      <Table>
-        <TableHead>
+      <Table sx={{ minHeight: 400 }}>
+        <TableHead textAlign= "center"  sx = {{backgroundColor: "#f5f5f5"}}>
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell>Latitude</TableCell>
@@ -87,20 +91,19 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
               <ScrollableTableCell>{item.Longitude}</ScrollableTableCell>
               <ScrollableTableCell>{item.Status}</ScrollableTableCell>
               <ScrollableTableCell>{item.Type}</ScrollableTableCell>
-              <TableCell>
-                <Button onClick={() => onEdit(item)} startIcon={<EditIcon/>} >
-               
-                </Button>
-              </TableCell>
-              <TableCell>
-                <Button
-                  onClick={() => handleDeleteClick(item.$id)}
-                  startIcon= {<DeleteIcon/>}
-                >
-                </Button>
-              </TableCell>
+              <ScrollableTableCell>
+                <Button onClick={() => onEdit(item)} startIcon={<EditIcon/>} sx={{ display: "flex", justifyContent: "center" }} />
+              </ScrollableTableCell>
+              <ScrollableTableCell>
+                <Button onClick={() => handleDeleteClick(item.$id)} startIcon={<DeleteIcon/>} sx={{ display: "flex", justifyContent: "center" }} />
+              </ScrollableTableCell>
             </TableRow>
           ))}
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 65 * emptyRows }}>
+              <TableCell colSpan={7} />
+            </TableRow>
+          )}
         </TableBody>
       </Table>
 
@@ -111,6 +114,7 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
         page={currentPage - 1}
         rowsPerPage={pageSize}
         rowsPerPageOptions={[pageSize]}
+        sx={{ position: "absolute", bottom: 0, left: 0, right: 35}}
       />
     </Card>
   );
