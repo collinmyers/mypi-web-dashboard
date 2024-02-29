@@ -6,12 +6,14 @@ import {
   IconButton,
   Stack,
   SvgIcon,
-  useMediaQuery
+  useMediaQuery,
+  Typography,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { usePopover } from "../../../hooks/use-popover";
 import { AccountPopover } from "./account-popover";
 import React from "react";
+import { useTheme } from "@mui/material/styles";
 
 
 const SIDE_NAV_WIDTH = 280;
@@ -30,29 +32,34 @@ export const TopNav = (props) => {
             backdropFilter: "blur(6px)",
             backgroundColor: (theme) => alpha(theme.palette.background.default, 0.8),
             position: "sticky",
-            right: 0, // Align to the right
-            top: 0,
-            width: {
-              lg: `calc(100% - ${SIDE_NAV_WIDTH}px)`
-            },
+            mr:-2,
+            mb: 1,
+          left: {
+            lg: `${SIDE_NAV_WIDTH +50}px`
+          },
+          top: 0,
+          width: {
+            lg: `calc(100% - ${SIDE_NAV_WIDTH}px)`
+          },
             zIndex: (theme) => theme.zIndex.appBar
           }}
         >
           <Stack
-             alignItems="right"
+             alignItems="center"
             direction="row"
             justifyContent="space-between"
             spacing={2}
             sx={{
-              minHeight: TOP_NAV_HEIGHT,
-              px: 2,
-              alignItems: "center" // Align items vertically
-            }}
+                flex: 1, // Grow to fill available space
+                ml: "auto", // Move to the right
+                mr: 2,   // Add margin to the right
+              }}
           >
+         
             <Stack
-              direction="row"
-              spacing={9}
-              alignItems= "center"
+            alignItems="center"
+            direction="row"
+            spacing={2}
             >
               {!lgUp && (
                   <IconButton onClick={onNavOpen}>
@@ -62,16 +69,25 @@ export const TopNav = (props) => {
                 </IconButton>
               )}
             </Stack>
+            <Stack
+            alignItems="center"
+            direction="row"
+            spacing={6}
+            >
+           
             <Avatar
               onClick={accountPopover.handleOpen}
               ref={accountPopover.anchorRef}
               sx={{
-                cursor: 'pointer',
+                cursor: "pointer",
                 height: 40,
-                width: 40
+                width: 40,
+               mr:100,
+                
               }}
             />
-          </Stack>
+            </Stack>
+            </Stack>
         </Box>
         <AccountPopover 
           anchorEl={accountPopover.anchorRef.current}
