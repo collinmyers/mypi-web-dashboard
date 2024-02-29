@@ -22,7 +22,7 @@ export const SideNav = (props) => {
         overflowY: "hidden", // Hide vertical scrollbar
       }}
     >
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: 1, ml:1 }}>
         <Box
           component={Link} // Updated component
           to="/" // Updated prop
@@ -36,19 +36,20 @@ export const SideNav = (props) => {
         <Box
           sx={{
             alignItems: "center",
-            backgroundColor: "gray",
             borderRadius: 1,
             cursor: "pointer",
             display: "flex",
             justifyContent: "space-between",
-            mt: 2,
-            p: "12px"
+            mt: 0,
+            p: "20px"
           }}
         >
           <div>
             <Typography
               color="inherit"
               variant="subtitle1"
+              fontSize={30}
+              sx ={{mb:1,mt:0}}
             >
               MyPI
             </Typography>
@@ -59,12 +60,7 @@ export const SideNav = (props) => {
               Admin Dashboard
             </Typography>
           </div>
-          <SvgIcon
-            fontSize="small"
-            sx={{ color: "neutral.500" }}
-          >
-            <ChevronUpDownIcon />
-          </SvgIcon>
+         
         </Box>
       </Box>
       <Divider sx={{ borderColor: "neutral.700" }} />
@@ -79,7 +75,7 @@ export const SideNav = (props) => {
       >
         <Stack
           component="ul"
-          spacing={0.5}
+          spacing={3}
           sx={{
             listStyle: "none",
             p: 0,
