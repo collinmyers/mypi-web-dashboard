@@ -18,7 +18,18 @@ import NotificationEditor from "./Pages/dashboard/MainComponents/NotificationEdi
 import CreateNotification from "./Pages/dashboard/NotificationComponents/CreateNotification";
 import EditNotification from "./Pages/dashboard/NotificationComponents/EditNotification";
 import Layout from "./Pages/dashboard/MainComponents/Layout"; 
-const theme = createTheme();
+
+
+ const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#005588",
+      },
+      secondary: {
+        main: "#FFB238",
+      },
+    },
+  });
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
