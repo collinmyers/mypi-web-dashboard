@@ -2,10 +2,12 @@ import PropTypes from "prop-types";
 import { Box, ButtonBase } from "@mui/material";
 import { Link } from "react-router-dom";
 import React from "react";
+import { useTheme } from "@mui/material/styles";
+
 
 export const SideNavItem = (props) => {
   const { active = false, disabled, external, icon, path, title } = props;
-
+const theme = useTheme();
   const linkProps = path
     ? external
       ? {
@@ -51,7 +53,7 @@ export const SideNavItem = (props) => {
               justifyContent: "center",
               mr: 2,
               ...(active && {
-                color: "primary.main"
+                color: theme.palette.secondary.main,
               })
             }}
           >
