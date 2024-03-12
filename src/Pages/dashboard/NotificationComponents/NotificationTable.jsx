@@ -1,5 +1,21 @@
 import React, { useState } from "react";
-import "../../../styling/NotificationStyling/NotificationTableStyle.css";
+import { Card, Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TextField, Button, Box } from "@mui/material";
+import { styled } from "@mui/system";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
+
+const ScrollableTableCell = styled(TableCell)({
+  minWidth: 127,
+  maxWidth: 127,
+  
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  backgroundColor: "#f5f5f5",
+  textAlign: "center",
+});
+
 
 const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,62 +39,68 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
     item.Title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const totalPages = Math.ceil(filteredData.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const currentPageData = filteredData.slice(startIndex, startIndex + pageSize);
+  const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
-  const fetchPreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
-
-  const fetchNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
 
   return (
-    <div>
-      <div className="search-container">
-        <input type="text" placeholder="Search by name..." value={searchTerm} onChange={handleSearchChange} />
-      </div>
-      <div className="table-container">
-        <div className="create-notification-container">
-          <button onClick={() => onCreate()} className="create-notification-button">Create Notification</button>
-        </div>
-        <table className="custom-table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Details</th>
-              <th>AlertType</th>
-              <th>NotificationType</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentPageData.map((item) => (
-              <tr key={item.$id} className="table-row">
-                <td>{item.Title}</td>
-                <td>{item.Details}</td>
-                <td>{item.AlertType}</td>
-                <td>{item.NotificationType}</td>
-                <td>
-                  <button onClick={() => onEdit(item)} className="edit-button">Edit</button>
-                </td>
-                <td>
-                  <button onClick={() => handleDeleteClick(item.$id)} className="delete-button">Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="pagination">
-        <button onClick={fetchPreviousPage} disabled={currentPage === 1}>Previous</button>
-        <span className="page">{`Page ${currentPage}`}</span>
-        <button onClick={fetchNextPage} disabled={currentPage === totalPages}>Next</button>
-      </div>
-    </div>
+    <Card sx={{ height: 580 }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 800 }}>
+        <TextField
+          placeholder="Search by name..."
+          variant="outlined"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          sx={{ mb: 2, ml: 1, width: 350, height: 1, mt: 1 }}
+        />
+        <Button onClick={() => onCreate()} startIcon={<AddIcon />} className="create-notification-button">
+          Create Notification
+        </Button>
+      </Box>
+      <Table sx={{ minHeight: 400}}>
+        <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
+          <TableRow>
+            <ScrollableTableCell>Title</ScrollableTableCell>
+            <ScrollableTableCell>Details</ScrollableTableCell>
+            <ScrollableTableCell>AlertType</ScrollableTableCell>
+            <ScrollableTableCell>NotificationType</ScrollableTableCell>
+            <ScrollableTableCell>Edit</ScrollableTableCell>
+            <ScrollableTableCell>Delete</ScrollableTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {currentPageData.map((item) => (
+            <TableRow key={item.$id}>
+              <ScrollableTableCell>{item.Title}</ScrollableTableCell>
+              <ScrollableTableCell>{item.Details}</ScrollableTableCell>
+              <ScrollableTableCell>{item.AlertType}</ScrollableTableCell>
+              <ScrollableTableCell>{item.NotificationType}</ScrollableTableCell>
+              <ScrollableTableCell>
+                <Button sx = {{ml:2}}onClick={() => onEdit(item)} startIcon={<EditIcon />} ></Button>
+              </ScrollableTableCell>
+              <ScrollableTableCell>
+                <Button sx={{ml:2}} onClick={() => handleDeleteClick(item.$id)} startIcon={<DeleteIcon />} ></Button>
+              </ScrollableTableCell>
+            </TableRow>
+          ))}
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 65 * emptyRows }}>
+              <TableCell colSpan={6} />
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <TablePagination
+        component="div"
+        count={filteredData.length}
+        onPageChange={(event, page) => setCurrentPage(page + 1)}
+        page={currentPage - 1}
+        rowsPerPage={pageSize}
+        rowsPerPageOptions={[pageSize]}
+        sx={{ position: "absolute", bottom: 0, left: 0, right: 35 }}
+      />
+    </Card>
   );
 };
 
