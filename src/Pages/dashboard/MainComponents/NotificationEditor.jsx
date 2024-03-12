@@ -79,9 +79,7 @@ export default function NotificationEdit() {
     <Layout>
     <div>
     <ToastContainer/>
-        <button className="DashButton" onClick={navigateToDash}>
-          Back to Dashboard
-        </button>
+        
       <div className="notificationEdit">
         <CustomTable allData={allData} onDelete={deleteNotification} onEdit={editNotification} onCreate={createNotification}/>
       </div>
