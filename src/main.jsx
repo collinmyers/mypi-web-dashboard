@@ -18,7 +18,6 @@ import CreateNotification from "./Pages/dashboard/NotificationComponents/CreateN
 import EditNotification from "./Pages/dashboard/NotificationComponents/EditNotification";
 import Layout from "./Pages/dashboard/MainComponents/Layout"; 
 
-
  const theme = createTheme({
     palette: {
       primary: {

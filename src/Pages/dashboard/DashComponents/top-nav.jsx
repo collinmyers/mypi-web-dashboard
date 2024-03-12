@@ -16,8 +16,9 @@ import React from "react";
 import { useTheme } from "@mui/material/styles";
 
 
-const SIDE_NAV_WIDTH = 280;
+const SIDE_NAV_WIDTH = 380;
 const TOP_NAV_HEIGHT = 64;
+
 
 export const TopNav = (props) => {
     const { onNavOpen } = props;
@@ -82,8 +83,8 @@ export const TopNav = (props) => {
                 cursor: "pointer",
                 height: 40,
                 width: 40,
-               mr:100,
-                
+                mr:100,
+                ml: 2 
               }}
             />
             </Stack>

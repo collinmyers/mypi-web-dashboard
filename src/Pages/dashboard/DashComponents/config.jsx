@@ -13,15 +13,15 @@ import { SvgIcon } from "@mui/material";
 import React from "react";
 
 export const items = [
-  {
-    title: "Overview",
-    path: "/",
-    icon: (
-      <SvgIcon fontSize="small">
-        <ChartBarIcon />
-      </SvgIcon>
-    )
-  },
+  // {
+  //   title: "Overview",
+  //   path: "/",
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <ChartBarIcon />
+  //     </SvgIcon>
+  //   )
+  // },
   {
     title: "Users",
     path: "/users",
@@ -68,15 +68,6 @@ export const items = [
     )
   },
 
-  {
-    title: "Sign Out",
-    path: "/signout",
-    icon: (
-      <SvgIcon fontSize="small">
-        <LockClosedIcon />
-      </SvgIcon>
-    )
-  },
   {
     title: "Charts",
     path: "/charts",
