@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom"; // Updated import
 import { items } from "./config";
 import { SideNavItem } from "./side-nav-item";
 import React from "react";
-import ChevronUpDownIcon from "@mui/icons-material/ChevronRight";
+import logo from "../../../assets/myPI-Icon.png";
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
@@ -23,16 +23,6 @@ export const SideNav = (props) => {
       }}
     >
       <Box sx={{ p: 1, ml:1 }}>
-        <Box
-          component={Link} // Updated component
-          to="/" // Updated prop
-          sx={{
-            display: "inline-flex",
-            height: 32,
-            width: 32
-          }}
-        >
-        </Box>
         <Box
           sx={{
             alignItems: "center",
