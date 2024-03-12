@@ -6,7 +6,6 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import ForgotPassword from "./Pages/auth/ForgotPassword";
 import Signin from "./Pages/auth/SignIn";
-import Dash from "./Pages/dashboard/MainComponents/Dash";   
 import EventEditor from "./Pages/dashboard/MainComponents/EventEditor";
 import EditEvent from "./Pages/dashboard/EventComponents/EditEvent";
 import CreateEvent from "./Pages/dashboard/EventComponents/CreateEvent";
@@ -37,7 +36,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Signin />} />
-                <Route path="/dash" element={<Dash />} />
                 <Route path="/forgotPassword" element={<ForgotPassword />} />
                 <Route path="/eventEditor" element={<EventEditor />} />
                 <Route path="/editEvent" element={<EditEvent />} />
