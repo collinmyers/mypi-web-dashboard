@@ -73,9 +73,7 @@ export default function EventsEdit(){
   return (
     <Layout> {/* Wrap your content inside the Layout component */}
       <div>        
-        <button className="DashButton" onClick={navigateToDash}>
-          Back to Dashboard
-        </button>
+     
         <div className="eventsEdit">
           <EventsTable 
             data={data}
