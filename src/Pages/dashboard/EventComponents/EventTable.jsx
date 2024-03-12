@@ -1,9 +1,25 @@
-import {React,useState} from "react";
-import "../../../styling/EventsStyling/EventTableStyle.css";
+import React, { useState } from "react";
+import { Card, Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TextField, Button, Box } from "@mui/material";
+import { styled } from "@mui/system";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
+import { Tooltip } from "@mui/material";
 
 
 
-const EventsTable = ({ data,deleteEvent,editEvent,createEvent}) => {
+const ScrollableTableCell = styled(TableCell)({
+  minWidth: 74,
+  maxWidth: 74,
+  width: 230,
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  backgroundColor: "#f5f5f5",
+  textAlign: "center",
+});
+
+const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(5);
@@ -25,74 +41,78 @@ const EventsTable = ({ data,deleteEvent,editEvent,createEvent}) => {
     item.Name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const totalPages = Math.ceil(filteredData.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const currentPageData = filteredData.slice(startIndex, startIndex + pageSize);
-
-  const fetchPreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
-
-  const fetchNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
+  const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
   return (
-    <div>
-      <div className="search-container">
-        <input type="text" placeholder="Search by name..." value={searchTerm} onChange={handleSearchChange} />
-      </div>
-      <div className="table-container">
-        <div className="create-event-container">
-          <button onClick={() => createEvent()} className="create-event-button">Create Event</button>
-        </div>
-        <table className="custom-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Latitude</th>
-              <th>Longitude</th>
-              <th>FileID</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Description</th>
-              <th>Long Description</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentPageData.map((item) => (
-              <tr key={item.$id} className="table-row">
-                <td>{item.Name}</td>
-                <td>{item.Latitude}</td>
-                <td>{item.Longitude}</td>
-                <td>{item.FileID}</td>
-                <td>{item.Date}</td>
-                <td>{item.Time}</td>
-                <td>{item.EventListDescription}</td>
-                <td>{item.EventDetailsDescription}</td>
-
-                <td>
-                  <button  className="edit-button" onClick={() => editEvent(item)}>Edit</button>
-                </td>
-                <td>
-                  <button  className="delete-button" onClick={() => handleDeleteClick(item)}>Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="pagination">
-        <button onClick={fetchPreviousPage} disabled={currentPage === 1}>Previous</button>
-        <span className="page">{`Page ${currentPage}`}</span>
-        <button onClick={fetchNextPage} disabled={currentPage === totalPages}>Next</button>
-      </div>
-    </div>
+    <Card sx={{ height: 580 }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 800 }}>
+        <TextField
+          placeholder="Search by name..."
+          variant="outlined"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          sx={{ mb: 2, ml: 1, width: 350, height: 1, mt: 1 }}
+        />
+        <Button onClick={() => createEvent()} startIcon={<AddIcon />} className="create-event-button">
+          Create Event
+        </Button>
+      </Box>
+      <Table sx={{ minHeight: 400 }}>
+        <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
+          <TableRow>
+            <ScrollableTableCell>Name</ScrollableTableCell>
+            <ScrollableTableCell>Latitude</ScrollableTableCell>
+            <ScrollableTableCell>Longitude</ScrollableTableCell>
+            <ScrollableTableCell>Date</ScrollableTableCell>
+            <ScrollableTableCell>Time</ScrollableTableCell>
+            <ScrollableTableCell>Description</ScrollableTableCell>
+            <ScrollableTableCell>Long Description</ScrollableTableCell>
+            <ScrollableTableCell>Edit</ScrollableTableCell>
+            <ScrollableTableCell>Delete</ScrollableTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {currentPageData.map((item) => (
+            <TableRow key={item.$id}>
+              <ScrollableTableCell>{item.Name}</ScrollableTableCell>
+              <ScrollableTableCell>{item.Latitude}</ScrollableTableCell>
+              <ScrollableTableCell>{item.Longitude}</ScrollableTableCell>
+              <ScrollableTableCell>{item.Date}</ScrollableTableCell>
+              <ScrollableTableCell>{item.Time}</ScrollableTableCell>
+              <ScrollableTableCell>
+                <Tooltip title={item.EventDetailsDescription} placement="bottom-start">
+                  {item.EventListDescription}
+                </Tooltip>
+              </ScrollableTableCell>
+              <ScrollableTableCell>{item.EventDetailsDescription}</ScrollableTableCell>
+              <ScrollableTableCell>
+                <Button sx = {{ml:2}} onClick={() => editEvent(item)} startIcon={<EditIcon />} className="edit-button" />
+              </ScrollableTableCell>
+              <ScrollableTableCell>
+                <Button sx={{ml:2}} onClick={() => handleDeleteClick(item)} startIcon={<DeleteIcon />} className="delete-button" />
+              </ScrollableTableCell>
+            </TableRow>
+          ))}
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 65 * emptyRows }}>
+              <TableCell colSpan={9} />
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <TablePagination
+        component="div"
+        count={filteredData.length}
+        onPageChange={(event, page) => setCurrentPage(page + 1)}
+        page={currentPage - 1}
+        rowsPerPage={pageSize}
+        rowsPerPageOptions={[pageSize]}
+        sx={{ position: "absolute", bottom: 0, left: 0, right: 35 }}
+      />
+    </Card>
   );
 };
 
 export default EventsTable;
-
-
