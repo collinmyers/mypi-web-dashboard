@@ -19,9 +19,8 @@ import {
 import { styled } from "@mui/system";
 
 const ScrollableTableCell = styled(TableCell)({
-  minWidth: 105,
-  maxWidth: 100,
-  width: 230,
+  minWidth: 104,
+  maxWidth: 104,
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",
@@ -61,7 +60,7 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
     <Card sx ={{height: 580 }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 800 }}>
         <TextField
-          placeholder="Search"
+          placeholder="Search by name..."
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
@@ -74,13 +73,13 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
       <Table sx={{ minHeight: 400 }}>
         <TableHead textAlign= "center"  sx = {{backgroundColor: "#f5f5f5"}}>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Latitude</TableCell>
-            <TableCell>Longitude</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Type</TableCell>
-            <TableCell>Edit</TableCell>
-            <TableCell>Delete</TableCell>
+            <ScrollableTableCell>Name</ScrollableTableCell>
+            <ScrollableTableCell>Latitude</ScrollableTableCell>
+            <ScrollableTableCell>Longitude</ScrollableTableCell>
+            <ScrollableTableCell>Status</ScrollableTableCell>
+            <ScrollableTableCell>Type</ScrollableTableCell>
+            <ScrollableTableCell>Edit</ScrollableTableCell>
+            <ScrollableTableCell>Delete</ScrollableTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -92,10 +91,10 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
               <ScrollableTableCell>{item.Status}</ScrollableTableCell>
               <ScrollableTableCell>{item.Type}</ScrollableTableCell>
               <ScrollableTableCell>
-                <Button onClick={() => onEdit(item)} startIcon={<EditIcon/>} sx={{ display: "flex", justifyContent: "center" }} />
+                <Button onClick={() => onEdit(item)} startIcon={<EditIcon/>} sx={{ml:2}} />
               </ScrollableTableCell>
               <ScrollableTableCell>
-                <Button onClick={() => handleDeleteClick(item.$id)} startIcon={<DeleteIcon/>} sx={{ display: "flex", justifyContent: "center" }} />
+                <Button onClick={() => handleDeleteClick(item.$id)} startIcon={<DeleteIcon/>} sx={{ ml:2 }} />
               </ScrollableTableCell>
             </TableRow>
           ))}
