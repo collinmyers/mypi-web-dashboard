@@ -5,8 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import { Tooltip } from "@mui/material";
-
-
+import PropTypes from "prop-types";
 
 const ScrollableTableCell = styled(TableCell)({
   minWidth: 74,
@@ -37,8 +36,19 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
     }
   };
 
+  // ...
+
+  // ...
+
+  EventsTable.propTypes = {
+    data: PropTypes.array.isRequired,
+    deleteEvent: PropTypes.func.isRequired,
+    editEvent: PropTypes.func.isRequired,
+    createEvent: PropTypes.func.isRequired,
+  };
+
   const filteredData = data.filter((item) =>
-    item.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    item.Name.toLowerCase().includes(searchTerm)
   );
 
   const startIndex = (currentPage - 1) * pageSize;

@@ -5,11 +5,7 @@ import { toast,ToastContainer } from "react-toastify";
 import {database} from "../../../utils/AppwriteConfig";
 import {MAP_COLLECTION_ID} from "../../../utils/AppwriteConfig";
 import {DATABASE_ID} from "../../../utils/AppwriteConfig";
-
 import { useLocation } from "react-router-dom";
-
-
-
 
 export default function EditPOI(){
 
@@ -26,7 +22,7 @@ export default function EditPOI(){
   const navigate = useNavigate();
 
 
-  const Successfull = () => {
+  const Successful = () => {
     toast.success("POI has been Updated", {
       position: toast.POSITION.TOP_CENTER,
     });
@@ -53,7 +49,7 @@ const handleSubmit = async () => {
  const promise = database.updateDocument(DATABASE_ID, MAP_COLLECTION_ID, poi.$id,data);
 
 promise.then(function (response) {
-  Successfull();
+  Successful();
     console.log(response); // Success
 }, function (error) {
   Failed();

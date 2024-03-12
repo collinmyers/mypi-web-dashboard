@@ -15,6 +15,8 @@
     "@heroicons/react": "^2.1.1",
     "@mui/icons-material": "^5.15.11",
     "@mui/material": "^5.15.0",
+    "@mui/x-charts": "^6.19.5",
+    "@types/svg-path-parser": "^1.1.6",
     "appwrite": "^13.0.1",
     "date-fns": "^3.3.1",
     "react": "^18.2.0",

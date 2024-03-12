@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../../styling/NotificationStyling/EditNotificationStyle.css";
-import {ID} from "appwrite";
+// import {ID} from "appwrite";
 import {database} from "../../../utils/AppwriteConfig";
 
 import {ALERTS_COLLECTION_ID} from "../../../utils/AppwriteConfig";
@@ -22,7 +22,7 @@ const [notificationType,setNotificationType] = useState(notification.Notificatio
 
 const navigate = useNavigate();
 
-const Successfull = () => {
+const Successful = () => {
     toast.success("Notification Update", {
       position: toast.POSITION.TOP_CENTER,
     });
@@ -51,17 +51,15 @@ const handleSubmit = async () => {
     NotificationType: notificationType,
    };
 
-   try{
-    const response = await database.updateDocument(DATABASE_ID,ALERTS_COLLECTION_ID,notification.$id,data);
-    Successfull();
-   }catch(response){
+try {
+    await database.updateDocument(DATABASE_ID, ALERTS_COLLECTION_ID, notification.$id, data);
+    Successful();
+} catch (error) {
     Failed();
-    console.log(response);
-   }
+    console.log(error);
+}
 
 };
-
-
 
     return(
         <div>
