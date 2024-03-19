@@ -35,10 +35,10 @@ const theme = useTheme();
           textAlign: "left",
           width: "100%",
           ...(active && {
-            backgroundColor: "rgba(255, 255, 255, 0.04)"
+            backgroundColor: "rgba(255, 255, 255, 0.04)" //item background color
           }),
-          "&:hover": {
-            backgroundColor: "rgba(255, 255, 255, 0.04)"
+          "&:hover": {      
+            backgroundColor: "rgba(255, 255, 255, 0.04)"//item hover background color
           }
         }}
         {...linkProps}
@@ -48,13 +48,14 @@ const theme = useTheme();
             component="span"
             sx={{
               alignItems: "center",
-              color: "neutral.400",
+              color: "common.white",
               display: "inline-flex",
               justifyContent: "center",
               mr: 2,
               ...(active && {
-                color: theme.palette.secondary.main,
-              })
+                color: theme.palette.secondary.main, //icon color when selected
+              }),
+              
             }}
           >
             {icon}
@@ -63,7 +64,7 @@ const theme = useTheme();
         <Box
           component="span"
           sx={{
-            color: "neutral.400",
+            color: "common.white",
             flexGrow: 1,
             fontFamily: (theme) => theme.typography.fontFamily,
             fontSize: 14,
@@ -71,11 +72,10 @@ const theme = useTheme();
             lineHeight: "24px",
             whiteSpace: "nowrap",
             ...(active && {
-              color: "common.white"
+              color: theme.palette.secondary.main //side nav text color when selected
             }),
-            ...(disabled && {
-              color: "neutral.500"
-            })
+           
+          
           }}
         >
           {title}
