@@ -1,15 +1,16 @@
 import ChartBarIcon from "@heroicons/react/24/solid/ChartBarIcon";
 import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import AddAlertIcon from '@mui/icons-material/AddAlert';
-import MapIcon from '@mui/icons-material/Map';
+import XCircleIcon from "@heroicons/react/24/solid/XCircleIcon";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AddAlertIcon from "@mui/icons-material/AddAlert";
+import MapIcon from "@mui/icons-material/Map";
 import { SvgIcon } from "@mui/material";
 import React from "react";
 
 export const items = [
   {
     title: "Overview",
-    path: "/",
+    path: "/overview",
     icon: (
       <SvgIcon fontSize="small">
         <ChartBarIcon />
@@ -44,7 +45,7 @@ export const items = [
     )
   },
   {
-    title: "Points of Intrest",
+    title: "Points of Interest",
     path: "/poiEditor",
     icon: (
       <SvgIcon fontSize="small">
@@ -52,7 +53,5 @@ export const items = [
       </SvgIcon>
     )
   },
- 
 
- 
 ];

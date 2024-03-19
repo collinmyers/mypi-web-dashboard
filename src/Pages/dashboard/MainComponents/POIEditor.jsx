@@ -9,13 +9,12 @@ import { DATABASE_ID } from "../../../utils/AppwriteConfig";
 import { toast,ToastContainer } from "react-toastify";
 import Layout from "./Layout";
 
-
 export default function POIEdit() {
   const [allData,setAllData] = useState([]);
 
   const navigate = useNavigate();
 
-  const SuccessfullDeletion = () => {
+  const SuccessfulDeletion = () => {
     toast.success("Event Deleted", {
       position: toast.POSITION.TOP_CENTER,
     });
@@ -66,7 +65,7 @@ export default function POIEdit() {
   const deletePOI = async (id) => {
     try {
       await database.deleteDocument(DATABASE_ID, MAP_COLLECTION_ID, id);
-      SuccessfullDeletion();
+      SuccessfulDeletion();
       getPOI();
     } catch (error) {
       console.error("Error deleting document:", error);

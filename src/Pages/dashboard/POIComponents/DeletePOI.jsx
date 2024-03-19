@@ -16,11 +16,10 @@ export default function DeletePOI(){
       setDropdownVisible(!dropdownVisible);
     };
 
-    const SuccessfullDeletion = () => {
+    const SuccessfulDeletion = () => {
         toast.success("Event Deleted", {
           position: toast.POSITION.TOP_CENTER,
         });
-      
       };
       
       const DeletionFailed = () => {
@@ -64,7 +63,7 @@ export default function DeletePOI(){
                   
                   await database.deleteDocument(DATABASE_ID, MAP_COLLECTION_ID, selectedPOI.$id);
                  setSelectedPOI(null);
-                 SuccessfullDeletion();
+                 SuccessfulDeletion();
                   
                 } catch (error) {
                   
@@ -75,10 +74,6 @@ export default function DeletePOI(){
         
               }
           };    
-
-    
-
-
 
     return(
         <div className="deletePOIContainer">

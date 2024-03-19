@@ -36,17 +36,21 @@ export const AccountPopover = (props) => {
     <Popover
       anchorEl={anchorEl}
       anchorOrigin={{
-        horizontal: "left",
-        vertical: "bottom"
+        horizontal: "right", // Changed to 'right'
+        vertical: "top", // Changed to 'top'
+      }}
+      transformOrigin={{
+        horizontal: "right", // Align the transform origin to the right
+        vertical: "top", // And the top, so it grows downwards and to the left
       }}
       onClose={onClose}
       open={open}
       PaperProps={{ sx: { width: 200 } }}
-    >
+      >
       <Box
         sx={{
           py: 1.5,
-          px: 2
+          px: 2,
         }}
       >
         <Typography variant="overline">Account</Typography>
@@ -61,8 +65,8 @@ export const AccountPopover = (props) => {
         sx={{
           p: "8px",
           "& > *": {
-            borderRadius: 1
-          }
+            borderRadius: 1,
+          },
         }}
       >
         <MenuItem onClick={handleSignOut}>Sign out</MenuItem>

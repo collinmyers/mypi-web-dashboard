@@ -14,7 +14,7 @@ export default function NotificationEdit() {
 
   const navigate = useNavigate();
 
-  const SuccessfullDeletion = () => {
+  const SuccessfulDeletion = () => {
     toast.success("Notification Deleted", {
       position: toast.POSITION.TOP_CENTER,
     });
@@ -65,7 +65,7 @@ export default function NotificationEdit() {
   const deleteNotification = async (id) => {
     try {
       await database.deleteDocument(DATABASE_ID, ALERTS_COLLECTION_ID, id);
-      SuccessfullDeletion();
+      SuccessfulDeletion();
       getNotifications();
     } catch (error) {
       console.error("Error deleting document:", error);
