@@ -1,15 +1,10 @@
 import ChartBarIcon from "@heroicons/react/24/solid/ChartBarIcon";
-import CogIcon from "@heroicons/react/24/solid/CogIcon";
-import LockClosedIcon from "@heroicons/react/24/solid/LockClosedIcon";
-import ShoppingBagIcon from "@heroicons/react/24/solid/ShoppingBagIcon";
-import UserIcon from "@heroicons/react/24/solid/UserIcon";
-import UserPlusIcon from "@heroicons/react/24/solid/UserPlusIcon";
 import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
-import XCircleIcon from "@heroicons/react/24/solid/XCircleIcon";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AddAlertIcon from '@mui/icons-material/AddAlert';
 import MapIcon from '@mui/icons-material/Map';
 import { SvgIcon } from "@mui/material";
+import React from "react";
 
 export const items = [
   {
@@ -23,7 +18,7 @@ export const items = [
   },
   {
     title: "Users",
-    path: "/users",
+    path: "/userEditor",
     icon: (
       <SvgIcon fontSize="small">
         <UsersIcon />
