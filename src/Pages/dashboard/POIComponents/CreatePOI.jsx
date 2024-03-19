@@ -17,7 +17,7 @@ const [status, setStatus] = useState("Open");
 const [type, setType] = useState("");
 const navigate = useNavigate();
 
-const SuccessfullCreation = () => {
+const SuccessfulCreation = () => {
     toast.success("New POI Created", {
       position: toast.POSITION.TOP_CENTER,
     });
@@ -53,7 +53,7 @@ const handleSubmit = async () => {
 
    try{
     const response = await database.createDocument(DATABASE_ID,MAP_COLLECTION_ID, ID.unique(), data);
-    SuccessfullCreation();
+    SuccessfulCreation();
    }catch(response){
     creationFailed();
     console.log(response);
