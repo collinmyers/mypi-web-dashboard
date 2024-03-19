@@ -1,78 +1,43 @@
-import React, { useEffect, useState} from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
-import { toast,ToastContainer } from "react-toastify";
 import Layout from "./Layout";
+import { functions, GETUSERS_FUNCTION_ID } from "../../../utils/AppwriteConfig";
+
+export default function Users() {
+  const [users, setUsers] = useState("hi");
 
 
-export default function POIEdit() {
-  const [allData,setAllData] = useState([]);
-
-  const navigate = useNavigate();
-
-  const SuccessfullDeletion = () => {
-    toast.success("Event Deleted", {
-      position: toast.POSITION.TOP_CENTER,
-    });
+  const getUserInfo = async () => {
+    try {
+      const response = await functions.createExecution(
+        GETUSERS_FUNCTION_ID,
+        "",
+        false,
+        "/",
+        "GET"
+      );
+      console.log(response.responseBody);
+      setUsers(response);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const DeletionFailed = () => {
-    toast.error("Failed to Delete Event", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  };
+
 
   useEffect(() => {
-    // getUsers();
-  }, []); // Fetch all data initially
 
- 
+    getUserInfo();
 
-//   const getUsers = async () => {
-//     const promise = users.list();
-
-//     promise.then(function (response) {
-//         console.log(response);
-//     }, function (error) {
-//         console.log(error);
-//     });
-
-//   };
-
-  const editPOI = (item) => {
-    navigate("/editPOI", {
-      state: {
-        poi: item,
-      }
-    });
-  };
-
-  const createPOI = () => {
-    navigate("/createPOI");
-  };
-
-//   const deletePOI = async (id) => {
-//     try {
-//       await database.deleteDocument(DATABASE_ID, MAP_COLLECTION_ID, id);
-//       SuccessfullDeletion();
-//       getPOI();
-//     } catch (error) {
-//       console.error("Error deleting document:", error);
-//       DeletionFailed();
-//     }
-//   };
-
-
+  }, []);
 
   return (
-    <Layout>
     <div>
-    <ToastContainer/>
-      
-      
-      <div className="userEdit">
-      </div>
+      <Layout>
+        <div>
+        </div>
+
+      </Layout>
     </div>
-    </Layout>
   );
 }
