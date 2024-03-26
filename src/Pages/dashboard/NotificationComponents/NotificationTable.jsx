@@ -55,7 +55,7 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
           sx={{ mb: 2, ml: 1, width: 350, height: 1, mt: 1 }}
         />
         <Button onClick={() => onCreate()} startIcon={<AddIcon />} className="create-notification-button">
-          Create Notification
+         
         </Button>
       </Box>
       <Table sx={{ minHeight: 400}}>
