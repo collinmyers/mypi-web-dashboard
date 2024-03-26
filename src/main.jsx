@@ -19,7 +19,6 @@ import EditNotification from "./Pages/dashboard/NotificationComponents/EditNotif
 import Layout from "./Pages/dashboard/MainComponents/Layout"; 
 import UserEditor from "./Pages/dashboard/MainComponents/UserEditor";
 import Overview from "./Pages/dashboard/MainComponents/Overview";
-import Users from "./Pages/dashboard/MainComponents/Users";
 
 
  const theme = createTheme({
@@ -52,7 +51,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Route path="/editNotification" element={<EditNotification />} />
                 <Route path="/dashLayout" element={<Layout />} />
                 <Route path="/overview" element={<Overview />} />
-                <Route path="/users" element={<Users />} />
 
             </Routes>
         </BrowserRouter>
