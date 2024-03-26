@@ -67,7 +67,7 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
           sx={{ mb: 2, ml:1,width: 350, height: 1, mt:1}}
         />
         <Button className="NewPOI" onClick={onCreate} startIcon={<AddIcon/>} sx={{ mb: 2, mr:3, textAlign: "center"}}>
-          New
+          Create POI
         </Button>
       </Box>
       <Table sx={{ minHeight: 400 }}>

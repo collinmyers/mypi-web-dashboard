@@ -124,7 +124,7 @@ export default function EditEvent(){
 
 
 
-  const SuccessfullEdit = () => {
+  const SuccessfulEdit = () => {
     toast.success("Event Edited", {
       position: toast.POSITION.TOP_CENTER,
     });
@@ -215,7 +215,7 @@ export default function EditEvent(){
       try {
 
         await database.updateDocument(DATABASE_ID,EVENTS_COLLECTION_ID,selectedItem.$id,data);
-        SuccessfullEdit();
+        SuccessfulEdit();
         clearInput();
           
       } catch (error) {

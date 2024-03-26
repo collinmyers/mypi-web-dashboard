@@ -17,7 +17,7 @@ const [alertType,setAlertType] = useState("both");
 const [notificationType,setNotificationType] = useState("alerts");
 const navigate = useNavigate();
 
-const SuccessfullCreation = () => {
+const SuccessfulCreation = () => {
     toast.success("New Notification Created", {
       position: toast.POSITION.TOP_CENTER,
     });
@@ -49,7 +49,7 @@ const handleSubmit = async () => {
    try{
     const response = await database.createDocument(DATABASE_ID,ALERTS_COLLECTION_ID, ID.unique(), data);
     clearInput();
-    SuccessfullCreation();
+    SuccessfulCreation();
    }catch(response){
     creationFailed();
     console.log(response);
