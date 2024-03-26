@@ -19,7 +19,9 @@ export const SideNav = (props) => {
         display: "flex",
         flexDirection: "column",
         height: "100vh", // Set height to full viewport height
-        overflowY: "hidden", // Hide vertical scrollbar
+        overflowY: "hidden",
+        minWidth: "50%", // Hide vertical scrollbar
+      
       }}
     >
       <Box sx={{ p: 1, ml:1 }}>
@@ -69,7 +71,7 @@ export const SideNav = (props) => {
       >
         <Stack
           component="ul"
-          spacing={3} //sapcing between items on side nav
+          spacing={"20%"} //sapcing between items on side nav
           sx={{
             listStyle: "none",
             p: 0,
