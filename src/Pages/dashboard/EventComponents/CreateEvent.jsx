@@ -18,9 +18,11 @@ import {DATABASE_ID} from "../../../utils/AppwriteConfig";
 
 
 
+
 export default function CreateEvent(){
   const[fileID,setFileID] = useState("");
-  const[file,setFile] = useState("");
+  const[files,setFiles] = useState([]);
+  const [fileCount,setFileCount] = useState(0);
   const [name, setName] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
@@ -110,40 +112,47 @@ useEffect(() => {
 
 
 const handleButtonClick = async () => {
-    const data = { // add lat and long 
-      Name: name,
-      Date: dateRangeString,
-      EventListDescription: shortDescription,
-      EventDetailsDescription: longDescription,
-      Latitude: latitude,
-      Longitude: longitude,
-    };
+  const allFieldsFilled = name && shortDescription && longDescription && latitude && longitude && dateRangeString;
+  if (!allFieldsFilled || files.length === 0) {
+    console.log("Please fill in all fields and select at least one file");
+    creationFailed();
+    return;
+  }
 
+  let uploadedFileIDs = [];
 
-    const allFieldsFilled = Object.values(data).every(value => value !== undefined && value !== null && value !== "");
-    if (timeRangeString){
-      data.Time = timeRangeString;
-    }else{
-      data.Time = null;
-    }
-
-    if (allFieldsFilled) {
-      const promise = storage.createFile(BUCKET_ID, ID.unique(), file);
-      promise.then(function (response) {
+  const uploadFiles = async () => {
+    try {
+      for (const file of files) {
+        const response = await storage.createFile(BUCKET_ID, ID.unique(), file);
         console.log(response);
-        data.FileID = response.$id;
-        createdDoc(data);
-    }, function (error) {
-      console.log(error);
-        creationFailed();
-    });
+        uploadedFileIDs.push(response.$id);
+        // setFileCount(fileCount + 1);
+      }
 
-    } else {
-      console.log("not all fields filled");
+      const data = {
+        Name: name,
+        Date: dateRangeString,
+        EventListDescription: shortDescription,
+        EventDetailsDescription: longDescription,
+        Latitude: latitude,
+        Longitude: longitude,
+        Time: timeRangeString || null,
+        FileID: uploadedFileIDs,
+      };
+
+      createdDoc(data);
+
+    } catch (error) {
+      console.error(error);
       creationFailed();
     }
   };
 
+  uploadFiles();
+};
+
+  
   const createdDoc = async (data) =>{
 try{
       const response = await database.createDocument(DATABASE_ID,EVENTS_COLLECTION_ID, ID.unique(), data);
@@ -161,18 +170,21 @@ try{
 
 
   const clearInput = () =>{
-    setFile("");
+    setFiles([]);
     setFileID("");
     setName("");
     setShortDescription("");
     setLongDescription("");
+    setStartDate("");
+    setEndDate("");
     setLatitude("");
     setLongitude("");
     setUploaderKey((prevValue) => !prevValue);
   };
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFiles = e.target.files;
+    setFiles([...files,...selectedFiles]);
   };
   
   return (
@@ -180,7 +192,7 @@ try{
     <ToastContainer/>
     <div className="newEventContainer">
     <h1 className="title">New Event</h1>
-        <input className="uploader" type="file" key={uploaderKey} id="uploader" onChange={handleFileChange} />
+        <input className="uploader" type="file" key={uploaderKey} id="uploader" onChange={handleFileChange} multiple/>
         <input className="eventName" type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
         
         <button onClick={toggleMode}>
@@ -216,12 +228,14 @@ try{
         <input type="text" placeholder="Latitude" value={latitude}  onChange={(e) => {
           const value = e.target.value;
           if (/^-?\d*\.?\d*$/.test(value)) {
-            setLatitude(value);
+          
+            setLatitude(parseFloat(value));
           }
         }}/>
         <input type="text" placeholder="Longitude" value={longitude} onChange={(e) => {const value = e.target.value;
           if (/^-?\d*\.?\d*$/.test(value)) {
-            setLongitude(value);
+
+            setLongitude(parseFloat(value));
           }
         }}/>
         <button onClick={handleButtonClick}>Submit</button>
