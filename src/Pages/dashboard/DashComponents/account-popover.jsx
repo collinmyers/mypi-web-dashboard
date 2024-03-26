@@ -37,7 +37,7 @@ export const AccountPopover = (props) => {
       anchorEl={anchorEl}
       anchorOrigin={{
         horizontal: "right", // Changed to 'right'
-        vertical: "top", // Changed to 'top'
+        vertical: "bottom", // Changed to 'top'
       }}
       transformOrigin={{
         horizontal: "right", // Align the transform origin to the right
