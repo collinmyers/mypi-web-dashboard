@@ -1,18 +1,106 @@
-import React, { useEffect, useState} from "react";
-import { useNavigate } from "react-router-dom";
-import { Query } from "appwrite";
-import { database } from "../../../utils/AppwriteConfig";
-import { DATABASE_ID } from "../../../utils/AppwriteConfig";
-import {account} from "../../../utils/AppwriteConfig";
-import { toast,ToastContainer } from "react-toastify";
-import Layout from "./Layout";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
+import {Box,Card,Table,TableBody,TableCell,TableHead,TableRow,TablePagination,TextField,Button,} from "@mui/material";
+import { styled } from "@mui/system";
+
+const ScrollableTableCell = styled(TableCell)({
+  minWidth: 206.5,
+  maxWidth: 206.5,
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  backgroundColor: "#f5f5f5",
+  textAlign: "center",
+});
 
 
-export default function POIEdit() {
+const UserTable = ({ allData}) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(6);
 
+  const handleSearchChange = (event) => {
+    const value = event.target.value.toLowerCase();
+    setSearchTerm(value);
+    setCurrentPage(1); // Reset to first page when searching
+  };
 
+  // const handleDeleteClick = ($id) => {
+  //   const isConfirmed = window.confirm("Are you sure you want to delete?");
+  //   if (isConfirmed) {
+  //     onDelete($id);
+  //   }
+  // };
+
+  const filteredData = allData.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const startIndex = (currentPage - 1) * pageSize;
+  const currentPageData = filteredData.slice(startIndex, startIndex + pageSize);
+
+  const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
   return (
-  
+    <Card sx ={{height: 580 }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 800 }}>
+        <TextField
+          placeholder="Search by name..."
+          variant="outlined"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          sx={{ mb: 2, ml:1,width: 350, height: 1, mt:1}}
+        />
+       
+      </Box>
+      <Table sx={{ minHeight: 400 }}>
+        <TableHead textAlign= "center"  sx = {{backgroundColor: "#f5f5f5"}}>
+          <TableRow>
+            <ScrollableTableCell>Name</ScrollableTableCell>
+            <ScrollableTableCell>Email</ScrollableTableCell>
+            <ScrollableTableCell>Edit</ScrollableTableCell>
+            <ScrollableTableCell>Delete</ScrollableTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {currentPageData.map((item) => (
+            <TableRow key={item.$id}>
+              <ScrollableTableCell>{item.name}</ScrollableTableCell>
+              <ScrollableTableCell>{item.email}</ScrollableTableCell>
+              <ScrollableTableCell>
+                <Button  startIcon={<EditIcon/>} sx={{ml:2}} />
+              </ScrollableTableCell>
+              <ScrollableTableCell>
+                <Button  startIcon={<DeleteIcon/>} sx={{ ml:2 }} />
+              </ScrollableTableCell>
+            </TableRow>
+          ))}
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 65 * emptyRows }}>
+              <TableCell colSpan={7} />
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+
+      <TablePagination
+        component="div"
+        count={filteredData.length}
+        onPageChange={(event, page) => setCurrentPage(page + 1)}
+        page={currentPage - 1}
+        rowsPerPage={pageSize}
+        rowsPerPageOptions={[pageSize]}
+        sx={{ position: "absolute", bottom: 0, left: 0, right: 35}}
+      />
+    </Card>
   );
-}
+};
+
+UserTable.propTypes = {
+  allData: PropTypes.array,
+  };
+
+export default UserTable;

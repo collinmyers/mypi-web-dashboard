@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 
 import Layout from "./Layout";
 import { functions, GETUSERS_FUNCTION_ID } from "../../../utils/AppwriteConfig";
+import UserTable from "../UserComponents/UserTable";
+import { ToastContainer } from "react-toastify";
 
 export default function Users() {
-  const [users, setUsers] = useState("hi");
+  const [users, setUsers] = useState([]);
 
 
   const getUserInfo = async () => {
@@ -16,13 +18,12 @@ export default function Users() {
         "/",
         "GET"
       );
-      console.log(response.responseBody);
-      setUsers(response);
+      const responseBody = JSON.parse(response.responseBody);
+      setUsers(responseBody["filteredUsersList"]);
     } catch (err) {
       console.error(err);
     }
   };
-
 
 
   useEffect(() => {
@@ -35,6 +36,11 @@ export default function Users() {
     <div>
       <Layout>
         <div>
+          <ToastContainer/>
+
+          <UserTable allData = {users}/>
+
+
         </div>
 
       </Layout>
