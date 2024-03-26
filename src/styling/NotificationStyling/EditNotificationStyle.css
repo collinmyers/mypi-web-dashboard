@@ -2,12 +2,8 @@ body {
     margin: 0;
     padding: 0;
     justify-content: center;
-  }  
-  .title {
-    color: #8FA063; 
-    font-size: x-large;
- }
-  
+  }
+
   .editNotificationContainer {
     display: flex;
     align-items: center;
@@ -39,4 +35,54 @@ body {
   .dropdown {
     margin-top: 5px; /* Adjust as needed */
   }
-  
+
+  @media (max-width: 768px) {
+  .editNotificationContainer {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .title {
+    color: #005588;
+    font-size: x-large;
+    text-align: center;
+ }
+}
+
+.editNotificationContainer button:hover,
+.editNotificationContainer button:focus {
+  background-color: #76a5af; /* Change as needed */
+  color: white;
+}
+
+/* Adjustments for form elements for better spacing and visual feedback */
+.editNotificationContainer input:focus {
+  border: 1px solid #76a5af; /* Enhances focus visibility */
+}
+
+.editNotifTitle {
+  color: #005588;
+  text-align: center;
+  font-size: x-large;
+}
+
+.formControl {
+  max-width: 150px;
+  margin: auto;
+}
+
+/* Add vertical margins to space out the buttons */
+.actionButton {
+  max-width: 200px;
+  width: 100%;
+  margin: 10px auto; /* Adjusted margin for vertical spacing */
+}
+
+/* If you choose to wrap buttons, you can define a wrapper style */
+.buttonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Adjust this value as needed to space out buttons */
+  align-items: center;
+}
+

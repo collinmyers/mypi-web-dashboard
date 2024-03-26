@@ -12,7 +12,7 @@ import {DATABASE_ID} from "../../../utils/AppwriteConfig";
 export default function DeleteEvent({onDataChange}) {
   const [list, setList] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [successfullDeletion, setSuccessfullDeletion] = useState(false);
+  const [successfulDeletion, setSuccessfulDeletion] = useState(false);
   
   const [dropdownVisible, setDropdownVisible] = useState(false);
   
@@ -23,7 +23,7 @@ export default function DeleteEvent({onDataChange}) {
 
 
   
-  const SuccessfullDeletion = () => {
+  const SuccessfulDeletion = () => {
     toast.success("Event Deleted", {
       position: toast.POSITION.TOP_CENTER,
     });
@@ -39,15 +39,15 @@ export default function DeleteEvent({onDataChange}) {
 
   useEffect(() => {
     console.log("mount");
-  if(successfullDeletion){
+  if(successfulDeletion){
     onDataChange();
-    setSuccessfullDeletion(false);
+    setSuccessfulDeletion(false);
   }
   
   getEvents();
 
   
-  }, [onDataChange,successfullDeletion]);
+  }, [onDataChange,successfulDeletion]);
 
   const getEvents = async () => {
 
@@ -72,12 +72,12 @@ export default function DeleteEvent({onDataChange}) {
           // Optional: You can update the list to reflect the changes after deletion
           // Clear the selected item
           setSelectedItem(null);
-          setSuccessfullDeletion(true);
+          setSuccessfulDeletion(true);
           deleteImage();
-          SuccessfullDeletion(); //success pop up
+          SuccessfulDeletion(); //success pop up
           
         } catch (error) {
-          setSuccessfullDeletion(false);
+          setSuccessfulDeletion(false);
           DeletionFailed();
           console.error("Error deleting document:", error);
         }

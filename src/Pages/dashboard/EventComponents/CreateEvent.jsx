@@ -79,7 +79,7 @@ const navigate = useNavigate();
     navigate("/");
 };
 
-const SuccessfullCreation = () => {
+const SuccessfulCreation = () => {
   toast.success("New Event Created", {
     position: toast.POSITION.TOP_CENTER,
   });
@@ -157,7 +157,7 @@ const handleButtonClick = async () => {
 try{
       const response = await database.createDocument(DATABASE_ID,EVENTS_COLLECTION_ID, ID.unique(), data);
       // setResponseData(response);
-      SuccessfullCreation();
+      SuccessfulCreation();
       clearInput();
       
   }catch(error){

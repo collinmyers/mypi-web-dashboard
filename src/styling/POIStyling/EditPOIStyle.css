@@ -1,28 +1,18 @@
-body {
-    margin: 0;
-    padding: 0;
-    justify-content: center;
-  }  
-  .title {
-    color: #8FA063; 
-    font-size: x-large;
- }
-  
-  .editPOIContainer {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 100%; /* Set width to 100% to take the full width of the page */
-  }
-  
-  .editPOIContainer input {
-    margin: 10px 0; /* Add spacing to the top and bottom of each input field */
-  }
-  
-  .editPOIContainer button {
-    margin-top: 20px; /* Add spacing above the button */
-  }
- .editPOIContainer .uploader {
-    width: 100%; /* Make the file input take full width */
-    margin: 10px 0; /* Add spacing to the top and bottom of the file input */
-  }
+/* EditPOIStyle.css */
+.editPOIContainer .actionButton {
+  max-width: 200px;
+  width: 100%; /* This makes the button expand to the max-width */
+  margin: 10px auto; /* Centering the button and adding vertical margin */
+}
+
+.editPOIContainer .formControl {
+  max-width: 200px;
+  margin: auto;
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Adjust this value as needed to space out buttons */
+  align-items: center;
+}

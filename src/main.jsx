@@ -20,7 +20,6 @@ import Layout from "./Pages/dashboard/MainComponents/Layout";
 import UserEditor from "./Pages/dashboard/MainComponents/UserEditor";
 import Overview from "./Pages/dashboard/MainComponents/Overview";
 
-
  const theme = createTheme({
     palette: {
       primary: {
@@ -51,6 +50,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Route path="/editNotification" element={<EditNotification />} />
                 <Route path="/dashLayout" element={<Layout />} />
                 <Route path="/overview" element={<Overview />} />
+                <Route path="/UserEditor" element={<UserEditor />} />
 
             </Routes>
         </BrowserRouter>

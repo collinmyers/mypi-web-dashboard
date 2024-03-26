@@ -40,14 +40,18 @@ export const SideNav = (props) => {
               variant="subtitle1"
               fontSize={30}
               sx ={{mb:1,mt:0}}
+              style={{fontWeight: "bold"}}
+              textAlign="center"
             >
               MyPI
-            </Typography>
+            </Typography>  
             <Typography
               color="neutral.400"
               variant="body2"
+              textAlign="center"
+              style={{fontWeight: "bold"}}
             >
-              Admin Dashboard
+              Admin Dashboard  
             </Typography>
           </div>
          
@@ -102,7 +106,7 @@ export const SideNav = (props) => {
           sx: {
             backgroundColor: "#005588",
             color: "#FFFFFF",
-            width: 280
+            width: 220   // Set the width of the drawer
           }
         }}
         variant="permanent"

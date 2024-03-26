@@ -6,93 +6,134 @@ import {database} from "../../../utils/AppwriteConfig";
 
 import {ALERTS_COLLECTION_ID} from "../../../utils/AppwriteConfig";
 import {DATABASE_ID} from "../../../utils/AppwriteConfig";
-import { toast ,ToastContainer} from "react-toastify";
+import { toast, ToastContainer} from "react-toastify";
 import { useLocation } from "react-router-dom";
+import {
+  Typography,
+  TextField,
+  Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Box,
+  Container,
+} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 
 
 export default function EditNotification(){
-    const location = useLocation();
-    let notification = location.state.notification;
+  const location = useLocation();
+  let notification = location.state.notification;
 
-const [title,setTitle] = useState(notification.Title);
-const [details,setDetails] = useState(notification.Details);
-const [alertType,setAlertType] = useState(notification.AlertType);
-const [notificationType,setNotificationType] = useState(notification.NotificationType);
+  const [title, setTitle] = useState(notification.Title);
+  const [details, setDetails] = useState(notification.Details);
+  const [alertType, setAlertType] = useState(notification.AlertType);
+  const [notificationType] = useState(
+    notification.NotificationType
+  );
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-const Successful = () => {
+  const Successful = () => {
     toast.success("Notification Update", {
       position: toast.POSITION.TOP_CENTER,
     });
-  
   };
-  
+
   const Failed = () => {
     toast.error("Failed to Update Notification", {
       position: toast.POSITION.TOP_CENTER,
     });
   };
-  
 
-useEffect(()=>{
+  useEffect(() => {});
 
-});
-
-const handleSubmit = async () => {
-
+  const handleSubmit = async () => {
     console.log(alertType);
 
-   const data = {
-    Title: title,
-    Details: details,
-    AlertType: alertType,
-    NotificationType: notificationType,
-   };
+    const data = {
+      Title: title,
+      Details: details,
+      AlertType: alertType,
+      NotificationType: notificationType,
+    };
 
-try {
-    await database.updateDocument(DATABASE_ID, ALERTS_COLLECTION_ID, notification.$id, data);
-    Successful();
-} catch (error) {
-    Failed();
-    console.log(error);
-}
+    try {
+      await database.updateDocument(
+        DATABASE_ID,
+        ALERTS_COLLECTION_ID,
+        notification.$id,
+        data
+      );
+      Successful();
+    } catch (error) {
+      Failed();
+      console.log(error);
+    }
+  };
 
-};
+  return (
+    <Container>
+      <Typography variant="h4" gutterBottom className="editNotifTitle">
+        Edit Notification
+      </Typography>
 
-    return(
-        <div>
-        <ToastContainer/>
-            <div className="editNotificationContainer">
-                <h1 className="title">Edit Notification</h1>
-                    <input type="text" placeholder="Title" value= {title} onChange={(e) => setTitle(e.target.value)}  />
-                    <input type="text" value={details} onChange={(e) => setDetails(e.target.value)} />
+      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          label="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          variant="outlined"
+        />
 
-        <div className="dropdown-container">
-            <label className="dropdown-label">
-                Alert Type:      
-                <select className="dropdown" value={alertType} onChange={(e) => setAlertType(e.target.value)}>
-                <option value="in-app">In-App</option>
-                <option value="push">Push</option>
-                <option value="both">Both</option>
-                </select>
-            </label>        
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          label="Details"
+          multiline
+          rows={4}
+          value={details}
+          onChange={(e) => setDetails(e.target.value)}
+          variant="outlined"
+        />
 
-            <label className="dropdown-label">
-                Notification Type:      
-                <select className="dropdown" value={notificationType} onChange={(e) => setNotificationType(e.target.value)}>
-                <option value="alerts">Alerts</option>
-                <option value="events">Events</option>
-                <option value="promos">Promos</option>
-                </select>
-            </label>  
+        <FormControl fullWidth margin="normal" className="formControl">
+          <InputLabel>Alert Type</InputLabel>
+          <Select
+            value={alertType}
+            label="Alert Type"
+            onChange={(e) => setAlertType(e.target.value)}
+          >
+            <MenuItem value="in-app">In-App</MenuItem>
+            <MenuItem value="push">Push</MenuItem>
+            <MenuItem value="both">Both</MenuItem>
+          </Select>
+        </FormControl>
+
+        {/* Similar for Notification Type */}
+
+<div className="buttonWrapper">
+
+        <Button type="submit" variant="contained" className="actionButton">
+          Edit Notification
+        </Button>
+
+        <Button
+          startIcon={<ArrowBackIcon />}
+          onClick={() => navigate(-1)}
+          variant="outlined"
+          className="actionButton"
+        >
+          Go Back
+        </Button>
         </div>
-        
-        <button onClick={handleSubmit}>Edit Notification</button>
-        <button onClick={() => navigate(-1)}>go back</button>
-
-        </div>
-        </div>
-    );
+      </Box>
+    </Container>
+  );
 }
