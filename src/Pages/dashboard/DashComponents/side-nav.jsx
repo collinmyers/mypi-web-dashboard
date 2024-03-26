@@ -65,7 +65,7 @@ export const SideNav = (props) => {
       >
         <Stack
           component="ul"
-          spacing={3}
+          spacing={3} //sapcing between items on side nav
           sx={{
             listStyle: "none",
             p: 0,
