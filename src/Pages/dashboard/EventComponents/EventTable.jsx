@@ -66,7 +66,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
           sx={{ mb: 2, ml: 1, width: 350, height: 1, mt: 1 }}
         />
         <Button onClick={() => createEvent()} startIcon={<AddIcon />} className="create-event-button">
-          Create Event
+          
         </Button>
       </Box>
       <Table sx={{ minHeight: 400 }}>

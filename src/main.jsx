@@ -19,6 +19,8 @@ import EditNotification from "./Pages/dashboard/NotificationComponents/EditNotif
 import Layout from "./Pages/dashboard/MainComponents/Layout"; 
 import UserEditor from "./Pages/dashboard/MainComponents/UserEditor";
 import Overview from "./Pages/dashboard/MainComponents/Overview";
+import ParkInfo from "./Pages/dashboard/MainComponents/ParkInfo";
+import FAQ from "./Pages/dashboard/MainComponents/FAQ";
 
  const theme = createTheme({
     palette: {
@@ -51,6 +53,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Route path="/dashLayout" element={<Layout />} />
                 <Route path="/overview" element={<Overview />} />
                 <Route path="/UserEditor" element={<UserEditor />} />
+                <Route path="/parkInfo" element={<ParkInfo />} />
+                <Route path="/faq" element={<FAQ />} />
 
             </Routes>
         </BrowserRouter>
