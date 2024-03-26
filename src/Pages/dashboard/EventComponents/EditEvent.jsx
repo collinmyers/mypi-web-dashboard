@@ -1,5 +1,5 @@
 import "../../../styling/EventsStyling/EditEventStyle.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import { toast,ToastContainer } from "react-toastify";
 import {database} from "../../../utils/AppwriteConfig";
 import {storage} from "../../../utils/AppwriteConfig";
@@ -11,6 +11,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import {ID} from "appwrite";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
 export default function EditEvent(){
@@ -19,6 +22,7 @@ export default function EditEvent(){
   const navigate = useNavigate();
   
     const location = useLocation();
+
    
     let selectedItem = location.state.Event;
 
@@ -94,8 +98,8 @@ export default function EditEvent(){
   };
 
   useEffect(() => {
-    getImage();
-    getCurrentFile();
+    // getImage();
+    // getCurrentFile();
     if (selectedItem) {
         const dateParts = selectedItem.Date.split(" - "); //split date range
         const startDate = new Date(dateParts[0]);
@@ -141,37 +145,24 @@ export default function EditEvent(){
 
 
 
-  const createImage = async () =>{
-
-    const promise = storage.createFile(BUCKET_ID,ID.unique(),newFile);//create new image file
-
-    promise.then(function (response) {
-      
-    data.FileID = response.$id; // update data object with new image files id
-
-      updateDoc(data); //call update
-  }, function (error) {
-      console.log(error); // Failure
-  });
-  };
-
-  const deleteImage = async () => {
+  
+  const deleteImage = async (imageid) => {
     // console.log(currentFile);
-    const promise = storage.deleteFile(BUCKET_ID,currentFile.$id); //delete current image file
-
+    const promise = storage.deleteFile(BUCKET_ID,imageid); //delete current image file
+    
     promise.then(function (response) {
       // console.log(response); // Success
   }, function (error) {
       console.log(error); // Failure
-  }); 
+    }); 
   };
   
 
   const getImage = async () => {
     try {
-
+      
       const response = storage.getFileView(BUCKET_ID, selectedItem.FileID);//get image view from document attribute FileID
-  
+      
       setImageUrl((prevImageUrl) => {
         if (response.href) {
           return response.href;
@@ -188,8 +179,8 @@ export default function EditEvent(){
     try {
       console.log("Current FileID",selectedItem.FileID);
       const response = await storage.getFile(BUCKET_ID, selectedItem.FileID); //get current image file from document attribute
-  
-     setCurrentFile(response); // set image file
+      
+      setCurrentFile(response); // set image file
     } catch (error) {
       console.error("Error fetching image URL", error); // Failure
     }
@@ -199,35 +190,54 @@ export default function EditEvent(){
   const  handleSubmit = async () =>{
     //call create and delete file if a new one has been uploaded.
     console.log(data.timeRangeString);
-   if(newFile){
-    await deleteImage();
-    await createImage();
-   }else{
-    data.FileID = currentFile.$id; // set FileID to current File ID
+    
+    // await deleteImage();
+    // await createImage();
+   
     updateDoc(data);
-   }
-
+    
+    
   }; 
-
+  
   const updateDoc = async(data) =>{
+    data.FileID = selectedItem.FileID; // set FileID to current File ID
 
     if (selectedItem) {
       try {
-
+        
         await database.updateDocument(DATABASE_ID,EVENTS_COLLECTION_ID,selectedItem.$id,data);
         SuccessfullEdit();
         clearInput();
-          
+        
       } catch (error) {
         EditFailed();
         console.error("Error updating document:", error);
       }
     }else{
-  console.log();
+      console.log();
+    }
+  };
+
+  const updateDocImages = async(data) =>{
+    data.FileID = selectedItem.FileID; // set FileID to current File ID
+
+    if (selectedItem) {
+      try {
+        
+        await database.updateDocument(DATABASE_ID,EVENTS_COLLECTION_ID,selectedItem.$id,data);
+        
+      } catch (error) {
+        EditFailed();
+        console.error("Error updating document:", error);
+      }
+    }else{
+      console.log();
     }
   };
 
 
+  
+  
   const clearInput = () =>{
     setName("");
     setShortDescription("");
@@ -239,14 +249,74 @@ export default function EditEvent(){
     setUploaderKey((prevValue) => !prevValue);
   };
 
-  const handleUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        setNewFile(file);
-        setImageUrl(URL.createObjectURL(file));
-        setUploaderKey((prevKey) => prevKey + 1);
-    }
+  // const handleUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setNewFile(file);
+  //       setImageUrl(URL.createObjectURL(file));
+  //       setUploaderKey((prevKey) => prevKey + 1);
+  //     }
+
+    
+  //   };
+    
+    const createImage = async (file) => {
+      try {
+        const response = await storage.createFile(BUCKET_ID, ID.unique(), file);
+        // Optionally, do something with the response
+        return response; // Resolve the promise with the response
+      } catch (error) {
+        console.log(error); // Log the error
+        throw error; // Throw the error to propagate it
+      }
+    };
+    
+    
+    
+  const [selectedImageId, setSelectedImageId] = useState("");
+  
+  // Function to handle selecting an image
+  const fileInputRef = useRef(null);
+
+const handleImageSelect = (imageId) => {
+  // Set the selected image ID
+  setSelectedImageId(imageId);
+
+  // Open file input dialog
+  fileInputRef.current.click();
+  console.log("Current FileID",selectedItem.FileID);
+
 };
+
+const handleFileChange = (e) => { //adjust to also DELETE the old image
+  const file = e.target.files[0];
+  if (!file) return;
+
+  createImage(file).then((newImageId) => {
+    // Update the selectedItem with the new file ID
+    selectedItem.FileID = selectedItem.FileID.map((imageId) => //replace old image with new in list of fileIDs
+      imageId === selectedImageId ? newImageId.$id : imageId
+    );
+    deleteImage(selectedImageId); // delete old image
+    updateDocImages(data); //update doc with changes
+
+    // Update the selectedImageId state to force re-render
+    setSelectedImageId(newImageId); 
+  });
+};
+    
+
+    const settings = {    
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 6000,
+      cssEase: "linear",
+    
+    };
   
 
 
@@ -255,9 +325,30 @@ export default function EditEvent(){
     <ToastContainer/>
     <div className="dropdown-container">
     <h1 className="editEventTitle">Edit Event</h1>
-    
-        {imageUrl && (<img src={imageUrl} alt={"Event Image"} style={{ width: "200px", height: "150px" }}/>)}
-        <input className="uploader" type="file" key={uploaderKey} id="uploader"  onChange={handleUpload}/>
+    <div className="image-slider">
+    <Slider {...settings}>
+    {selectedItem.FileID.map((imageId) => (
+      <div key={imageId}>
+        <img width={"250px"} height={"200px"} 
+          src={storage.getFileView(BUCKET_ID, imageId).href}
+          alt="Event Image"
+          onClick={() => handleImageSelect(imageId)}
+          className={selectedImageId === imageId ? "selected-image" : ""}
+        />
+      </div>
+    ))}
+  </Slider>
+    <input
+      type="file"
+      style={{ display: "none" }}
+      ref={fileInputRef}
+      onChange={handleFileChange}
+    />
+  
+
+
+
+  </div>
         <input className="eventName" type="text" placeholder={"Name"} id = "eventName" value={name} onChange={(e) => setName(e.target.value)} />
 
 
