@@ -4,23 +4,12 @@ import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import {
-  Box,
-  Card,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TablePagination,
-  TextField,
-  Button,
-} from "@mui/material";
+import {Box,Card,Table,TableBody,TableCell,TableHead,TableRow,TablePagination,TextField,Button,} from "@mui/material";
 import { styled } from "@mui/system";
 
 const ScrollableTableCell = styled(TableCell)({
-  minWidth: 104,
-  maxWidth: 104,
+  minWidth: 104.3,
+  maxWidth: 104.3,
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",
