@@ -4,7 +4,7 @@ import { styled } from "@mui/material/styles";
 import { SideNav } from "../DashComponents/side-nav";
 import { TopNav } from "../DashComponents/top-nav";
 
-const SIDE_NAV_WIDTH = 280;
+const SIDE_NAV_WIDTH = 250;
 
 const LayoutRoot = styled("div")(({ theme }) => ({
   display: "flex",
