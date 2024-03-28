@@ -71,7 +71,7 @@ export const SideNav = (props) => {
       >
         <Stack
           component="ul"
-          spacing={"20%"} //sapcing between items on side nav
+          spacing={"15%"} //sapcing between items on side nav
           sx={{
             listStyle: "none",
             p: 0,
@@ -127,7 +127,7 @@ export const SideNav = (props) => {
         sx: {
           backgroundColor: "#005588 ",
           color: "#FFFFFF",
-          width: 280
+          width: 220
         }
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
