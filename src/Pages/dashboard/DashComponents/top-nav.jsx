@@ -16,7 +16,7 @@ import React from "react";
 import { useTheme } from "@mui/material/styles";
 
 
-const SIDE_NAV_WIDTH = 380;
+const SIDE_NAV_WIDTH = 220;
 const TOP_NAV_HEIGHT = 64;
 
 
@@ -30,15 +30,14 @@ export const TopNav = (props) => {
         <Box
           component="header"
           sx={{
-            backdropFilter: "blur(6px)",
+            backdropFilter: "blur(px)",
             backgroundColor: (theme) => alpha(theme.palette.background.default, 0.8),
-            position: "sticky",
-            mr:-2,
-            mb: 1,
+            position: "relative",
+           
           left: {
-            lg: `${SIDE_NAV_WIDTH +50}px`
+            lg: `${SIDE_NAV_WIDTH +100}px`
           },
-          top: 0,
+          top: 1,
           width: {
             lg: `calc(100% - ${SIDE_NAV_WIDTH}px)`
           },
