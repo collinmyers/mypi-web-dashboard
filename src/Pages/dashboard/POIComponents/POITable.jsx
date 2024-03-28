@@ -3,24 +3,22 @@ import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import {Box,Card,Table,TableBody,TableCell,TableHead,TableRow,TablePagination,TextField,Button,} from "@mui/material";
+import { Box, Card, Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TextField, Button } from "@mui/material";
 import { styled } from "@mui/system";
+import "../../../styling/POIStyling/POITable.css";
 
-const ScrollableTableCell = styled(TableCell)({
-  minWidth: 104.3,
-  maxWidth: 104.3,
+const StyledTableCell = styled(TableCell)({
+  maxWidth: "50px",
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",
-  backgroundColor: "#f5f5f5",
   textAlign: "center",
 });
-
 
 const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0); // Zero-based indexing
-  const [pageSize, setPageSize] = useState(6); // Allow dynamic changes if needed
+  const [pageSize, setPageSize] = useState(6);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value.toLowerCase());
@@ -40,17 +38,17 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
 
   const startIndex = currentPage * pageSize;
   const currentPageData = filteredData.slice(startIndex, startIndex + pageSize);
-
-  const emptyRows = pageSize - currentPageData.length;
+  const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
   return (
-    <Card sx={{ height: "100%", minHeight: "580px", overflow: "hidden" }}>
+    <Card className="poi-card">
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           padding: "1rem",
+          backgroundColor: "#f5f5f5"
         }}
       >
         <TextField
@@ -58,58 +56,43 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
-          sx={{ flexGrow: 1, marginRight: "1rem" }}
+          sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
         />
         <Button onClick={onCreate} startIcon={<AddIcon />} />
       </Box>
-      <Table sx={{ minWidth: 650 }}>
-        <TableHead>
-          <TableRow>
-            {[
-              "Name",
-              "Latitude",
-              "Longitude",
-              "Status",
-              "Type",
-              "Edit",
-              "Delete",
-            ].map((head) => (
-              <TableCell
-                key={head}
-                sx={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  textAlign: "center",
-                  backgroundColor: "#f5f5f5",
-                }}
-              >
-                {head}
-              </TableCell>
-            ))}
+      <Table className="poi-table">
+        <TableHead >
+          <TableRow className="poi-row">
+          <StyledTableCell>Name</StyledTableCell>
+          <StyledTableCell>Latitude</StyledTableCell>
+          <StyledTableCell>Longitude</StyledTableCell>
+          <StyledTableCell>Status</StyledTableCell>
+          <StyledTableCell>Type</StyledTableCell>
+          <StyledTableCell>Edit</StyledTableCell>
+          <StyledTableCell>Delete</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {currentPageData.map((item) => (
             <TableRow key={item.$id}>
-              <TableCell>{item.Name}</TableCell>
-              <TableCell>{item.Latitude}</TableCell>
-              <TableCell>{item.Longitude}</TableCell>
-              <TableCell>{item.Status}</TableCell>
-              <TableCell>{item.Type}</TableCell>
-              <TableCell>
-                <Button onClick={() => onEdit(item)} startIcon={<EditIcon />} />
-              </TableCell>
-              <TableCell>
-                <Button
+              <StyledTableCell>{item.Name}</StyledTableCell>
+              <StyledTableCell>{item.Latitude}</StyledTableCell>
+              <StyledTableCell>{item.Longitude}</StyledTableCell>
+              <StyledTableCell>{item.Status}</StyledTableCell>
+              <StyledTableCell>{item.Type}</StyledTableCell>
+              <StyledTableCell>
+                <Button sx={{ml:2}} onClick={() => onEdit(item)} startIcon={<EditIcon />} />
+              </StyledTableCell>
+              <StyledTableCell>
+                <Button sx ={{ml:2}}
                   onClick={() => handleDeleteClick(item.$id)}
                   startIcon={<DeleteIcon />}
                 />
-              </TableCell>
+              </StyledTableCell>
             </TableRow>
           ))}
           {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
+            <TableRow style={{ height: 65 * emptyRows }}>
               <TableCell colSpan={7} />
             </TableRow>
           )}
@@ -118,15 +101,11 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
       <TablePagination
         component="div"
         count={filteredData.length}
-        onPageChange={(event, newPage) => setCurrentPage(newPage)}
+        onPageChange={(event, page) => setCurrentPage(page)}
         page={currentPage}
         rowsPerPage={pageSize}
-        rowsPerPageOptions={[6, 12, 24]}
-        onRowsPerPageChange={(event) => {
-          setPageSize(parseInt(event.target.value, 10));
-          setCurrentPage(0); // Reset to first page after page size change
-        }}
-        sx={{ ".MuiTablePagination-toolbar": { flexWrap: "wrap" } }}
+        rowsPerPageOptions={[pageSize]}
+        sx={{ position: "sticky", bottom: 0, left: 0, right: 100 }}
       />
     </Card>
   );

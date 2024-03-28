@@ -1,88 +1,25 @@
+.poi-card{
 
-.custom-table {
-  width: 75%;
-  margin: 0 auto;
-  table-layout: fixed;
-  border-collapse: collapse;
-  background-color: #fff;
-  max-height: 500px;
-  border: 1px solid black; 
-  border-radius: 10px;
-
-}
-
-.table-row{
-  border-bottom: 1px solid black; /* Add black border for horizontal lines */
-
-}
-.table-container {
-  min-height: 500px;
-  max-height: 500px; 
-  position: relative;
+  background-color: #f5f5f5;
+  min-height: 590px;
+  max-height: 590px;
   
 }
 
-.custom-table th,
-.custom-table td {
-  padding: 8px;
-  
-  white-space: nowrap; /* Prevent text wrapping */
-  overflow: hidden;
-  text-overflow: ellipsis; /* Show ellipsis for overflow text */
-  text-align: center;
- 
+.poi-table{  
+  min-width: 821px;
+  max-width: 821px;
 }
+.poi-table-cell{
 
-.custom-table th {
-  background-color: #005588;
-  font-weight: bold;
-  color: white;
-  
-}
-
-.table-row:hover {
-  background-color: #f9f9f9;
-}
-
-.action-button {
-  padding: 4px 8px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  cursor: pointer;
+text-align: center;
+align-content: center;
 
 }
+.poi-row{
 
-.pagination{
-  margin: 0 auto;
-}
-.search-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-.page{
-  color: #f9f9f9;
-  margin-right: 5px;
-  margin-left: 5px;
-  margin-top: 5px;
-}
-
-
-
-.create-poi-container {
- margin-left: 78%;
- margin-bottom: 10px;
-}
-
-.create-poi-button{
-  background-color: #005588;
-  color: #ffffff;
+text-align: center;
+align-items: center;
+margin-top: 300px;
+background-color: #f5f5f5;
 }
