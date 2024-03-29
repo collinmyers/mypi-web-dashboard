@@ -108,7 +108,7 @@ export const SideNav = (props) => {
           sx: {
             backgroundColor: "#005588",
             color: "#FFFFFF",
-            width: 220   // Set the width of the drawer
+            width: 235   // Set the width of the drawer
           }
         }}
         variant="permanent"
