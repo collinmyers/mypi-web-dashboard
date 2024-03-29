@@ -1,0 +1,20 @@
+.FAQ-card{
+
+    background-color: #f5f5f5;
+    min-height: 590px;
+    max-height: 590px;
+  }
+  
+  .FAQ-table{  
+    min-width: 821px;
+    max-width: 821px;
+  }
+
+  .FAQ-row{
+     background-color: #f5f5f5;
+  }
+  .FAQ-cell{
+    width: 10px;
+    background-color: white;
+
+  }

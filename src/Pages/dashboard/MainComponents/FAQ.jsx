@@ -1,115 +1,49 @@
-import React, { useState, useEffect } from "react";
-import Layout from "./Layout";
-import { database } from "/src/utils/AppwriteConfig"; // Import your Appwrite database configuration
+import React, { useState, useEffect} from "react";
+import { Query } from "appwrite";
+import { useNavigate } from "react-router-dom";
+import FAQTable from "../FAQComponents/FAQTable";
+import { database } from "../../../utils/AppwriteConfig";
+import { FAQ_COLLECTION_ID } from "../../../utils/AppwriteConfig";
+import { DATABASE_ID } from "../../../utils/AppwriteConfig";
 
-const FAQ = () => {
-  const [faqs, setFaqs] = useState([]);
-  const [currentFaq, setCurrentFaq] = useState({ question: "", answer: "" });
-  const [editing, setEditing] = useState(false);
+import Layout from "./Layout"; 
 
-  // Function to fetch FAQs from Appwrite
-  const fetchFaqs = () => {
-    database.listDocuments("YOUR_FAQ_COLLECTION_ID").then(
-      (response) => {
-        console.log(response);
-        setFaqs(response.documents);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  };
+export default function FAQ(){
+  const [data,setData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchFaqs();
-  }, []);
+    getFAQs();
+    
+  },[]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setCurrentFaq({ ...currentFaq, [name]: value });
-  };
-
-  const submitFaq = (e) => {
-    e.preventDefault();
-    if (currentFaq.$id) {
-      // Edit operation
-      database
-        .updateDocument("YOUR_FAQ_COLLECTION_ID", currentFaq.$id, currentFaq)
-        .then(
-          () => {
-            fetchFaqs();
-            setCurrentFaq({ question: "", answer: "" });
-            setEditing(false);
-          },
-          (error) => {
-            console.error(error);
-          }
-        );
-    } else {
-      // Create operation
-      database
-        .createDocument("YOUR_FAQ_COLLECTION_ID", "unique()", currentFaq, [])
-        .then(
-          () => {
-            fetchFaqs();
-            setCurrentFaq({ question: "", answer: "" });
-          },
-          (error) => {
-            console.error(error);
-          }
-        );
+  const getFAQs = async () =>{
+    try {
+      const response = await database.listDocuments(
+        DATABASE_ID,
+        FAQ_COLLECTION_ID,
+        [
+          Query.limit(1000), // Fetch all documents
+          Query.offset(0)
+        ]
+      );
+      console.log(response.documents);
+      setData(response.documents);
+    } catch (error) {
+      console.error("Error fetching documents:", error);
     }
+
   };
 
-  const editFaq = (faq) => {
-    setEditing(true);
-    setCurrentFaq(faq);
-  };
-
-  const deleteFaq = (id) => {
-    database.deleteDocument("YOUR_FAQ_COLLECTION_ID", id).then(
-      () => {
-        fetchFaqs();
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  const navigateToDash = () => {
+    navigate("/dash");
   };
 
   return (
-    <Layout>
-      <div>
-        <h2>{editing ? "Edit FAQ" : "Add FAQ"}</h2>
-        <form onSubmit={submitFaq}>
-          <input
-            type="text"
-            name="question"
-            placeholder="FAQ Question"
-            value={currentFaq.question}
-            onChange={handleInputChange}
-          />
-          <textarea
-            name="answer"
-            placeholder="FAQ Answer"
-            value={currentFaq.answer}
-            onChange={handleInputChange}
-          />
-          <button type="submit">Submit</button>
-        </form>
-        <div>
-          {faqs.map((faq) => (
-            <div key={faq.$id}>
-              <h3>{faq.question}</h3>
-              <p>{faq.answer}</p>
-              <button onClick={() => editFaq(faq)}>Edit</button>
-              <button onClick={() => deleteFaq(faq.$id)}>Delete</button>
-            </div>
-          ))}
-        </div>
+    <Layout> {/* Wrap your content inside the Layout component */}
+      <div>             
+          <FAQTable data={data}/>
       </div>
     </Layout>
   );
-};
-
-export default FAQ;
+}
