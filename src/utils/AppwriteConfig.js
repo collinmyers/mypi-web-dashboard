@@ -10,6 +10,8 @@ export const ALERTS_COLLECTION_ID = import.meta.env.VITE_PUBLIC_ALERTS_COLLECTIO
 export const ACCOUNT_RECOVERY_DOMAIN = import.meta.env.VITE_PUBLIC_RECOVERY_DOMAIN;
 export const BUCKET_ID = import.meta.env.VITE_PUBLIC_BUCKET_ID;
 export const GETUSERS_FUNCTION_ID = import.meta.env.VITE_APPWRITE_GETUSERS_FUNCTION_ID;
+export const FAQ_COLLECTION_ID = import.meta.env.VITE_PUBLIC_FAQ_COLLECTION_ID;
+export const PARKINFO_COLLECTION_ID = import.meta.env.VITE_PUBLIC_PARKINFO_COLLECTION_ID;
 
 // Create a client to connect
 const client = new Client()
