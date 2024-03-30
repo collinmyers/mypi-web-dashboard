@@ -21,6 +21,7 @@ import UserEditor from "./Pages/dashboard/MainComponents/UserEditor";
 import Overview from "./Pages/dashboard/MainComponents/Overview";
 import ParkInfo from "./Pages/dashboard/MainComponents/ParkInfo";
 import FAQ from "./Pages/dashboard/MainComponents/FAQ";
+import EditUser from "./Pages/dashboard/UserComponents/EditUser";
 
  const theme = createTheme({
     palette: {
@@ -53,6 +54,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Route path="/dashLayout" element={<Layout />} />
                 <Route path="/overview" element={<Overview />} />
                 <Route path="/UserEditor" element={<UserEditor />} />
+                <Route path="/editUser" element={<EditUser/>} />
                 <Route path="/parkInfo" element={<ParkInfo />} />
                 <Route path="/faq" element={<FAQ />} />
 

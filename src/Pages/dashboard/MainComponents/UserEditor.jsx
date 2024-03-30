@@ -4,10 +4,11 @@ import Layout from "./Layout";
 import { functions, GETUSERS_FUNCTION_ID } from "../../../utils/AppwriteConfig";
 import UserTable from "../UserComponents/UserTable";
 import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
-
+  const navigate = useNavigate();
 
   const getUserInfo = async () => {
     try {
@@ -32,13 +33,21 @@ export default function Users() {
 
   }, []);
 
+  const editUser = (item) => {
+    navigate("/editUser", {
+      state: {
+        user: item,
+      }
+    });
+  };
+
   return (
     <div>
       <Layout>
         <div>
           <ToastContainer/>
 
-          <UserTable allData = {users}/>
+          <UserTable allData = {users} onEdit={editUser}/>
 
 
         </div>

@@ -17,7 +17,7 @@ const ScrollableTableCell = styled(TableCell)({
 });
 
 
-const UserTable = ({ allData}) => {
+const UserTable = ({ allData, onEdit}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(6);
@@ -34,6 +34,11 @@ const UserTable = ({ allData}) => {
   //     onDelete($id);
   //   }
   // };
+
+  UserTable.propTypes = {
+    data: PropTypes.array.isRequired,
+    onEdit: PropTypes.func.isRequired
+  };
 
   const filteredData = allData.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -71,7 +76,7 @@ const UserTable = ({ allData}) => {
               <ScrollableTableCell>{item.name}</ScrollableTableCell>
               <ScrollableTableCell>{item.email}</ScrollableTableCell>
               <ScrollableTableCell>
-                <Button  startIcon={<EditIcon/>} sx={{ml:2}} />
+                <Button  onClick={()=>onEdit(item)} startIcon={<EditIcon/>} sx={{ml:2}} />
               </ScrollableTableCell>
               <ScrollableTableCell>
                 <Button  startIcon={<DeleteIcon/>} sx={{ ml:2 }} />
