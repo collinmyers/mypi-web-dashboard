@@ -110,7 +110,7 @@ const clearInput = () =>{
           </div>
 
           <button className="createNotifButton" onClick={handleSubmit}>Create Notification</button>
-          <button className="backButton" onClick={() => navigate(-1)}>Back to Notification Menu</button>
+          <button className="backButton" onClick={() => navigate("/notificationEditor")}>Back to Notification Menu</button>
         </div>
       </div>
     );

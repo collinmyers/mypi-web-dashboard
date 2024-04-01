@@ -126,7 +126,7 @@ export default function EditNotification(){
 
         <Button
           startIcon={<ArrowBackIcon />}
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/notificationEditor")}
           variant="outlined"
           className="actionButton"
         >

@@ -89,7 +89,7 @@ const handleSubmit = async () => {
 
         
         <button className="createPOIButton" onClick={handleSubmit}>Create POI</button>
-        <button className="backPOIButton" onClick={() => navigate(-1)}>Back to POI Menu</button>
+        <button className="backPOIButton" onClick={() => navigate("/poiEditor")}>Back to POI Menu</button>
 
         </div>
         </div>
