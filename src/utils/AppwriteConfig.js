@@ -12,6 +12,7 @@ export const BUCKET_ID = import.meta.env.VITE_PUBLIC_BUCKET_ID;
 export const GETUSERS_FUNCTION_ID = import.meta.env.VITE_APPWRITE_GETUSERS_FUNCTION_ID;
 export const FAQ_COLLECTION_ID = import.meta.env.VITE_PUBLIC_FAQ_COLLECTION_ID;
 export const PARKINFO_COLLECTION_ID = import.meta.env.VITE_PUBLIC_PARKINFO_COLLECTION_ID;
+export const USER_ALIAS_TABLE_ID = import.meta.env.VITE_PUBLIC_USER_ALIAS_TABLE_COLLECTION_ID;
 
 // Create a client to connect
 const client = new Client()

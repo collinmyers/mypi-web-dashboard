@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
-import { database } from "../../../utils/AppwriteConfig";
+import { DATABASE_ID, USER_ALIAS_TABLE_ID, database } from "../../../utils/AppwriteConfig";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Query } from "appwrite";
 
 
 export default function EditUser(){
@@ -16,10 +17,46 @@ export default function EditUser(){
     const [email, setEmail] = useState(user.email);
     const [label, setLabel] = useState(user.label);
     const [alias, setAlias] = useState(user.alias);
+    const [userID, setUserID] = useState(user.$id);
 
     const navigate = useNavigate();
 
-    useEffect(() => {});
+    useEffect(() => {
+        //Function to get the user's label
+        // const getUserLabel = async () => {
+        //     try{
+        //         const response = await users.get(userID);
+        //         setLabel(response.labels);
+        //         console.log(response.name);
+        //     }catch(error){
+        //         console.error(error);
+        //     }
+        // };
+
+        const getUserAlias = async () => {
+            try{
+                const response = await database.listDocuments(
+                    DATABASE_ID,
+                    USER_ALIAS_TABLE_ID,
+                    [
+                        Query.equal("UserID",[userID])
+                    ]
+                );
+                if(response.documents.length > 0){
+                    setAlias(response.documents.at(0).UserName);
+                }
+                else{
+                    setAlias(null);
+                }
+            }catch(error){
+                console.error(error);
+            }
+        };
+
+        //getUserLabel();
+        getUserAlias();
+    },[]);
+
 
 
 
@@ -27,6 +64,10 @@ export default function EditUser(){
         <Container>
             <Typography variant="h4" gutterBottom className="editUserTitle">
                 Edit User
+            </Typography>
+
+            <Typography>
+                User ID = {userID}
             </Typography>
 
             <Box component="form" noValidate sx={{ mt: 1 }}>
@@ -59,7 +100,6 @@ export default function EditUser(){
                 />
                 <TextField
                     margin="normal"
-                    required
                     fullWidth
                     label="Alias"
                     value={alias}
