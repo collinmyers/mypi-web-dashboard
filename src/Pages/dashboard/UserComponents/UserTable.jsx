@@ -18,7 +18,7 @@ const ScrollableTableCell = styled(TableCell)({
 });
 
 
-const UserTable = ({ allData, passwordReset }) => {
+const UserTable = ({ allData, passwordReset, onEdit }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(6);
@@ -44,7 +44,8 @@ const UserTable = ({ allData, passwordReset }) => {
 
   UserTable.propTypes = {
     allData: PropTypes.array.isRequired,
-    passwordReset: PropTypes.func.isRequired
+    passwordReset: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired
   };
 
   const filteredData = allData.filter((item) =>
@@ -73,8 +74,9 @@ const UserTable = ({ allData, passwordReset }) => {
           <TableRow>
             <ScrollableTableCell>Name</ScrollableTableCell>
             <ScrollableTableCell>Email</ScrollableTableCell>
-            <ScrollableTableCell>Delete</ScrollableTableCell>
             <ScrollableTableCell>Password Reset</ScrollableTableCell>
+            <ScrollableTableCell>Edit</ScrollableTableCell>
+            <ScrollableTableCell>Delete</ScrollableTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -83,10 +85,14 @@ const UserTable = ({ allData, passwordReset }) => {
               <ScrollableTableCell>{item.name}</ScrollableTableCell>
               <ScrollableTableCell>{item.email}</ScrollableTableCell>
               <ScrollableTableCell>
-                <Button startIcon={<DeleteIcon />} sx={{ ml: 2 }} />
+                <Button startIcon={<PasswordIcon />} onClick={() => handleReset(item.email)} sx={{ ml: 2 }} />
               </ScrollableTableCell>
               <ScrollableTableCell>
-                <Button startIcon={<PasswordIcon />} onClick={() => handleReset(item.email)} sx={{ ml: 2 }} />
+                <Button startIcon={<EditIcon />} onClick={() => onEdit(item)} sx={{ ml: 2 }} />
+              </ScrollableTableCell>
+
+              <ScrollableTableCell>
+                <Button startIcon={<DeleteIcon />} sx={{ ml: 2 }} />
               </ScrollableTableCell>
             </TableRow>
           ))}

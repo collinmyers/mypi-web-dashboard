@@ -86,7 +86,7 @@ export default function Users() {
         <div>
           <ToastContainer />
 
-          <UserTable allData={users} passwordReset={handlePasswordReset} />
+          <UserTable allData={users} passwordReset={handlePasswordReset} onEdit={editUser} />
 
 
         </div>
