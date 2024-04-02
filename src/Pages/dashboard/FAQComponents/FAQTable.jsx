@@ -8,7 +8,7 @@ import { styled } from "@mui/system";
 import "../../../styling/FAQStyling/FAQTableStyle.css";
 
 const StyledTableCell = styled(TableCell)({
-  maxWidth: "50px",
+  maxWidth: "250px",
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",

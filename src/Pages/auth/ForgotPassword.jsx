@@ -1,59 +1,105 @@
 
-import React, { useState } from "react";
-import { Card, TextField, Button, nativeSelectClasses} from "@mui/material";
-import { validateEmail } from "../../utils/Validators";
-import { Account, Client } from "appwrite";
-import { useNavigate } from "react-router-dom";
+import React, { useState} from "react";
+import { useLocation } from "react-router-dom";
+import {TextField, Button} from "@mui/material";
+import { validatePassword } from "../../utils/Validators";
+import {account} from "../../utils/AppwriteConfig";
 import "../../styling/AuthStyling/ForgotPassword.css";
+import { toast,ToastContainer } from "react-toastify";
+
+
 
 export default function ForgotPassword(){
-    const navigate = useNavigate();
-    const [email, setEmail] = useState("");
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [password, setPassword] = useState("");
+    const [confirmPassword,setConfirmPassword] = useState("");
+    const [errors,setErrors] = useState([]);
 
-    const navigateToSignIn = () => {
-      navigate("/");
+    const location = useLocation();
+
+    const searchParams = new URLSearchParams(location.search);
+    const userId = searchParams.get("userId");
+    const secret = searchParams.get("secret");
+
+  
+
+    const failedReset = (error) => {
+      toast.error(error, {
+        position: toast.POSITION.TOP_CENTER,
+      });
     };
 
+    const successfulReset = () => {
+      toast.success("Password has been reset", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    };
+  
+
     const handlePasswordReset = async () => {
-        try {
-            setIsSubmitted(true);
-            if (!email) {
-                return;
-            }
+      const validationErrors = validatePassword(password, confirmPassword);
+      setErrors(validationErrors);
 
-            const client = new Client()
-                .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
-                .setProject(import.meta.env.VITE_APPWRITE_PROJECT);
+      if (validationErrors.length === 0) {
+        setErrors("");
+        sendReset();
+      }
 
-            const account = new Account(client);
-            await account.createRecovery(`${email}`, import.meta.env.VITE_PUBLIC_DDNS);
-
-            setEmail("");
-            navigateToSignIn();
-
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setIsSubmitted(false);
-        }    
+    };
+    
+    const sendReset = async () => {
+      try {
+        const result = await account.updateRecovery(
+          userId, // userId
+          secret, // secret
+          password,
+          password // password
+        );
+          successfulReset();
+          setPassword("");
+          setConfirmPassword("");
+        
+      } catch (error) {
+        failedReset(error.message);
+      }
     };
 
     return (
       <div className="ForgotPassword">
-        <h2> Forgot Password</h2>
+        <ToastContainer/>
+
+        <h2>Password Reset</h2>
 
         <TextField
-          placeholder="Email"
+          placeholder="New Password"
+          variant="outlined"
+          type="password"
+          fullWidth
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          sx= {{mb:1}}
+        />
+        <TextField
+          type="password"
+          placeholder="Confirm Password"
           variant="outlined"
           fullWidth
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-          onBlur={() => validateEmail(email, setEmail)}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          value={confirmPassword}
         />
-        <Button className="customButton" onClick={handlePasswordReset}>
-          <h2>Send Email</h2>
+        
+        <Button className="resetButton" onClick={handlePasswordReset}>
+          <h2>Reset</h2>
         </Button>
+      
+        {errors.length > 0 && (
+          <div>
+            {errors.map((error, index) => (
+              <p key={index} style={{ color: "red" }}>{error}</p>
+            ))}
+          </div>
+        )}
+        
+        
       </div>
     );
 }

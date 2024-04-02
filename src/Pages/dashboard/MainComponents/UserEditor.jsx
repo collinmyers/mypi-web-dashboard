@@ -5,6 +5,10 @@ import { functions, GETUSERS_FUNCTION_ID } from "../../../utils/AppwriteConfig";
 import UserTable from "../UserComponents/UserTable";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { account } from "../../../utils/AppwriteConfig";
+import { toast } from "react-toastify";
+import { ACCOUNT_RECOVERY_DOMAIN } from "../../../utils/AppwriteConfig";
+
 
 export default function Users() {
   const [users, setUsers] = useState([]);
@@ -27,6 +31,8 @@ export default function Users() {
   };
 
 
+
+
   useEffect(() => {
 
     getUserInfo();
@@ -41,13 +47,46 @@ export default function Users() {
     });
   };
 
+  const SuccessfulReset = () => {
+    toast.success("Recovery Email Sent", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  const FailedReset = () => {
+    toast.success("Recovery Email Sent", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+
+  // const deleteUser = async (id) => {
+  //   try {
+
+  //   } catch (error) {
+  //    ;
+  //   }
+  // };
+
+  const handlePasswordReset = async (email) => {
+    try {
+
+      await account.createRecovery(email, ACCOUNT_RECOVERY_DOMAIN);
+      SuccessfulReset();
+
+
+    } catch (error) {
+      FailedReset();
+      console.error(error);
+    }
+  };
+
+
   return (
     <div>
       <Layout>
         <div>
           <ToastContainer />
 
-          <UserTable allData={users} onEdit={editUser} />
+          <UserTable allData={users} passwordReset={handlePasswordReset} />
 
 
         </div>
