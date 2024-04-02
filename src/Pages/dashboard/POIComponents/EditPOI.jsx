@@ -74,6 +74,7 @@ export default function EditPOI(){
   };
   return (
     <Container>
+      <ToastContainer/>
       <Typography
         variant="h4"
         gutterBottom
@@ -86,7 +87,7 @@ export default function EditPOI(){
       >
         Edit POI
       </Typography>
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Box component="form"  noValidate sx={{ mt: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -132,7 +133,7 @@ export default function EditPOI(){
           </Grid>
           <Grid item container spacing={2} justifyContent="center" xs={12}>
             <Grid item>
-              <Button type="submit" variant="contained">
+              <Button onClick={handleSubmit} variant="contained">
                 Edit POI
               </Button>
             </Grid>

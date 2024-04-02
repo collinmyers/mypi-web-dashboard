@@ -76,11 +76,12 @@ export default function EditNotification(){
 
   return (
     <Container>
+      <ToastContainer/>
       <Typography variant="h4" gutterBottom className="editNotifTitle">
         Edit Notification
       </Typography>
 
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Box component="form"  noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
           required
@@ -120,7 +121,7 @@ export default function EditNotification(){
 
 <div className="buttonWrapper">
 
-        <Button type="submit" variant="contained" className="actionButton">
+        <Button onClick={handleSubmit} variant="contained" className="actionButton">
           Edit Notification
         </Button>
 
