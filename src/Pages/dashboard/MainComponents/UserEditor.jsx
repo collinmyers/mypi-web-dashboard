@@ -20,7 +20,7 @@ export default function Users() {
         "GET"
       );
       const responseBody = JSON.parse(response.responseBody);
-      setUsers(responseBody["filteredUsersList"]);
+      setUsers(responseBody["userInfo"]);
     } catch (err) {
       console.error(err);
     }
@@ -45,9 +45,9 @@ export default function Users() {
     <div>
       <Layout>
         <div>
-          <ToastContainer/>
+          <ToastContainer />
 
-          <UserTable allData = {users} onEdit={editUser}/>
+          <UserTable allData={users} onEdit={editUser} />
 
 
         </div>

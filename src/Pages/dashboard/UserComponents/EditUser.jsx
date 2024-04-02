@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DATABASE_ID, USER_ALIAS_TABLE_ID, database } from "../../../utils/AppwriteConfig";
+import { DATABASE_ID, EDITUSER_FUNCTION_ID, USER_ALIAS_TABLE_ID, database, functions } from "../../../utils/AppwriteConfig";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Query } from "appwrite";
+import { ToastContainer, toast } from "react-toastify";
 
 
-export default function EditUser(){
+export default function EditUser() {
 
     const location = useLocation();
     let user = location.state.user;
@@ -15,53 +16,84 @@ export default function EditUser(){
 
     const [name, setName] = useState(user.name);
     const [email, setEmail] = useState(user.email);
-    const [label, setLabel] = useState(user.label);
-    const [alias, setAlias] = useState(user.alias);
+    const [labels, setLabel] = useState(user.labels);
+    const [alias, setAlias] = useState("");
     const [userID, setUserID] = useState(user.$id);
+    const [userAliasDocID, setUserAliasDocID] = useState("");
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        //Function to get the user's label
-        // const getUserLabel = async () => {
-        //     try{
-        //         const response = await users.get(userID);
-        //         setLabel(response.labels);
-        //         console.log(response.name);
-        //     }catch(error){
-        //         console.error(error);
-        //     }
-        // };
 
         const getUserAlias = async () => {
-            try{
+            try {
                 const response = await database.listDocuments(
                     DATABASE_ID,
                     USER_ALIAS_TABLE_ID,
                     [
-                        Query.equal("UserID",[userID])
+                        Query.equal("UserID", [userID])
                     ]
                 );
-                if(response.documents.length > 0){
+                if (response.documents.length > 0) {
                     setAlias(response.documents.at(0).UserName);
+                    setUserAliasDocID(response.documents.at(0).$id);
                 }
-                else{
-                    setAlias(null);
-                }
-            }catch(error){
+
+            } catch (error) {
                 console.error(error);
             }
         };
 
-        //getUserLabel();
         getUserAlias();
-    },[]);
+    }, []);
+
+    const Successful = () => {
+        toast.success("POI has been Updated", {
+            position: toast.POSITION.TOP_CENTER,
+        });
+    };
+
+    const Failed = () => {
+        toast.error("Failed to Update POI", {
+            position: toast.POSITION.TOP_CENTER,
+        });
+    };
+
+    const handleSubmit = async () => {
+        const data = {
+            name: name,
+            email: email,
+            labels: labels,
+            targetUserID: userID
+        };
+        try {
+            await functions.createExecution(
+                EDITUSER_FUNCTION_ID,
+                "",
+                false,
+                "/",
+                "PATCH",
+                data
+            );
+            await database.updateDocument(
+                DATABASE_ID,
+                USER_ALIAS_TABLE_ID,
+                userAliasDocID,
+                { UserID: userID, UserName: alias }
+            );
+            Successful();
+        } catch (error) {
+            console.log(error);
+            Failed();
+        }
+
+    };
 
 
 
-
-    return(
+    return (
         <Container>
+            <ToastContainer />
             <Typography variant="h4" gutterBottom className="editUserTitle">
                 Edit User
             </Typography>
@@ -93,8 +125,8 @@ export default function EditUser(){
                     margin="normal"
                     required
                     fullWidth
-                    label="Label"
-                    value={label}
+                    label="Labels"
+                    value={labels}
                     onChange={(e) => setLabel(e.target.value)}
                     variant="outlined"
                 />
@@ -107,13 +139,17 @@ export default function EditUser(){
                     variant="outlined"
                 />
                 <div className="buttonWrapper">
+                    <Button onClick={handleSubmit} variant="contained" className="actionButton">
+                        Update User Info
+                    </Button>
+
                     <Button
                         startIcon={<ArrowBackIcon />}
                         onClick={() => navigate(-1)}
                         variant="outlined"
                         className="actionButton"
                     >
-                    Go Back
+                        Go Back
                     </Button>
                 </div>
             </Box>

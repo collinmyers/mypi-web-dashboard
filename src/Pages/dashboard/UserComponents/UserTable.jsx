@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import {Box,Card,Table,TableBody,TableCell,TableHead,TableRow,TablePagination,TextField,Button,} from "@mui/material";
+import { Box, Card, Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TextField, Button, } from "@mui/material";
 import { styled } from "@mui/system";
 
 const ScrollableTableCell = styled(TableCell)({
@@ -17,7 +17,7 @@ const ScrollableTableCell = styled(TableCell)({
 });
 
 
-const UserTable = ({ allData, onEdit}) => {
+const UserTable = ({ allData, onEdit }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(6);
@@ -36,7 +36,7 @@ const UserTable = ({ allData, onEdit}) => {
   // };
 
   UserTable.propTypes = {
-    data: PropTypes.array.isRequired,
+    allData: PropTypes.array.isRequired,
     onEdit: PropTypes.func.isRequired
   };
 
@@ -50,19 +50,19 @@ const UserTable = ({ allData, onEdit}) => {
   const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
   return (
-    <Card sx ={{height: 580 }}>
+    <Card sx={{ height: 580 }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 800 }}>
         <TextField
           placeholder="Search by name..."
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
-          sx={{ mb: 2, ml:1,width: 350, height: 1, mt:1}}
+          sx={{ mb: 2, ml: 1, width: 350, height: 1, mt: 1 }}
         />
-       
+
       </Box>
       <Table sx={{ minHeight: 400 }}>
-        <TableHead textAlign= "center"  sx = {{backgroundColor: "#f5f5f5"}}>
+        <TableHead textAlign="center" sx={{ backgroundColor: "#f5f5f5" }}>
           <TableRow>
             <ScrollableTableCell>Name</ScrollableTableCell>
             <ScrollableTableCell>Email</ScrollableTableCell>
@@ -76,10 +76,10 @@ const UserTable = ({ allData, onEdit}) => {
               <ScrollableTableCell>{item.name}</ScrollableTableCell>
               <ScrollableTableCell>{item.email}</ScrollableTableCell>
               <ScrollableTableCell>
-                <Button  onClick={()=>onEdit(item)} startIcon={<EditIcon/>} sx={{ml:2}} />
+                <Button onClick={() => onEdit(item)} startIcon={<EditIcon />} sx={{ ml: 2 }} />
               </ScrollableTableCell>
               <ScrollableTableCell>
-                <Button  startIcon={<DeleteIcon/>} sx={{ ml:2 }} />
+                <Button startIcon={<DeleteIcon />} sx={{ ml: 2 }} />
               </ScrollableTableCell>
             </TableRow>
           ))}
@@ -98,14 +98,12 @@ const UserTable = ({ allData, onEdit}) => {
         page={currentPage - 1}
         rowsPerPage={pageSize}
         rowsPerPageOptions={[pageSize]}
-        sx={{ position: "absolute", bottom: 0, left: 0, right: 35}}
+        sx={{ position: "absolute", bottom: 0, left: 0, right: 35 }}
       />
     </Card>
   );
 };
 
-UserTable.propTypes = {
-  allData: PropTypes.array,
-  };
+
 
 export default UserTable;
