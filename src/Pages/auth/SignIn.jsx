@@ -92,9 +92,7 @@ export default function LoginScreen() {
                     />
                     <button className="SignInButton" onClick={handleLogin}>Sign In</button>
 
-                    <Link className="ForgotPassLink" to="/forgotPassword">
-                        Forgot Password
-                    </Link>
+                 
                 </div>
             </div>
         </div>
