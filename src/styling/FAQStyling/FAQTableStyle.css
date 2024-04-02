@@ -1,13 +1,13 @@
 .FAQ-card{
-
+  margin-top: 2%;
     background-color: #f5f5f5;
-    min-height: 590px;
-    max-height: 590px;
+    min-height: 83%;
+    max-height: 83%;
   }
   
   .FAQ-table{  
-    min-width: 821px;
-    max-width: 821px;
+    min-width: 80%;
+    max-width: 80%;
   }
 
   .FAQ-row{
