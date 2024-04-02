@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+import PasswordIcon from "@mui/icons-material/Password";
 import {Box,Card,Table,TableBody,TableCell,TableHead,TableRow,TablePagination,TextField,Button,} from "@mui/material";
 import { styled } from "@mui/system";
 
 const ScrollableTableCell = styled(TableCell)({
-  minWidth: 206.5,
-  maxWidth: 206.5,
+  minWidth: 160,
+  maxWidth: 160,
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",
@@ -17,7 +18,7 @@ const ScrollableTableCell = styled(TableCell)({
 });
 
 
-const UserTable = ({ allData, onEdit}) => {
+const UserTable = ({ allData, passwordReset}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(6);
@@ -34,10 +35,16 @@ const UserTable = ({ allData, onEdit}) => {
   //     onDelete($id);
   //   }
   // };
+  const handleReset = (email) => {
+    const isConfirmed = window.confirm("Are you sure you want to send password recovery email?");
+    if (isConfirmed) {
+      passwordReset(email);
+    }
+  };
 
   UserTable.propTypes = {
-    data: PropTypes.array.isRequired,
-    onEdit: PropTypes.func.isRequired
+    allData: PropTypes.array.isRequired,
+    passwordReset: PropTypes.func.isRequired
   };
 
   const filteredData = allData.filter((item) =>
@@ -62,12 +69,12 @@ const UserTable = ({ allData, onEdit}) => {
        
       </Box>
       <Table sx={{ minHeight: 400 }}>
-        <TableHead textAlign= "center"  sx = {{backgroundColor: "#f5f5f5"}}>
+        <TableHead   sx = {{backgroundColor: "#f5f5f5"}}>
           <TableRow>
             <ScrollableTableCell>Name</ScrollableTableCell>
             <ScrollableTableCell>Email</ScrollableTableCell>
-            <ScrollableTableCell>Edit</ScrollableTableCell>
             <ScrollableTableCell>Delete</ScrollableTableCell>
+            <ScrollableTableCell>Password Reset</ScrollableTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -76,10 +83,10 @@ const UserTable = ({ allData, onEdit}) => {
               <ScrollableTableCell>{item.name}</ScrollableTableCell>
               <ScrollableTableCell>{item.email}</ScrollableTableCell>
               <ScrollableTableCell>
-                <Button  onClick={()=>onEdit(item)} startIcon={<EditIcon/>} sx={{ml:2}} />
+                <Button  startIcon={<DeleteIcon/>} sx={{ ml:2 }} />
               </ScrollableTableCell>
               <ScrollableTableCell>
-                <Button  startIcon={<DeleteIcon/>} sx={{ ml:2 }} />
+                <Button startIcon ={ <PasswordIcon/>} onClick={() => handleReset(item.email)} sx={{ml:2}}/>
               </ScrollableTableCell>
             </TableRow>
           ))}
