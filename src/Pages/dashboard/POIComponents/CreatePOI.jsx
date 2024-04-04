@@ -67,15 +67,15 @@ const handleSubmit = async () => {
         <div className="createPOIContainer">
         <h1 className="createPOITitle">New POI</h1>
         <input className="poiName" type="text" placeholder="Name" onChange={(e) => setName(e.target.value)}  />
-        <input type="text" placeholder="Latitude" value={latitude}  onChange={(e) => {
+        <input type="text" placeholder="Latitude" onChange={(e) => {
             const value = e.target.value;
             if (/^-?\d*\.?\d*$/.test(value)) {
-              setLatitude(value);
+              setLatitude(parseFloat(value));
             }
           }}/>
-          <input type="text" placeholder="Longitude" value={longitude} onChange={(e) => {const value = e.target.value;
+          <input type="text" placeholder="Longitude" onChange={(e) => {const value = e.target.value;
             if (/^-?\d*\.?\d*$/.test(value)) {
-              setLongitude(value);
+              setLongitude(parseFloat(value));
             }
           }}/>
         <label className="statusLabel">
