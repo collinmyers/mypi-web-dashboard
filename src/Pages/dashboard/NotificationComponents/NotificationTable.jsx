@@ -4,6 +4,7 @@ import { styled } from "@mui/system";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+import { Tooltip }  from "@mui/material";
 
 const ScrollableTableCell = styled(TableCell)({
   minWidth: 127,
@@ -46,19 +47,30 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
 
   return (
     <Card sx={{ height: 580 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 800 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          minWidth: 800,
+        }}
+      >
         <TextField
-          placeholder="Search by name..."
+          placeholder="Search by Name..."
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
-          sx={{ mb: 2, ml: 1, width: 350, height: 1, mt: 1 }}
+          sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
         />
-        <Button onClick={() => onCreate()} startIcon={<AddIcon />} className="create-notification-button">
-         
-        </Button>
+        <Tooltip title="Create Notification" placement="bottom">
+          <Button
+            onClick={() => onCreate()}
+            startIcon={<AddIcon />}
+            className="create-notification-button"
+          ></Button>
+        </Tooltip>
       </Box>
-      <Table sx={{ minHeight: 400}}>
+      <Table sx={{ minHeight: 400 }}>
         <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
           <TableRow>
             <ScrollableTableCell>Title</ScrollableTableCell>
@@ -77,10 +89,18 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
               <ScrollableTableCell>{item.AlertType}</ScrollableTableCell>
               <ScrollableTableCell>{item.NotificationType}</ScrollableTableCell>
               <ScrollableTableCell>
-                <Button sx = {{ml:2}}onClick={() => onEdit(item)} startIcon={<EditIcon />} ></Button>
+                <Button
+                  sx={{ ml: 2 }}
+                  onClick={() => onEdit(item)}
+                  startIcon={<EditIcon />}
+                ></Button>
               </ScrollableTableCell>
               <ScrollableTableCell>
-                <Button sx={{ml:2}} onClick={() => handleDeleteClick(item.$id)} startIcon={<DeleteIcon />} ></Button>
+                <Button
+                  sx={{ ml: 2 }}
+                  onClick={() => handleDeleteClick(item.$id)}
+                  startIcon={<DeleteIcon />}
+                ></Button>
               </ScrollableTableCell>
             </TableRow>
           ))}

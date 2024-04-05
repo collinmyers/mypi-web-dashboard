@@ -53,7 +53,7 @@ const FAQTable = ({ data }) => {
         }}
       >
         <TextField
-          placeholder="Search by name..."
+          placeholder="Search by Name..."
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}

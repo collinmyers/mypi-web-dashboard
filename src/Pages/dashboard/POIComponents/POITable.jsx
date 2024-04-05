@@ -6,7 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Box, Card, Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TextField, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import "../../../styling/POIStyling/POITable.css";
-
+import Tooltip from "@mui/material/Tooltip";
 const StyledTableCell = styled(TableCell)({
   maxWidth: "50px",
   whiteSpace: "nowrap",
@@ -52,13 +52,15 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
         }}
       >
         <TextField
-          placeholder="Search by name..."
+          placeholder="Search by Name..."
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
           sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
         />
+        <Tooltip title="Create New POI" placement="bottom">
         <Button onClick={onCreate} startIcon={<AddIcon />} />
+        </Tooltip>
       </Box>
       <Table className="poi-table">
         <TableHead >

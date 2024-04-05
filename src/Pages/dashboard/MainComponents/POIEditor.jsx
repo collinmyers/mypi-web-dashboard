@@ -79,8 +79,6 @@ export default function POIEdit() {
     <Layout>
     <div>
     <ToastContainer/>
-      
-      
       <div className="poiEdit">
         <CustomTable allData={allData} onDelete={deletePOI} onEdit={editPOI} onCreate={createPOI}/>
       </div>

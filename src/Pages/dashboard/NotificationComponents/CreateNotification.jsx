@@ -1,117 +1,135 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../../styling/NotificationStyling/CreateNotificationStyle.css";
-import {ID} from "appwrite";
-import {database} from "../../../utils/AppwriteConfig";
+import {
+  Container,
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Typography,
+  Box,
+} from "@mui/material";
+import { ID } from "appwrite";
+import { database } from "../../../utils/AppwriteConfig";
+import {
+  ALERTS_COLLECTION_ID,
+  DATABASE_ID,
+} from "../../../utils/AppwriteConfig";
+import { toast, ToastContainer } from "react-toastify";
+import "../../../styling/NotificationStyling/CreateNotificationStyle.css"; // Obsolete styling file
 
-import {ALERTS_COLLECTION_ID} from "../../../utils/AppwriteConfig";
-import {DATABASE_ID} from "../../../utils/AppwriteConfig";
-import { toast ,ToastContainer} from "react-toastify";
+export default function CreateNotification() {
+  const [title, setTitle] = useState("");
+  const [details, setDetails] = useState("");
+  const [alertType, setAlertType] = useState("both");
+  const [notificationType, setNotificationType] = useState("alerts");
+  const navigate = useNavigate();
 
-
-export default function CreateNotification(){
-
-const [title,setTitle] = useState("");
-const [details,setDetails] = useState("");
-const [alertType,setAlertType] = useState("both");
-const [notificationType,setNotificationType] = useState("alerts");
-const navigate = useNavigate();
-
-const SuccessfulCreation = () => {
+  const SuccessfulCreation = () => {
     toast.success("New Notification Created", {
       position: toast.POSITION.TOP_CENTER,
     });
-  
   };
-  
+
   const creationFailed = () => {
     toast.error("Failed to Create Notification", {
       position: toast.POSITION.TOP_CENTER,
     });
   };
-  
 
-useEffect(()=>{
+  const handleSubmit = async () => {
+    const data = {
+      Title: title,
+      Details: details,
+      AlertType: alertType,
+      NotificationType: notificationType,
+    };
 
-});
+    try {
+      await database.createDocument(
+        DATABASE_ID,
+        ALERTS_COLLECTION_ID,
+        ID.unique(),
+        data
+      );
+      clearInput();
+      SuccessfulCreation();
+    } catch (response) {
+      creationFailed();
+      console.log(response);
+    }
+  };
 
-const handleSubmit = async () => {
-
-    console.log(alertType);
-
-   const data = {
-    Title: title,
-    Details: details,
-    AlertType: alertType,
-    NotificationType: notificationType,
-   };
-
-   try{
-    const response = await database.createDocument(DATABASE_ID,ALERTS_COLLECTION_ID, ID.unique(), data);
-    clearInput();
-    SuccessfulCreation();
-   }catch(response){
-    creationFailed();
-    console.log(response);
-   }
-
-};
-
-const clearInput = () =>{
+  const clearInput = () => {
     setDetails("");
     setTitle("");
+  };
 
-};
-
-    return (
-      <div>
-        <ToastContainer />
-        <div className="createNotificationContainer">
-          <h1 className="createNotifTitle" >New Notification</h1>
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            placeholder="Title"
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <label htmlFor="details">Details:</label>
-          <input
-            type="text"
-            placeholder="Details"
-            onChange={(e) => setDetails(e.target.value)}
-          />
-
-          <div className="dropdown-container">
-            <label className="dropdown-label">
-              Alert Type:
-              <select
-                className="dropdown"
-                value={alertType}
-                onChange={(e) => setAlertType(e.target.value)}
-              >
-                <option value="in-app">In-App</option>
-                <option value="push">Push</option>
-                <option value="both">Both</option>
-              </select>
-            </label>
-
-            <label className="dropdown-label">
-              Notification Type:
-              <select
-                className="dropdown"
-                value={notificationType}
-                onChange={(e) => setNotificationType(e.target.value)}
-              >
-                <option value="alerts">Alerts</option>
-                <option value="events">Events</option>
-                <option value="promos">Promos</option>
-              </select>
-            </label>
-          </div>
-
-          <button className="createNotifButton" onClick={handleSubmit}>Create Notification</button>
-          <button className="backButton" onClick={() => navigate("/notificationEditor")}>Back to Notification Menu</button>
-        </div>
-      </div>
-    );
+  return (
+    <Container maxWidth="sm">
+      <ToastContainer />
+      <Typography
+        variant="h4"
+        sx={{ color: "#005588", fontWeight: "bold", textAlign: "center", my: 2 }}
+      >
+        New Notification
+      </Typography>
+      <TextField
+        fullWidth
+        label="Title"
+        variant="outlined"
+        margin="normal"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <TextField
+        fullWidth
+        label="Details"
+        variant="outlined"
+        multiline
+        margin="normal"
+        value={details}
+        onChange={(e) => setDetails(e.target.value)}
+      />
+      <Box sx={{ my: 2, width: "100%" }}>
+        <FormControl fullWidth>
+          <InputLabel>Alert Type</InputLabel>
+          <Select
+            value={alertType}
+            label="Alert Type"
+            onChange={(e) => setAlertType(e.target.value)}
+          >
+            <MenuItem value="in-app">In-App</MenuItem>
+            <MenuItem value="push">Push</MenuItem>
+            <MenuItem value="both">Both</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl fullWidth sx={{ mt: 2 }}>
+          <InputLabel>Notification Type</InputLabel>
+          <Select
+            value={notificationType}
+            label="Notification Type"
+            onChange={(e) => setNotificationType(e.target.value)}
+          >
+            <MenuItem value="alerts">Alerts</MenuItem>
+            <MenuItem value="events">Events</MenuItem>
+            <MenuItem value="promos">Promos</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 2 }}>
+        <Button variant="contained" onClick={handleSubmit}>
+          Create Notification
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => navigate("/notificationEditor")}
+        >
+          Back to Notification Menu
+        </Button>
+      </Box>
+    </Container>
+  );
 }
