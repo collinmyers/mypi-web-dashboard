@@ -1,9 +1,9 @@
 import React, { useState, useEffect} from "react";
 import { Query } from "appwrite";
 import { useNavigate } from "react-router-dom";
-import FAQTable from "../FAQComponents/FAQTable";
+import ParkInfoTable from "../ParkInfoComponents/ParkInfoTable";
 import { database } from "../../../utils/AppwriteConfig";
-import { FAQ_COLLECTION_ID } from "../../../utils/AppwriteConfig";
+import { PARKINFO_COLLECTION_ID} from "../../../utils/AppwriteConfig";
 import { DATABASE_ID } from "../../../utils/AppwriteConfig";
 import { toast,ToastContainer } from "react-toastify";
 
@@ -14,19 +14,19 @@ export default function ParkInfo(){
   const navigate = useNavigate();
 
   useEffect(() => {
-    getFAQs();
+    getParkInfo();
     
   },[]);
 
 
   const SuccessfulDeletion = () => {
-    toast.success("FAQ deleted", {
+    toast.success("Park Info deleted", {
       position: toast.POSITION.TOP_CENTER,
     });
   };
 
   const FailedDeletion = () => {
-    toast.error("Failed to delete FAQ", {
+    toast.error("Failed to delete Park Info", {
       position: toast.POSITION.TOP_CENTER,
     });
   };
@@ -37,7 +37,7 @@ export default function ParkInfo(){
     try {
       const response = await database.listDocuments(
         DATABASE_ID,
-        FAQ_COLLECTION_ID,
+        PARKINFO_COLLECTION_ID,
         [
           Query.limit(1000), // Fetch all documents
           Query.offset(0)
@@ -51,12 +51,12 @@ export default function ParkInfo(){
 
   };
 
-  const deletFAQ = async (faq) =>{
+  const deletParkInfo = async (info) =>{
     try{
-      console.log(faq.$id);
-      await database.deleteDocument(DATABASE_ID,FAQ_COLLECTION_ID,faq.$id);
+      console.log(info.$id);
+      await database.deleteDocument(DATABASE_ID,PARKINFO_COLLECTION_ID,info.$id);
       //success toast
-      getFAQs();
+      getParkInfo();
       SuccessfulDeletion();
 
     } catch(error){
@@ -68,18 +68,18 @@ export default function ParkInfo(){
   
   };
 
-  const editFAQ = (faq) => {
-    navigate("/editFAQ", {
+  const editParkInfo = (info) => {
+    navigate("/editParkInfo", {
       state: {
-        FAQ: faq,
+          ParkInfo: info,
       }
     });
   };
 
-  const createFAQ = (faq) =>{
-    navigate("/createFAQ",{
+  const createParkInfo = (info) =>{
+    navigate("/createParkInfo",{
       state:{
-        FAQ: faq,
+        ParkInfo: info,
       }
 
     });
@@ -97,7 +97,7 @@ export default function ParkInfo(){
     <Layout> {/* Wrap your content inside the Layout component */}
       <ToastContainer/>
       <div>             
-          <FAQTable data={data} onDelete = {deletFAQ} onEdit = {editFAQ} onCreate ={createFAQ}/>
+          <ParkInfoTable data={data} onDelete = {deletParkInfo} onEdit = {editParkInfo} onCreate ={createParkInfo}/>
       </div>
     </Layout>
   );

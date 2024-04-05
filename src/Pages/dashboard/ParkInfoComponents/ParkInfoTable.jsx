@@ -35,7 +35,7 @@ const handleDeleteClick = (item) => {
 
 
   const filteredData = data.filter((item) =>
-    item.Question.toLowerCase().includes(searchTerm)
+    item.Title.toLowerCase().includes(searchTerm)
   );
 
   const startIndex = currentPage * pageSize;
