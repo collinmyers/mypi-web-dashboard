@@ -1,136 +1,104 @@
-import React, { useState, useEffect } from "react";
-import Layout from "./Layout";
-import { database } from "/src/utils/AppwriteConfig"; // Import your Appwrite database configuration
-// import { API_ENDPOINT } from "../../../utils/AppwriteConfig";
-const ParkInfo = () => {
-  const [parkInfo, setParkInfo] = useState([]);
-  const [currentPark, setCurrentPark] = useState({
-    name: "",
-    location: "",
-    description: "",
-  });
-  const [editing, setEditing] = useState(false);
+import React, { useState, useEffect} from "react";
+import { Query } from "appwrite";
+import { useNavigate } from "react-router-dom";
+import FAQTable from "../FAQComponents/FAQTable";
+import { database } from "../../../utils/AppwriteConfig";
+import { FAQ_COLLECTION_ID } from "../../../utils/AppwriteConfig";
+import { DATABASE_ID } from "../../../utils/AppwriteConfig";
+import { toast,ToastContainer } from "react-toastify";
 
-  // Function to fetch park information from Appwrite
-  const fetchParkInfo = () => {
-    database.listDocuments("YOUR_PARK_INFO_COLLECTION_ID").then(
-      (response) => {
-        console.log(response);
-        setParkInfo(response.documents);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  };
+import Layout from "./Layout"; 
+
+export default function ParkInfo(){
+  const [data,setData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchParkInfo();
-  }, []);
+    getFAQs();
+    
+  },[]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setCurrentPark({ ...currentPark, [name]: value });
+
+  const SuccessfulDeletion = () => {
+    toast.success("FAQ deleted", {
+      position: toast.POSITION.TOP_CENTER,
+    });
   };
 
-  const submitParkInfo = (e) => {
-    e.preventDefault();
-    if (currentPark.$id) {
-      // Edit operation
-      database
-        .updateDocument(
-          "YOUR_PARK_INFO_COLLECTION_ID",
-          currentPark.$id,
-          currentPark
-        )
-        .then(
-          () => {
-            fetchParkInfo();
-            setCurrentPark({ name: "", location: "", description: "" });
-            setEditing(false);
-          },
-          (error) => {
-            console.error(error);
-          }
-        );
-    } else {
-      // Create operation
-      database
-        .createDocument(
-          "YOUR_PARK_INFO_COLLECTION_ID",
-          "unique()",
-          currentPark,
-          []
-        )
-        .then(
-          () => {
-            fetchParkInfo();
-            setCurrentPark({ name: "", location: "", description: "" });
-          },
-          (error) => {
-            console.error(error);
-          }
-        );
+  const FailedDeletion = () => {
+    toast.error("Failed to delete FAQ", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+
+  
+
+  const getParkInfo = async () =>{
+    try {
+      const response = await database.listDocuments(
+        DATABASE_ID,
+        FAQ_COLLECTION_ID,
+        [
+          Query.limit(1000), // Fetch all documents
+          Query.offset(0)
+        ]
+      );
+      console.log(response.documents);
+      setData(response.documents);
+    } catch (error) {
+      console.error("Error fetching documents:", error);
     }
+
   };
 
-  const editParkInfo = (info) => {
-    setEditing(true);
-    setCurrentPark(info);
+  const deletFAQ = async (faq) =>{
+    try{
+      console.log(faq.$id);
+      await database.deleteDocument(DATABASE_ID,FAQ_COLLECTION_ID,faq.$id);
+      //success toast
+      getFAQs();
+      SuccessfulDeletion();
+
+    } catch(error){
+      console.log(error);
+      FailedDeletion();
+      //failtoast
+
+    } 
+  
   };
 
-  const deleteParkInfo = (id) => {
-    database.deleteDocument("YOUR_PARK_INFO_COLLECTION_ID", id).then(
-      () => {
-        fetchParkInfo();
-      },
-      (error) => {
-        console.error(error);
+  const editFAQ = (faq) => {
+    navigate("/editFAQ", {
+      state: {
+        FAQ: faq,
       }
-    );
+    });
+  };
+
+  const createFAQ = (faq) =>{
+    navigate("/createFAQ",{
+      state:{
+        FAQ: faq,
+      }
+
+    });
+
+
+  };
+
+
+
+  const navigateToDash = () => {
+    navigate("/dash");
   };
 
   return (
-    <Layout>
-      <div>
-        <h2>{editing ? "Edit Park" : "Edit Park Info"}</h2>
-        <form onSubmit={submitParkInfo}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Park name"
-            value={currentPark.name}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="location"
-            placeholder="Location"
-            value={currentPark.location}
-            onChange={handleInputChange}
-          />
-          <textarea
-            name="description"
-            placeholder="Description"
-            value={currentPark.description}
-            onChange={handleInputChange}
-          />
-          <button type="submit">Submit</button>
-        </form>
-        <div>
-          {parkInfo.map((info) => (
-            <div key={info.$id}>
-              <h3>{info.name}</h3>
-              <p>{info.location}</p>
-              <p>{info.description}</p>
-              <button onClick={() => editParkInfo(info)}>Edit</button>
-              <button onClick={() => deleteParkInfo(info.$id)}>Delete</button>
-            </div>
-          ))}
-        </div>
+    <Layout> {/* Wrap your content inside the Layout component */}
+      <ToastContainer/>
+      <div>             
+          <FAQTable data={data} onDelete = {deletFAQ} onEdit = {editFAQ} onCreate ={createFAQ}/>
       </div>
     </Layout>
   );
-};
-
-export default ParkInfo;
+}
