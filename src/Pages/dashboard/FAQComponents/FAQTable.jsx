@@ -16,7 +16,7 @@ const StyledTableCell = styled(TableCell)({
 //   backgroundColor: "white",
 });
 
-const FAQTable = ({ data }) => {
+const FAQTable = ({ data, onDelete, onEdit, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0); // Zero-based indexing
   const [pageSize, setPageSize] = useState(6);
@@ -26,12 +26,13 @@ const FAQTable = ({ data }) => {
     setCurrentPage(0); // Reset to the first page when searching
   };
 
-//   const handleDeleteClick = ($id) => {
-//     const isConfirmed = window.confirm("Are you sure you want to delete?");
-//     if (isConfirmed) {
-//       onDelete($id);
-//     }
-//   };
+const handleDeleteClick = (item) => {
+  const isConfirmed = window.confirm("Are you sure you want to delete?");
+  if (isConfirmed) {
+    onDelete(item);
+  }
+};
+
 
   const filteredData = data.filter((item) =>
     item.Question.toLowerCase().includes(searchTerm)
@@ -59,7 +60,7 @@ const FAQTable = ({ data }) => {
           onChange={handleSearchChange}
           sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
         />
-        <Button  startIcon={<AddIcon />}/>
+        <Button onClick={() => onCreate()} startIcon={<AddIcon />}/>
       </Box>
       <Table className="FAQ-table">
         <TableHead >
@@ -76,10 +77,10 @@ const FAQTable = ({ data }) => {
               <StyledTableCell>{item.Question}</StyledTableCell>
               <StyledTableCell>{item.Answer}</StyledTableCell>
               <TableCell className="FAQ-cell">
-                <Button sx={{ml:2}}  startIcon={<EditIcon />} />
+                <Button sx={{ml:2}} onClick={() => onEdit(item)} startIcon={<EditIcon />} />
               </TableCell>
               <TableCell className="FAQ-cell">
-                <Button sx ={{ml:2}} startIcon={<DeleteIcon />}/>
+                <Button sx ={{ml:2}} onClick={() => handleDeleteClick(item)} startIcon={<DeleteIcon />}/>
               </TableCell>
             </TableRow>
           ))}
@@ -105,6 +106,9 @@ const FAQTable = ({ data }) => {
 
 FAQTable.propTypes = {
   data: PropTypes.array.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired
 };
 
 export default FAQTable;
