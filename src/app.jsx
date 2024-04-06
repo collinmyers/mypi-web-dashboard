@@ -51,13 +51,7 @@ export default function App() {
                             <Route path="/edit-event" element={<EditEvent />} />
                         </Route>
 
-                        <Route element={<PrivateRoute allowedRoles="ManageEvents" />}>
-                            <Route path="/events" element={<EventEditor />} />
-                            <Route path="/create-event" element={<CreateEvent />} />
-                            <Route path="/edit-event" element={<EditEvent />} />
-                        </Route>
-
-
+                   
                         <Route element={<PrivateRoute allowedRoles="ManagePoints" />}>
                             <Route path="/points-of-interest" element={<POIEditor />} />
                             <Route path="/create-point-of-interest" element={<CreatePOI />} />
@@ -85,10 +79,10 @@ export default function App() {
 
                         <Route element={<PrivateRoute allowedRoles="ManageFaq" />}>
                             <Route path="/faq" element={<FAQ />} />
+                            <Route path="/edit-FAQ" element={<EditFAQ />} />
+                            <Route path="/create-FAQ" element={<CreateFAQ />} />
                         </Route>
 
-                        <Route path="/editFAQ" element={<EditFAQ />} />
-                        <Route path="/createFAQ" element={<CreateFAQ />} />
 
                     </Routes>
                 </BrowserRouter>

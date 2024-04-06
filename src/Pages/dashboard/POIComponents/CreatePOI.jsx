@@ -127,7 +127,7 @@ export default function CreatePOI() {
         <Button variant="contained" color="primary" onClick={handleSubmit}>
           Create POI
         </Button>
-        <Button variant="outlined" onClick={() => navigate("/poiEditor")}>
+        <Button variant="outlined" onClick={() => navigate("/points-of-interest")}>
           Back to POI Menu
         </Button>
       </Box>

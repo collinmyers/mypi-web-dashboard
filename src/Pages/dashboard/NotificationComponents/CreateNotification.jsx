@@ -125,7 +125,7 @@ export default function CreateNotification() {
         </Button>
         <Button
           variant="outlined"
-          onClick={() => navigate("/notificationEditor")}
+          onClick={() => navigate("/notifications")}
         >
           Back to Notification Menu
         </Button>

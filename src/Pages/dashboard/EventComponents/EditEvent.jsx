@@ -388,7 +388,7 @@ const handleFileChange = (e) => { //adjust to also DELETE the old image
         <input type="number" placeholder={"Latitude"} value={latitude} onChange={(e) => setLatitude(e.target.value)} />
         <input type="number" placeholder={ "Longitude"} value={longitude} onChange={(e) => setLongitude(e.target.value)} />
         <button className="editEventSubmit" onClick={handleSubmit} >Edit Event</button>
-        <button onClick={() => navigate("/eventEditor")}>go back</button>
+        <button onClick={() => navigate("/events")}>go back</button>
 
       </div>
     </div>
