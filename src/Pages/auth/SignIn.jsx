@@ -32,7 +32,7 @@ export default function LoginScreen() {
             await account.createEmailSession(email, password).then(() => {
                 ValidCreds();
                 setIsSignedIn(true);
-                navigate("/home");
+                navigate("/");
             }).catch((error) => { console.error(error); });
 
         } catch (error) {

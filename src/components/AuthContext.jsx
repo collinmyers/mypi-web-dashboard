@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
         try {
             await account.get().then((response) => {
                 if (response.labels.includes("PrivilegedUser")) {
-                    console.log("I have permission");
                     setIsSignedIn(true);
                 }
             }).catch(() => { console.log("Not Authorized"); });

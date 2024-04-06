@@ -42,12 +42,8 @@ export default function App() {
             <ThemeProvider theme={theme}>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={isSignedIn === true ? <Navigate to="/home" /> : <Signin />} />
+                        <Route path="/" element={isSignedIn === true ? <Overview /> : <Signin />} />
                         <Route path="/forgotPassword" element={<ForgotPassword />} />
-
-                        <Route element={<PrivateRoute allowedRoles="PrivilegedUser" />}>
-                            <Route path="/home" element={<Overview />} />
-                        </Route>
 
                         <Route element={<PrivateRoute allowedRoles="ManageEvents" />}>
                             <Route path="/events" element={<EventEditor />} />
