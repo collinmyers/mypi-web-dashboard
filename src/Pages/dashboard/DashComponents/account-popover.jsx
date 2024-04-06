@@ -4,17 +4,20 @@ import PropTypes from "prop-types";
 import { Box, Divider, MenuItem, MenuList, Popover, Typography } from "@mui/material";
 import { account } from "../../../utils/AppwriteConfig";
 import React from "react";
+import { useAuth } from "../../../components/AuthContext";
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open } = props;
-  const [accountInfo, setAccountInfo] = useState(null);
+  const [name, setName] = useState("");
+  const { setIsSignedIn } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await account.get();
-        setAccountInfo(response);
+        await account.get().then((response) => {
+          setName(response.name);
+        }).catch((error) => { throw new Error(error); });
       } catch (error) {
         console.error(error);
       }
@@ -26,8 +29,9 @@ export const AccountPopover = (props) => {
   const handleSignOut = async () => {
     try {
       await account.deleteSessions("current").then(() => {
+        setIsSignedIn(false);
         navigate("/");
-      });
+      }).catch((error) => { throw new Error(error); });
     } catch (error) {
       console.error(error);
     }
@@ -56,7 +60,7 @@ export const AccountPopover = (props) => {
       >
         <Typography variant="overline">Account</Typography>
         <Typography color="text.secondary" variant="body2">
-          {accountInfo ? accountInfo.name : ""}
+          {name}
         </Typography>
       </Box>
       <Divider />

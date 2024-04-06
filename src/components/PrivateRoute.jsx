@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import PropTypes from "prop-types"; // Import PropTypes
 import { account } from "../utils/AppwriteConfig";
 
 const PrivateRoute = ({ allowedRoles }) => {
@@ -10,10 +11,13 @@ const PrivateRoute = ({ allowedRoles }) => {
   useEffect(() => {
     const isAuthenticated = async () => {
       try {
-        const userSession = await account.get();
-        setIsSignedIn(userSession);
-        setIsPermitted(userSession.labels.includes(allowedRoles));
-        setIsLoading(false);
+        await account.get().then((userSession) => {
+          setIsSignedIn(userSession);
+          setIsPermitted(userSession.labels.includes(allowedRoles));
+          setIsLoading(false);
+        }).catch((error) => {
+          throw new Error(error);
+        });
       } catch (error) {
         console.error("Error checking authentication:", error);
         setIsLoading(false);
@@ -24,11 +28,14 @@ const PrivateRoute = ({ allowedRoles }) => {
   }, []);
 
   if (isLoading) {
-    console.log(isPermittted);
     return null;
   }
 
   return isSignedIn && isPermittted ? <Outlet /> : <Navigate to="/" />;
+};
+
+PrivateRoute.propTypes = {
+  allowedRoles: PropTypes.string.isRequired,
 };
 
 export default PrivateRoute;

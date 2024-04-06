@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { account } from "../../utils/AppwriteConfig";
 import myPIIcon from "/src/assets/myPI-Icon.png";
-
 import "../../styling/AuthStyling/AuthStyle.css";
+import { useAuth } from "../../components/AuthContext";
 
 export default function LoginScreen() {
     const navigate = useNavigate();
+    const { setIsSignedIn } = useAuth();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const InvalidCreds = () => {
         toast.error("Invalid Username or Password", {
@@ -23,46 +26,21 @@ export default function LoginScreen() {
     };
 
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        // Check if the user is already logged in
-        const checkLoggedInStatus = async () => {
-            try {
-                // Check if the user is already logged in
-                await account.get().then(()=>{
-                    setIsLoggedIn(true);
-                    navigate("/");
-                });
-
-            } catch (error) {
-                console.log("not Logged in");
-            }
-        };
-
-        checkLoggedInStatus();
-    }, []); // Empty dependency array ensures that this effect runs only once on component mount
 
     const handleLogin = async () => {
         try {
-            await account.createEmailSession(email, password);
+            await account.createEmailSession(email, password).then(() => {
+                ValidCreds();
+                setIsSignedIn(true);
+                navigate("/home");
+            }).catch((error) => { console.error(error); });
 
-            setEmail("");
-            setPassword("");
-            ValidCreds();
-            navigate("/");
         } catch (error) {
             InvalidCreds();
+            setIsSignedIn(false);
             console.error(error);
         }
     };
-
-    if (isLoggedIn) {
-        // Redirect the user to the dashboard if already logged in
-        return null;
-    }
 
     return (
         <div className="container">
@@ -87,7 +65,7 @@ export default function LoginScreen() {
                     />
                     <button className="SignInButton" onClick={handleLogin}>Sign In</button>
 
-                 
+
                 </div>
             </div>
         </div>
