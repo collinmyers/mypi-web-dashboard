@@ -7,7 +7,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Query } from "appwrite";
 import { ToastContainer, toast } from "react-toastify";
 
-
 export default function EditUser() {
 
     const location = useLocation();
