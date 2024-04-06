@@ -25,7 +25,7 @@ export default function EditUser() {
         ManageUsers: false,
         ManagePoints: false,
         ManageEvents: false,
-        ManageNotification: false,
+        ManageNotifications: false,
         ManagePermissions: false,
         ManageParkInfo: false,
         ManageFaq: false,
@@ -88,14 +88,20 @@ export default function EditUser() {
     };
 
     const handleSubmit = async () => {
+        const data = {
+            name: name,
+            email: email,
+            labels: labels,
+            targetUserID: userID
+        };
         try {
             await functions.createExecution(
                 EDITUSER_FUNCTION_ID,
-                "",
+                JSON.stringify(data),
                 false,
                 "/",
                 "PATCH",
-                { name: name, email: email, labels: [labels], targetUserID: userID }
+                data
             );
             await database.updateDocument(
                 DATABASE_ID,
@@ -215,11 +221,11 @@ export default function EditUser() {
                 <label>
                     <input
                         type="checkbox"
-                        name="ManageNotification"
-                        checked={checkedItems.ManageNotification}
+                        name="ManageNotifications"
+                        checked={checkedItems.ManageNotifications}
                         onChange={handleChange}
                     />
-                    ManageNotification
+                    ManageNotifications
                 </label>
                 <br></br>
 
