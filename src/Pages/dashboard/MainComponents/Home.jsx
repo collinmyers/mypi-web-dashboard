@@ -23,10 +23,10 @@ const Home = () => {
   const theme = useTheme();
 
   const pieData = {
-    labels: ["Total POI", "Total Events", "Total Notifications"],
+    labels: ["Total Events", "Total Notifications", "Total Points of Interest"],
     datasets: [
       {
-        data: [50, 35, 20],
+        data: [35, 20, 50],
         backgroundColor: [blue[500], green[500], orange[500]],
       },
     ],
@@ -37,21 +37,21 @@ const Home = () => {
   const stats = [
     {
       title: "Total Events",
-      value: 50,
+      value: 35,
       icon: <AddAlertIcon />,
       color: blue[500],
       link: links[0],
     },
     {
       title: "Total Notifications",
-      value: 35,
+      value: 20,
       icon: <CalendarMonthIcon />,
       color: green[500],
       link: links[1],
     },
     {
       title: "Total Points of Interests",
-      value: 20,
+      value: 50,
       icon: <MapIcon />,
       color: orange[500],
       link: links[2],
