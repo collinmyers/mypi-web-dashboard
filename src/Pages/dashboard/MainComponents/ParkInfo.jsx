@@ -69,7 +69,7 @@ export default function ParkInfo(){
   };
 
   const editParkInfo = (info) => {
-    navigate("/editParkInfo", {
+    navigate("/edit-park-info", {
       state: {
           ParkInfo: info,
       }
@@ -77,7 +77,7 @@ export default function ParkInfo(){
   };
 
   const createParkInfo = (info) =>{
-    navigate("/createParkInfo",{
+    navigate("/create-park-info",{
       state:{
         ParkInfo: info,
       }

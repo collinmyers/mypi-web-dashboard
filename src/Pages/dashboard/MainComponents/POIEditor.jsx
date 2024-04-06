@@ -30,9 +30,6 @@ export default function POIEdit() {
     getPOI();
   }, []); // Fetch all data initially
 
-  const navigateToDash = () => {
-    navigate("/dash");
-  };
 
   const getPOI = async () => {
     try {
@@ -51,7 +48,7 @@ export default function POIEdit() {
   };
 
   const editPOI = (item) => {
-    navigate("/editPOI", {
+    navigate("/edit-point-of-interest", {
       state: {
         poi: item,
       }
@@ -59,7 +56,7 @@ export default function POIEdit() {
   };
 
   const createPOI = () => {
-    navigate("/createPOI");
+    navigate("/create-point-of-interest");
   };
 
   const deletePOI = async (id) => {

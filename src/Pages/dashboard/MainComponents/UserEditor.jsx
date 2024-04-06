@@ -40,7 +40,7 @@ export default function Users() {
   }, []);
 
   const editUser = (item) => {
-    navigate("/editUser", {
+    navigate("/edit-user", {
       state: {
         user: item,
       }
@@ -58,13 +58,6 @@ export default function Users() {
     });
   };
 
-  // const deleteUser = async (id) => {
-  //   try {
-
-  //   } catch (error) {
-  //    ;
-  //   }
-  // };
 
   const handlePasswordReset = async (email) => {
     try {

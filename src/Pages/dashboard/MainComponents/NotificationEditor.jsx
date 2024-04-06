@@ -30,9 +30,6 @@ export default function NotificationEdit() {
     getNotifications();
   }, []); // Fetch all data initially
 
-  const navigateToDash = () => {
-    navigate("/dash");
-  };
 
   const getNotifications = async () => {
     try {
@@ -51,7 +48,7 @@ export default function NotificationEdit() {
   };
 
   const editNotification = (item) => {
-    navigate("/editNotification", {
+    navigate("/edit-notification", {
       state: {
         notification: item,
       }
@@ -59,7 +56,7 @@ export default function NotificationEdit() {
   };
 
   const createNotification = () => {
-    navigate("/createNotification");
+    navigate("/create-notification");
   };
 
   const deleteNotification = async (id) => {

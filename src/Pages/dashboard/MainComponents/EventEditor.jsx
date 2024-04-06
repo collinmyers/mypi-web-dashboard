@@ -18,9 +18,6 @@ export default function EventsEdit(){
     getEvents();
   },[]);
 
-  const navigateToDash = () => {
-    navigate("/dash");
-  };
 
   const getEvents = async () => {
     try {
@@ -59,14 +56,14 @@ export default function EventsEdit(){
   };
 
   const editEvent = (event) => {
-    navigate("/editEvent", {
+    navigate("/edit-event", {
       state: {
         Event: event,
       }
     });
   };
   const createEvent = () => {
-    navigate("/createEvent");
+    navigate("/create-event");
   };
 
   return (

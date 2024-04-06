@@ -69,7 +69,7 @@ export default function FAQ(){
   };
 
   const editFAQ = (faq) => {
-    navigate("/editFAQ", {
+    navigate("/edit-FAQ", {
       state: {
         FAQ: faq,
       }
@@ -77,7 +77,7 @@ export default function FAQ(){
   };
 
   const createFAQ = (faq) =>{
-    navigate("/createFAQ",{
+    navigate("/create-FAQ",{
       state:{
         FAQ: faq,
       }
