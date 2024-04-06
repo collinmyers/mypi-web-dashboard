@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,9 +22,6 @@ export default function LoginScreen() {
         });
     };
 
-    const navigateToDash = () => {
-        navigate("/dashLayout");
-    };
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -36,11 +32,10 @@ export default function LoginScreen() {
         const checkLoggedInStatus = async () => {
             try {
                 // Check if the user is already logged in
-                await account.get();
-
-                setIsLoggedIn(true);
-                // Redirect to the dashboard or another protected route
-                navigateToDash();
+                await account.get().then(()=>{
+                    setIsLoggedIn(true);
+                    navigate("/");
+                });
 
             } catch (error) {
                 console.log("not Logged in");
@@ -57,7 +52,7 @@ export default function LoginScreen() {
             setEmail("");
             setPassword("");
             ValidCreds();
-            navigateToDash();
+            navigate("/");
         } catch (error) {
             InvalidCreds();
             console.error(error);

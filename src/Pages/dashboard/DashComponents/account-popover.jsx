@@ -25,8 +25,9 @@ export const AccountPopover = (props) => {
 
   const handleSignOut = async () => {
     try {
-      await account.deleteSessions("current");
-      navigate("/");
+      await account.deleteSessions("current").then(() => {
+        navigate("/");
+      });
     } catch (error) {
       console.error(error);
     }
@@ -46,7 +47,7 @@ export const AccountPopover = (props) => {
       onClose={onClose}
       open={open}
       PaperProps={{ sx: { width: 200 } }}
-      >
+    >
       <Box
         sx={{
           py: 1.5,

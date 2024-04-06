@@ -1,25 +1,26 @@
-import ChartBarIcon from "@heroicons/react/24/solid/ChartBarIcon";
 import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddAlertIcon from "@mui/icons-material/AddAlert";
 import MapIcon from "@mui/icons-material/Map";
 import { SvgIcon } from "@mui/material";
 import React from "react";
-import { QuestionAnswerTwoTone, QuestionMarkRounded } from "@mui/icons-material";
+import { QuestionAnswerTwoTone } from "@mui/icons-material";
+import { HomeIcon } from "@heroicons/react/24/solid";
+import { InformationCircleIcon } from "@heroicons/react/24/solid";
 
 export const items = [
   {
-    title: "Overview",
-    path: "/overview",
+    title: "Home",
+    path: "/",
     icon: (
       <SvgIcon fontSize="small">
-        <ChartBarIcon />
+        <HomeIcon />
       </SvgIcon>
     ),
   },
   {
     title: "Users",
-    path: "/userEditor",
+    path: "/users",
     icon: (
       <SvgIcon fontSize="small">
         <UsersIcon />
@@ -28,7 +29,7 @@ export const items = [
   },
   {
     title: "Events",
-    path: "/eventEditor",
+    path: "/events",
     icon: (
       <SvgIcon fontSize="small">
         <CalendarMonthIcon />
@@ -37,7 +38,7 @@ export const items = [
   },
   {
     title: "Notifications",
-    path: "/notificationEditor",
+    path: "/notifications",
     icon: (
       <SvgIcon fontSize="small">
         <AddAlertIcon />
@@ -46,7 +47,7 @@ export const items = [
   },
   {
     title: "Points of Interest",
-    path: "/poiEditor",
+    path: "/points-of-interest",
     icon: (
       <SvgIcon fontSize="small">
         <MapIcon />
@@ -55,10 +56,10 @@ export const items = [
   },
   {
     title: "Park Info",
-    path: "/parkInfo",
+    path: "/park-info",
     icon: (
       <SvgIcon fontSize="small">
-        <QuestionMarkRounded />
+        <InformationCircleIcon />
       </SvgIcon>
     ),
   },
