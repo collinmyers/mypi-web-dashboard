@@ -59,7 +59,7 @@ export default function App() {
                         </Route>
 
 
-                        <Route element={<PrivateRoute allowedRoles="ManagePoints" />}>
+                        <Route element={<PrivateRoute allowedRoles="ManageNotifications" />}>
                             <Route path="/notifications" element={<NotificationEditor />} />
                             <Route path="/create-notification" element={<CreateNotification />} />
                             <Route path="/edit-notification" element={<EditNotification />} />
