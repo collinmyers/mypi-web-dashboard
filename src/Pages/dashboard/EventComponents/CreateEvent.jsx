@@ -285,7 +285,7 @@ try{
           <Button variant="contained" color="primary" onClick={handleButtonClick}>
             Create POI
           </Button>
-          <Button variant="outlined" onClick={() => navigate("/eventEditor")}>
+          <Button variant="outlined" onClick={() => navigate("/events")}>
             Back to POI Menu
           </Button>
         </Box>
