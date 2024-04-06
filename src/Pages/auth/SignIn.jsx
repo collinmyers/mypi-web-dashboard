@@ -29,10 +29,19 @@ export default function LoginScreen() {
 
     const handleLogin = async () => {
         try {
-            await account.createEmailSession(email, password).then(() => {
-                ValidCreds();
-                setIsSignedIn(true);
-                navigate("/");
+            await account.createEmailSession(email, password);
+            await account.get().then((response) => {
+                
+                if (response.labels.includes("PrivilegedUser")) {
+                    ValidCreds();
+                    setIsSignedIn(true);
+                    navigate("/");
+                } else {
+                    account.deleteSessions();
+                    InvalidCreds();
+                    setIsSignedIn(false);
+                }
+
             }).catch((error) => { console.error(error); });
 
         } catch (error) {
