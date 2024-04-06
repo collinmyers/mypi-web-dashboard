@@ -5,7 +5,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import PrivateRoute from "./components/PrivateRoute";
 import Signin from "./Pages/auth/SignIn";
 import ForgotPassword from "./Pages/auth/ForgotPassword";
-import Overview from "./Pages/dashboard/MainComponents/Overview";
+import Home from "./Pages/dashboard/MainComponents/Home";
 import EventEditor from "./Pages/dashboard/MainComponents/EventEditor";
 import CreateEvent from "./Pages/dashboard/EventComponents/CreateEvent";
 import EditEvent from "./Pages/dashboard/EventComponents/EditEvent";
@@ -22,7 +22,6 @@ import FAQ from "./Pages/dashboard/MainComponents/FAQ";
 import EditFAQ from "./Pages/dashboard/FAQComponents/EditFAQ";
 import CreateFAQ from "./Pages/dashboard/FAQComponents/CreateFAQ";
 import { useAuth } from "./components/AuthContext";
-
 export default function App() {
 
     const { isSignedIn } = useAuth();
@@ -42,7 +41,7 @@ export default function App() {
             <ThemeProvider theme={theme}>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={isSignedIn === true ? <Overview /> : <Signin />} />
+                        <Route path="/" element={isSignedIn === true ? <Home /> : <Signin />} />
                         <Route path="/forgotPassword" element={<ForgotPassword />} />
 
                         <Route element={<PrivateRoute allowedRoles="ManageEvents" />}>
@@ -51,7 +50,6 @@ export default function App() {
                             <Route path="/edit-event" element={<EditEvent />} />
                         </Route>
 
-                   
                         <Route element={<PrivateRoute allowedRoles="ManagePoints" />}>
                             <Route path="/points-of-interest" element={<POIEditor />} />
                             <Route path="/create-point-of-interest" element={<CreatePOI />} />
@@ -65,24 +63,20 @@ export default function App() {
                             <Route path="/edit-notification" element={<EditNotification />} />
                         </Route>
 
-
                         <Route element={<PrivateRoute allowedRoles="ManageUsers" />}>
                             <Route path="/users" element={<UserEditor />} />
                             <Route path="/edit-user" element={<EditUser />} />
                         </Route>
 
-
                         <Route element={<PrivateRoute allowedRoles="ManageParkInfo" />}>
                             <Route path="/park-info" element={<ParkInfo />} />
                         </Route>
-
 
                         <Route element={<PrivateRoute allowedRoles="ManageFaq" />}>
                             <Route path="/faq" element={<FAQ />} />
                             <Route path="/edit-FAQ" element={<EditFAQ />} />
                             <Route path="/create-FAQ" element={<CreateFAQ />} />
                         </Route>
-
 
                     </Routes>
                 </BrowserRouter>
