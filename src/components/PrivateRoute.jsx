@@ -28,7 +28,7 @@ const PrivateRoute = ({ allowedRoles }) => {
   }, []);
 
   if (isLoading) {
-    return null;
+    return <div>Loading...</div>; 
   }
 
   return isSignedIn && isPermittted ? <Outlet /> : <Navigate to="/" />;
