@@ -262,8 +262,7 @@ try{
         <input
           type="text"
           placeholder="Latitude"
-          value={latitude}
-          onChange={(e) => {
+            onChange={(e) => {
             const value = e.target.value;
             if (/^-?\d*\.?\d*$/.test(value)) {
               setLatitude(parseFloat(value));
@@ -273,7 +272,6 @@ try{
         <input
           type="text"
           placeholder="Longitude"
-          value={longitude}
           onChange={(e) => {
             const value = e.target.value;
             if (/^-?\d*\.?\d*$/.test(value)) {
