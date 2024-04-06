@@ -57,17 +57,28 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
 
   return (
     <Card sx={{ height: 580 }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 800 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          minWidth: 800,
+        }}
+      >
         <TextField
-          placeholder="Search by name..."
+          placeholder="Search by Name..."
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
-          sx={{ mb: 2, ml: 1, width: 350, height: 1, mt: 1 }}
+          sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
         />
-        <Button onClick={() => createEvent()} startIcon={<AddIcon />} className="create-event-button">
-          
-        </Button>
+        <Tooltip title="Create New Event" placement="bottom">
+        <Button
+          onClick={() => createEvent()}
+          startIcon={<AddIcon />}
+          className="create-event-button"
+        ></Button>
+        </Tooltip>
       </Box>
       <Table sx={{ minHeight: 400 }}>
         <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
@@ -92,16 +103,31 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
               <ScrollableTableCell>{item.Date}</ScrollableTableCell>
               <ScrollableTableCell>{item.Time}</ScrollableTableCell>
               <ScrollableTableCell>
-                <Tooltip title={item.EventDetailsDescription} placement="bottom-start">
+                <Tooltip
+                  title={item.EventDetailsDescription}
+                  placement="bottom-start"
+                >
                   {item.EventListDescription}
                 </Tooltip>
               </ScrollableTableCell>
-              <ScrollableTableCell>{item.EventDetailsDescription}</ScrollableTableCell>
               <ScrollableTableCell>
-                <Button sx = {{ml:2}} onClick={() => editEvent(item)} startIcon={<EditIcon />} className="edit-button" />
+                {item.EventDetailsDescription}
               </ScrollableTableCell>
               <ScrollableTableCell>
-                <Button sx={{ml:2}} onClick={() => handleDeleteClick(item)} startIcon={<DeleteIcon />} className="delete-button" />
+                <Button
+                  sx={{ ml: 2 }}
+                  onClick={() => editEvent(item)}
+                  startIcon={<EditIcon />}
+                  className="edit-button"
+                />
+              </ScrollableTableCell>
+              <ScrollableTableCell>
+                <Button
+                  sx={{ ml: 2 }}
+                  onClick={() => handleDeleteClick(item)}
+                  startIcon={<DeleteIcon />}
+                  className="delete-button"
+                />
               </ScrollableTableCell>
             </TableRow>
           ))}

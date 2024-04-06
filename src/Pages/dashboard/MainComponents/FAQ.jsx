@@ -5,6 +5,7 @@ import FAQTable from "../FAQComponents/FAQTable";
 import { database } from "../../../utils/AppwriteConfig";
 import { FAQ_COLLECTION_ID } from "../../../utils/AppwriteConfig";
 import { DATABASE_ID } from "../../../utils/AppwriteConfig";
+import { toast,ToastContainer } from "react-toastify";
 
 import Layout from "./Layout"; 
 
@@ -16,6 +17,21 @@ export default function FAQ(){
     getFAQs();
     
   },[]);
+
+
+  const SuccessfulDeletion = () => {
+    toast.success("FAQ deleted", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+
+  const FailedDeletion = () => {
+    toast.error("Failed to delete FAQ", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+
+  
 
   const getFAQs = async () =>{
     try {
@@ -35,14 +51,53 @@ export default function FAQ(){
 
   };
 
+  const deletFAQ = async (faq) =>{
+    try{
+      console.log(faq.$id);
+      await database.deleteDocument(DATABASE_ID,FAQ_COLLECTION_ID,faq.$id);
+      //success toast
+      getFAQs();
+      SuccessfulDeletion();
+
+    } catch(error){
+      console.log(error);
+      FailedDeletion();
+      //failtoast
+
+    } 
+  
+  };
+
+  const editFAQ = (faq) => {
+    navigate("/editFAQ", {
+      state: {
+        FAQ: faq,
+      }
+    });
+  };
+
+  const createFAQ = (faq) =>{
+    navigate("/createFAQ",{
+      state:{
+        FAQ: faq,
+      }
+
+    });
+
+
+  };
+
+
+
   const navigateToDash = () => {
     navigate("/dash");
   };
 
   return (
     <Layout> {/* Wrap your content inside the Layout component */}
+      <ToastContainer/>
       <div>             
-          <FAQTable data={data}/>
+          <FAQTable data={data} onDelete = {deletFAQ} onEdit = {editFAQ} onCreate ={createFAQ}/>
       </div>
     </Layout>
   );

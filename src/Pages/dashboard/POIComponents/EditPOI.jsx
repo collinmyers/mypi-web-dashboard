@@ -139,7 +139,7 @@ export default function EditPOI(){
             </Grid>
             <Grid item>
               <Button variant="outlined" onClick={() => navigate("/poiEditor")}>
-                Go Back
+                Back to POI Menu
               </Button>
             </Grid>
           </Grid>

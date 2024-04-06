@@ -16,7 +16,7 @@ const StyledTableCell = styled(TableCell)({
 //   backgroundColor: "white",
 });
 
-const FAQTable = ({ data, onDelete, onEdit, onCreate }) => {
+const ParkInfoTable = ({ data, onDelete, onEdit, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0); // Zero-based indexing
   const [pageSize, setPageSize] = useState(6);
@@ -35,7 +35,7 @@ const handleDeleteClick = (item) => {
 
 
   const filteredData = data.filter((item) =>
-    item.Question.toLowerCase().includes(searchTerm)
+    item.Title.toLowerCase().includes(searchTerm)
   );
 
   const startIndex = currentPage * pageSize;
@@ -60,13 +60,13 @@ const handleDeleteClick = (item) => {
           onChange={handleSearchChange}
           sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
         />
-        <Button onClick={() => onCreate()} startIcon={<AddIcon />}/>
+        <Button  startIcon={<AddIcon />}/>
       </Box>
       <Table className="FAQ-table">
         <TableHead >
           <TableRow className="FAQ-row">
-          <StyledTableCell>Question</StyledTableCell>
-          <StyledTableCell>Answer</StyledTableCell>
+          <StyledTableCell>Title</StyledTableCell>
+          <StyledTableCell>Description</StyledTableCell>
           <StyledTableCell>Edit</StyledTableCell>
           <StyledTableCell>Delete</StyledTableCell>
           </TableRow>
@@ -74,13 +74,13 @@ const handleDeleteClick = (item) => {
         <TableBody>
           {currentPageData.map((item) => (
             <TableRow key={item.$id}>
-              <StyledTableCell>{item.Question}</StyledTableCell>
-              <StyledTableCell>{item.Answer}</StyledTableCell>
+              <StyledTableCell>{item.Title}</StyledTableCell>
+              <StyledTableCell>{item.Description}</StyledTableCell>
               <TableCell className="FAQ-cell">
-                <Button sx={{ml:2}} onClick={() => onEdit(item)} startIcon={<EditIcon />} />
+                <Button sx={{ml:2}}  startIcon={<EditIcon />} />
               </TableCell>
               <TableCell className="FAQ-cell">
-                <Button sx ={{ml:2}} onClick={() => handleDeleteClick(item)} startIcon={<DeleteIcon />}/>
+                <Button sx ={{ml:2}}  startIcon={<DeleteIcon />}/>
               </TableCell>
             </TableRow>
           ))}
@@ -104,11 +104,11 @@ const handleDeleteClick = (item) => {
   );
 };
 
-FAQTable.propTypes = {
+ParkInfoTable.propTypes = {
   data: PropTypes.array.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired
 };
 
-export default FAQTable;
+export default ParkInfoTable;

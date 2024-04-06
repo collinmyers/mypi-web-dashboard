@@ -42,7 +42,7 @@ export default function App() {
                 //     return true;
                 // }
                 return true;
-            }).catch(() => {console.log("some error");});
+            }).catch(() => { console.log("some error"); });
         } catch (error) {
             console.error(error);
             return false;
@@ -57,7 +57,7 @@ export default function App() {
 
     }, [signInState]);
 
-    if (isalO)
+    // if (isSigned)
 
     return (
         <ThemeProvider theme={theme}>
@@ -107,6 +107,9 @@ export default function App() {
                     <Route element={<PrivateRoute allowedRoles="ManageFaq" />}>
                         <Route path="/faq" element={<FAQ />} />
                     </Route>
+
+                    <Route path="/editFAQ" element={<EditFAQ />} />
+                    <Route path="/createFAQ" element={<CreateFAQ />} />
 
                 </Routes>
             </BrowserRouter>

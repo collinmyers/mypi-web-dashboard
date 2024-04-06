@@ -70,3 +70,6 @@ body {
     border-color: #FFB238;
   }
   
+
+  /* File may not be necessary, as MUI's sx prop allows for dynamic styling of components. 
+  Helps to adjust the buttons more 'easily' I suppose. */

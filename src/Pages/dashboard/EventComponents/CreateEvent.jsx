@@ -13,11 +13,7 @@ import {storage} from "../../../utils/AppwriteConfig";
 import {BUCKET_ID} from "../../../utils/AppwriteConfig";
 import {EVENTS_COLLECTION_ID} from "../../../utils/AppwriteConfig";
 import {DATABASE_ID} from "../../../utils/AppwriteConfig";
-
-
-
-
-
+import { Button, Box } from "@mui/material";
 
 export default function CreateEvent(){
   const[fileID,setFileID] = useState("");
@@ -163,9 +159,7 @@ try{
   }catch(error){
     console.log(error);
     creationFailed();
-
-  }
- 
+    }
   };
 
 
@@ -189,60 +183,114 @@ try{
   
   return (
     <div>
-    <ToastContainer/>
-    <div className="newEventContainer">
-    <h1 className="title">New Event</h1>
-        <input className="uploader" type="file" key={uploaderKey} id="uploader" onChange={handleFileChange} multiple/>
-        <input className="eventName" type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-        
-        <button onClick={toggleMode}>
-        {dateMode === "range" ? "Select Single Date" : "Select Date Range"}
-      </button>
-      {dateMode === "range" ? (
-        <div>
-          <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} selectsStart startDate={startDate} endDate={endDate} placeholderText="Start Date"/>
-          <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} selectsEnd startDate={startDate} endDate={endDate} minDate={startDate} placeholderText="End Date"/>
-        </div>
-      ) : (
-        <DatePicker selected={startDate} onChange={(date) => {
-            setStartDate(date);
-            setEndDate(date); // Set end date to the same date for single date selection
-          }}
-          placeholderText="Select Date"
+      <ToastContainer />
+      <div className="newEventContainer">
+        <h1 className="title">New Event</h1>
+        <input
+          className="uploader"
+          type="file"
+          key={uploaderKey}
+          id="uploader"
+          onChange={handleFileChange}
+          multiple
         />
-      )}
+        <input
+          className="eventName"
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
 
-      <label>
-      Start Time:
-      <input type="time" onChange={(e) => setStartTime(e.target.value)} />
-    </label>
-    <br />
-    <label>
-      End Time:
-      <input type="time" onChange={(e) => setEndTime(e.target.value)} />
-    </label>
-    <br />
+        <button onClick={toggleMode}>
+          {dateMode === "range" ? "Select Single Date" : "Select Date Range"}
+        </button>
+        {dateMode === "range" ? (
+          <div>
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              selectsStart
+              startDate={startDate}
+              endDate={endDate}
+              placeholderText="Start Date"
+            />
+            <DatePicker
+              selected={endDate}
+              onChange={(date) => setEndDate(date)}
+              selectsEnd
+              startDate={startDate}
+              endDate={endDate}
+              minDate={startDate}
+              placeholderText="End Date"
+            />
+          </div>
+        ) : (
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => {
+              setStartDate(date);
+              setEndDate(date); // Set end date to the same date for single date selection
+            }}
+            placeholderText="Select Date"
+          />
+        )}
 
-        <input type="text" placeholder="Short Description" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} />
-        <input type="text" placeholder="Long Description" value={longDescription} onChange={(e) => setLongDescription(e.target.value)} />
-        <input type="text" placeholder="Latitude" value={latitude}  onChange={(e) => {
-          const value = e.target.value;
-          if (/^-?\d*\.?\d*$/.test(value)) {
-          
-            setLatitude(parseFloat(value));
-          }
-        }}/>
-        <input type="text" placeholder="Longitude" value={longitude} onChange={(e) => {const value = e.target.value;
-          if (/^-?\d*\.?\d*$/.test(value)) {
+        <label>
+          Start Time:
+          <input type="time" onChange={(e) => setStartTime(e.target.value)} />
+        </label>
+        <br />
+        <label>
+          End Time:
+          <input type="time" onChange={(e) => setEndTime(e.target.value)} />
+        </label>
+        <br />
 
-            setLongitude(parseFloat(value));
-          }
-        }}/>
-        <button onClick={handleButtonClick}>Submit</button>
-        <button onClick={() => navigate("/eventEditor")}>go back</button>
-
-        </div>
+        <input
+          type="text"
+          placeholder="Short Description"
+          value={shortDescription}
+          onChange={(e) => setShortDescription(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Long Description"
+          value={longDescription}
+          onChange={(e) => setLongDescription(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Latitude"
+          value={latitude}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (/^-?\d*\.?\d*$/.test(value)) {
+              setLatitude(parseFloat(value));
+            }
+          }}
+        />
+        <input
+          type="text"
+          placeholder="Longitude"
+          value={longitude}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (/^-?\d*\.?\d*$/.test(value)) {
+              setLongitude(parseFloat(value));
+            }
+          }}
+        />
+        <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 2 }}>
+          <Button variant="contained" color="primary" onClick={handleButtonClick}>
+            Create POI
+          </Button>
+          <Button variant="outlined" onClick={() => navigate("/eventEditor")}>
+            Back to POI Menu
+          </Button>
+        </Box>
       </div>
+    </div>
   );
 }
 

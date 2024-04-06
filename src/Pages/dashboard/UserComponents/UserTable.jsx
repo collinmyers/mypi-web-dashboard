@@ -61,7 +61,7 @@ const UserTable = ({ allData, passwordReset, onEdit }) => {
     <Card sx={{ height: 580 }}>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minWidth: 800 }}>
         <TextField
-          placeholder="Search by name..."
+          placeholder="Search by Name..."
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
