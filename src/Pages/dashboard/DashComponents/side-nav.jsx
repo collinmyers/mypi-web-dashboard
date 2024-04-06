@@ -17,7 +17,7 @@ import logo from "../../../assets/myPI-Icon.png";
 import LogoutSharp from "@mui/icons-material/LogoutSharp";
 import { useAuth } from "../../../components/AuthContext";
 import { account } from "../../../utils/AppwriteConfig";
-
+import { useState, useEffect } from "react";
 
 
 export const SideNav = (props) => {
@@ -26,16 +26,42 @@ export const SideNav = (props) => {
   const navigate = useNavigate(); // Use navigate for redirecting after logout
   const pathname = location.pathname; // Get the current pathname
   const { setIsSignedIn } = useAuth();
+  const [name, setName] = useState("");
 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await account
+          .get()
+          .then((response) => {
+            setName(response.name);
+          })
+          .catch((error) => {
+            throw new Error(error);
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures this effect runs only once
 
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
 
-  const handleLogout = async () => {  // Logout function
-   try {
-      await account.deleteSessions("current").then(() => {
-        setIsSignedIn(false);
-        navigate("/");
-      }).catch((error) => { throw new Error(error); });
+  const handleLogout = async () => {
+    // Logout function
+    try {
+      await account
+        .deleteSessions("current")
+        .then(() => {
+          setIsSignedIn(false);
+          navigate("/");
+        })
+        .catch((error) => {
+          throw new Error(error);
+        });
     } catch (error) {
       console.error(error);
     }
@@ -85,7 +111,6 @@ export const SideNav = (props) => {
           </div>
         </Box>
       </Box>
-      <Divider sx={{ borderColor: "neutral.700" }} />
       <Box
         component="nav"
         sx={{
@@ -121,7 +146,9 @@ export const SideNav = (props) => {
           })}
         </Stack>
       </Box>
-      <Divider sx={{ borderColor: "neutral.700", mt: "auto" }} />{" "}
+      <Typography textAlign="center" fontWeight="bold" color="text.tertiary" variant="body2">
+        {name}
+      </Typography>
       {/* Ensure divider is at the bottom */}
       {/* Logout Button */}
       <Box sx={{ p: 2 }}>
@@ -135,8 +162,8 @@ export const SideNav = (props) => {
           onClick={handleLogout}
           sx={{
             color: "#FFFFFF",
-            justifyContent: "flex-start",
             textTransform: "none",
+            justifyContent: "center",
           }}
         >
           Logout

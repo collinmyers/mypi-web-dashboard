@@ -4,7 +4,7 @@ import AddAlertIcon from "@mui/icons-material/AddAlert";
 import MapIcon from "@mui/icons-material/Map";
 import { SvgIcon } from "@mui/material";
 import React from "react";
-import { LogoutSharp, QuestionAnswerTwoTone } from "@mui/icons-material";
+import { QuestionAnswerTwoTone } from "@mui/icons-material";
 import { HomeIcon } from "@heroicons/react/24/solid";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 

@@ -23,7 +23,6 @@ const TOP_NAV_HEIGHT = 64;
 export const TopNav = (props) => {
     const { onNavOpen } = props;
     const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
-    const accountPopover = usePopover();
   
     return (
       <>
@@ -75,25 +74,13 @@ export const TopNav = (props) => {
             spacing={6}
             >
            
-            <Avatar
-              onClick={accountPopover.handleOpen}
-              ref={accountPopover.anchorRef}
-              sx={{
-                cursor: "pointer",
-                height: 40,
-                width: 40,
-                mr:100,
-                ml: 2 
-              }}
-            />
+            
+            
             </Stack>
             </Stack>
         </Box>
-        <AccountPopover 
-          anchorEl={accountPopover.anchorRef.current}
-          open={accountPopover.open}
-          onClose={accountPopover.handleClose}
-        />
+        
+        
       </>
     );
   };
