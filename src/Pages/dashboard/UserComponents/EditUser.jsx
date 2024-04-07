@@ -102,12 +102,15 @@ export default function EditUser() {
                 "PATCH",
                 data
             );
-            await database.updateDocument(
-                DATABASE_ID,
-                USER_ALIAS_TABLE_ID,
-                userAliasDocID,
-                { UserID: userID, UserName: alias }
-            );
+            if(alias != ""){
+                await database.updateDocument(
+                    DATABASE_ID,
+                    USER_ALIAS_TABLE_ID,
+                    userAliasDocID,
+                    { UserID: userID, UserName: alias }
+                );
+            }
+
             Successful();
         } catch (error) {
             console.log(error);
