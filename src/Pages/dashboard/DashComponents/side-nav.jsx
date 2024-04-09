@@ -1,30 +1,83 @@
 import PropTypes from "prop-types";
-import { Box, Button, Divider, Drawer, Stack, SvgIcon, Typography, useMediaQuery } from "@mui/material";
-import { Link, useLocation } from "react-router-dom"; // Updated import
+import {
+  Box,
+  Button,
+  Divider,
+  Drawer,
+  Stack,
+  SvgIcon,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import { Link, useLocation, useNavigate } from "react-router-dom"; // Include useNavigate
 import { items } from "./config";
 import { SideNavItem } from "./side-nav-item";
 import React from "react";
 import logo from "../../../assets/myPI-Icon.png";
+import LogoutSharp from "@mui/icons-material/LogoutSharp";
+import { useAuth } from "../../../components/AuthContext";
+import { account } from "../../../utils/AppwriteConfig";
+import { useState, useEffect } from "react";
+
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const location = useLocation();
+  const navigate = useNavigate(); // Use navigate for redirecting after logout
   const pathname = location.pathname; // Get the current pathname
+  const { setIsSignedIn } = useAuth();
+  const [name, setName] = useState("");
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await account
+          .get()
+          .then((response) => {
+            setName(response.name);
+          })
+          .catch((error) => {
+            throw new Error(error);
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures this effect runs only once
 
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
+
+  const handleLogout = async () => {
+    // Logout function
+    try {
+      await account
+        .deleteSessions("current")
+        .then(() => {
+          setIsSignedIn(false);
+          navigate("/");
+        })
+        .catch((error) => {
+          throw new Error(error);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const content = (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
-        height: "100vh", // Set height to full viewport height
-        overflowY: "hidden",
-        minWidth: "50%", // Hide vertical scrollbar
-      
+        height: "100vh",
+        overflowY: "auto", // Updated for scrolling
+        minWidth: "50%",
       }}
     >
-      <Box sx={{ p: 1, ml:1 }}>
+      <Box sx={{ p: 1, ml: 1 }}>
         <Box
           sx={{
             alignItems: "center",
@@ -33,7 +86,7 @@ export const SideNav = (props) => {
             display: "flex",
             justifyContent: "space-between",
             mt: 0,
-            p: "20px"
+            p: "20px",
           }}
         >
           <div>
@@ -41,45 +94,43 @@ export const SideNav = (props) => {
               color="inherit"
               variant="subtitle1"
               fontSize={30}
-              sx ={{mb:1,mt:0}}
-              style={{fontWeight: "bold"}}
+              sx={{ mb: 1, mt: 0 }}
+              style={{ fontWeight: "bold" }}
               textAlign="center"
             >
               MyPI
-            </Typography>  
+            </Typography>
             <Typography
               color="neutral.400"
               variant="body2"
               textAlign="center"
-              style={{fontWeight: "bold"}}
+              style={{ fontWeight: "bold" }}
             >
-              Admin Dashboard  
+              Admin Dashboard
             </Typography>
           </div>
-         
         </Box>
       </Box>
-      <Divider sx={{ borderColor: "neutral.700" }} />
       <Box
         component="nav"
         sx={{
           flexGrow: 1,
           px: 2,
           py: 3,
-          overflowY: "auto", // Allow content to scroll if it exceeds container height
+          overflowY: "auto",
         }}
       >
         <Stack
           component="ul"
-          spacing={"15%"} //sapcing between items on side nav
+          spacing={"5%"} // Adjust spacing between items
           sx={{
             listStyle: "none",
             p: 0,
-            m: 0
+            m: 0,
           }}
         >
           {items.map((item) => {
-            const active = item.path ? (pathname === item.path) : false;
+            const active = item.path ? pathname === item.path : false;
 
             return (
               <SideNavItem
@@ -95,7 +146,29 @@ export const SideNav = (props) => {
           })}
         </Stack>
       </Box>
-      <Divider sx={{ borderColor: "neutral.700" }} />
+      <Typography textAlign="center" fontWeight="bold" color="text.tertiary" variant="body2">
+        {name}
+      </Typography>
+      {/* Ensure divider is at the bottom */}
+      {/* Logout Button */}
+      <Box sx={{ p: 2 }}>
+        <Button
+          fullWidth
+          startIcon={
+            <SvgIcon>
+              <LogoutSharp />
+            </SvgIcon>
+          }
+          onClick={handleLogout}
+          sx={{
+            color: "#FFFFFF",
+            textTransform: "none",
+            justifyContent: "center",
+          }}
+        >
+          Logout
+        </Button>
+      </Box>
     </Box>
   );
 
@@ -108,8 +181,8 @@ export const SideNav = (props) => {
           sx: {
             backgroundColor: "#005588",
             color: "#FFFFFF",
-            width: 235   // Set the width of the drawer
-          }
+            width: 235,
+          },
         }}
         variant="permanent"
       >
@@ -125,10 +198,10 @@ export const SideNav = (props) => {
       open={open}
       PaperProps={{
         sx: {
-          backgroundColor: "#005588 ",
+          backgroundColor: "#005588",
           color: "#FFFFFF",
-          width: 220
-        }
+          width: 220,
+        },
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
       variant="temporary"
@@ -140,5 +213,5 @@ export const SideNav = (props) => {
 
 SideNav.propTypes = {
   onClose: PropTypes.func,
-  open: PropTypes.bool
+  open: PropTypes.bool,
 };

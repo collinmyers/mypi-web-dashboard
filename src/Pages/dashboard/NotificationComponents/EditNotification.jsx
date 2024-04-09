@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../../styling/NotificationStyling/EditNotificationStyle.css";
 // import {ID} from "appwrite";
-import {database} from "../../../utils/AppwriteConfig";
+import { database, functions, PUSH_NOTIFICATION_ID } from "../../../utils/AppwriteConfig";
 
-import {ALERTS_COLLECTION_ID} from "../../../utils/AppwriteConfig";
-import {DATABASE_ID} from "../../../utils/AppwriteConfig";
-import { toast, ToastContainer} from "react-toastify";
+import { ALERTS_COLLECTION_ID } from "../../../utils/AppwriteConfig";
+import { DATABASE_ID } from "../../../utils/AppwriteConfig";
+import { toast, ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import {
   Typography,
@@ -23,7 +23,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 
 
-export default function EditNotification(){
+export default function EditNotification() {
   const location = useLocation();
   let notification = location.state.notification;
 
@@ -48,7 +48,30 @@ export default function EditNotification(){
     });
   };
 
-  useEffect(() => {});
+  async function schedulePushNotification(notifTitle, notifBody) {
+
+    // Function parameters
+    const params = {
+      title: notifTitle,
+      body: notifBody
+    };
+
+    try {
+      await functions.createExecution(
+        PUSH_NOTIFICATION_ID,
+        JSON.stringify(params),
+        false,
+        "/",
+        "POST",
+        params
+      );
+    } catch (err) {
+      console.error(err.message);
+    }
+
+  }
+
+  useEffect(() => { });
 
   const handleSubmit = async () => {
     console.log(alertType);
@@ -67,6 +90,9 @@ export default function EditNotification(){
         notification.$id,
         data
       );
+      if (alertType == "both" || alertType == "push") {
+        schedulePushNotification(title, details);
+      }
       Successful();
     } catch (error) {
       Failed();
@@ -76,12 +102,12 @@ export default function EditNotification(){
 
   return (
     <Container>
-      <ToastContainer/>
+      <ToastContainer />
       <Typography variant="h4" gutterBottom className="editNotifTitle">
         Edit Notification
       </Typography>
 
-      <Box component="form"  noValidate sx={{ mt: 1 }}>
+      <Box component="form" noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
           required
@@ -119,20 +145,20 @@ export default function EditNotification(){
 
         {/* Similar for Notification Type */}
 
-<div className="buttonWrapper">
+        <div className="buttonWrapper">
 
-        <Button onClick={handleSubmit} variant="contained" className="actionButton">
-          Edit Notification
-        </Button>
+          <Button onClick={handleSubmit} variant="contained" className="actionButton">
+            Edit Notification
+          </Button>
 
-        <Button
-          startIcon={<ArrowBackIcon />}
-          onClick={() => navigate("/notifications")}
-          variant="outlined"
-          className="actionButton"
-        >
-          Go Back
-        </Button>
+          <Button
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate("/notifications")}
+            variant="outlined"
+            className="actionButton"
+          >
+            Go Back
+          </Button>
         </div>
       </Box>
     </Container>

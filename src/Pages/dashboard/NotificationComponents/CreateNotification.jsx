@@ -12,7 +12,7 @@ import {
   Box,
 } from "@mui/material";
 import { ID } from "appwrite";
-import { database } from "../../../utils/AppwriteConfig";
+import { PUSH_NOTIFICATION_ID, database, functions } from "../../../utils/AppwriteConfig";
 import {
   ALERTS_COLLECTION_ID,
   DATABASE_ID,
@@ -39,6 +39,29 @@ export default function CreateNotification() {
     });
   };
 
+  async function schedulePushNotification(notifTitle, notifBody) {
+
+    // Function parameters
+    const params = {
+      title: notifTitle,
+      body: notifBody
+    };
+
+    try {
+      await functions.createExecution(
+        PUSH_NOTIFICATION_ID,
+        JSON.stringify(params),
+        false,
+        "/",
+        "POST",
+        params
+      );
+    } catch (err) {
+      console.error(err.message);
+    }
+
+  }
+
   const handleSubmit = async () => {
     const data = {
       Title: title,
@@ -54,6 +77,9 @@ export default function CreateNotification() {
         ID.unique(),
         data
       );
+      if (alertType == "both" || alertType == "push") {
+        schedulePushNotification(title, details);
+      }
       clearInput();
       SuccessfulCreation();
     } catch (response) {
