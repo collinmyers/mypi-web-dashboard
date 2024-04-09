@@ -41,6 +41,9 @@ export default function CreateEvent(){
   const [selectedImageId, setSelectedImageId] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [extraTitle, setExtraTitle] = useState([]);
+  const [extraURL, setExtraURL] = useState([]);
+
 
 
 
@@ -147,6 +150,8 @@ const uploadFiles = async () => {
       Longitude: longitude,
       Time: timeRangeString || null,
       FileID: uploadedFileIDs,
+      ExtraInfoTitle: extraTitle,
+      ExtraInfoURL:extraURL,
     };
 
     createdDoc(data);
@@ -250,6 +255,27 @@ try{
     
     setFiles(updatedImageUrls); 
     
+  };
+
+  const handleExtraTitleChange = (index, event) => {
+    const temp = [...extraTitle];
+    temp[index] = event.target.value;
+    setExtraTitle(temp);
+  };
+
+  const handleExtraURLChange = (index, event) => {
+    const temp = [...extraURL];
+    temp[index] = event.target.value;
+    setExtraURL(temp);
+  };
+
+  const addInputs = () => {
+    if (extraTitle.length === extraURL.length) {
+      setExtraTitle([...extraTitle, ""]);
+      setExtraURL([...extraURL, ""]);
+    } else {
+      console.error('Arrays are out of sync');
+    }
   };
   return (
     <div>
@@ -409,6 +435,26 @@ try{
             }
           }}
         />
+        {extraTitle.map((title, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              placeholder={`Extra Info Title ${index + 1}`}
+              value={title}
+              onChange={(event) => handleExtraTitleChange(index, event)}
+            />
+            {extraURL[index] !== undefined && (
+              <input
+                type="text"
+                placeholder={`Extra Info Link ${index + 1}`}
+                value={extraURL[index]}
+                onChange={(event) => handleExtraURLChange(index, event)}
+              />
+            )}
+          </div>
+        ))}
+        <button onClick={addInputs}>Add More</button>
+
         </div>
         </div>
         <Box sx={{ display: "flex",  justifyContent: "center", gap: 1, mt: 2 }}>
