@@ -140,6 +140,8 @@ const uploadFiles = async () => {
       uploadedFileIDs.push(response.$id);
       // setFileCount(fileCount + 1);
     }
+const cleanExtraTitle = extraTitle.filter((title, index) => title.trim() !== '' && extraURL[index].trim() !== '');
+const cleanExtraURL = extraURL.filter((url, index) => extraTitle[index].trim() !== '' && url.trim() !== '');
 
     const data = {
       Name: name,
@@ -150,8 +152,8 @@ const uploadFiles = async () => {
       Longitude: longitude,
       Time: timeRangeString || null,
       FileID: uploadedFileIDs,
-      ExtraInfoTitle: extraTitle,
-      ExtraInfoURL:extraURL,
+      ExtraInfoTitle: cleanExtraTitle,
+      ExtraInfoURL:cleanExtraURL,
     };
 
     createdDoc(data);
@@ -459,10 +461,10 @@ try{
         </div>
         <Box sx={{ display: "flex",  justifyContent: "center", gap: 1, mt: 2 }}>
           <Button variant="contained" color="primary" onClick={handleButtonClick}>
-            Create POI
+            Create Event
           </Button>
           <Button variant="outlined" onClick={() => navigate("/events")}>
-            Back to POI Menu
+            Back to Event Menu
           </Button>
         </Box>
     </div>

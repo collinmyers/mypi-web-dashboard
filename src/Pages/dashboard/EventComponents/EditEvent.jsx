@@ -34,6 +34,8 @@ export default function EditEvent(){
   const [longDescription, setLongDescription] = useState(selectedItem.EventDetailsDescription);
   const [latitude,setLatitude] = useState(selectedItem.Latitude);
   const [longitude,setLongitude] = useState(selectedItem.Longitude);
+  const [extraTitle,setExtraTitle] = useState(selectedItem.ExtraInfoTitle);
+  const [extraURL,setExtraURL] = useState(selectedItem.ExtraInfoURL);
   const [uploaderKey,setUploaderKey] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -89,6 +91,10 @@ export default function EditEvent(){
       return `${formattedHours}:${minutes.padStart(2, "0")}`;
   };
 
+
+const cleanExtraTitle = extraTitle.filter((title, index) => title.trim() !== '' && extraURL[index].trim() !== '');
+const cleanExtraURL = extraURL.filter((url, index) => extraTitle[index].trim() !== '' && url.trim() !== '');
+
   const data = { // add lat and long 
     Name: name,
     Date: dateRangeString,
@@ -97,6 +103,8 @@ export default function EditEvent(){
     EventDetailsDescription: longDescription,
     Latitude:  latitude,
     Longitude: longitude,
+    ExtraInfoTitle: cleanExtraTitle,
+    ExtraInfoURL: cleanExtraURL,
   };
   const getAllImages = async()=>{
     const urls = {};
@@ -315,6 +323,26 @@ const deleteImage = async () => {
 };
 
 
+const handleExtraTitleChange = (index, event) => {
+  const newTitles = [...extraTitle];
+  newTitles[index] = event.target.value;
+  setExtraTitle(newTitles);
+};
+
+const handleExtraUrlChange = (index, event) => {
+  const newUrls = [...extraURL];
+  newUrls[index] = event.target.value;
+  setExtraURL(newUrls);
+};
+const addInputs = () => {
+  if (extraTitle.length === extraURL.length) {
+    setExtraTitle([...extraTitle, ""]);
+    setExtraURL([...extraURL, ""]);
+  } else {
+    console.error('Arrays are out of sync');
+  }
+};
+
 
 return (
     <div>
@@ -441,6 +469,24 @@ return (
             setLongitude(parseFloat(value));
           }}
         />
+        {extraTitle.map((title, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              placeholder={`Extra Info Title ${index + 1}`}
+              value={title}
+              onChange={(event) => handleExtraTitleChange(index, event)}
+            />
+            <input
+              type="text"
+              placeholder={`Extra Info Link ${index + 1}`}
+              value={extraURL[index]}
+              onChange={(event) => handleExtraUrlChange(index, event)}
+            />
+          </div>
+        ))}
+        <button onClick={addInputs}>Add More</button>
+
         <button className="editEventSubmit" onClick={handleSubmit} >Edit Event</button>
         <button onClick={() => navigate("/events")}>go back</button>
 
