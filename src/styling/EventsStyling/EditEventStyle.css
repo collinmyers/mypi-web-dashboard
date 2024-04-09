@@ -73,7 +73,7 @@ flex-direction: column;
 }
 
 .image-slider:hover::after {
-  content: "Click to Replace";
+  content: "Click to Replace/Delete";
   position: absolute;
   top: 18%;
   left: 50%;
@@ -84,4 +84,5 @@ flex-direction: column;
   border-radius: 5px;
   font-size: 12px;
   pointer-events: none; /* Ensures the hover effect does not interfere with clicking */
+  margin-top: 4%;
 }

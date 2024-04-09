@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect,useRef} from "react";
 import { ID} from "appwrite";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,11 +14,15 @@ import {BUCKET_ID} from "../../../utils/AppwriteConfig";
 import {EVENTS_COLLECTION_ID} from "../../../utils/AppwriteConfig";
 import {DATABASE_ID} from "../../../utils/AppwriteConfig";
 import { Button, Box } from "@mui/material";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { BorderAllRounded } from "@mui/icons-material";
 
 export default function CreateEvent(){
-  const[fileID,setFileID] = useState("");
-  const[files,setFiles] = useState([]);
-  const [fileCount,setFileCount] = useState(0);
+  // const[fileID,setFileID] = useState("");
+  const[files,setFiles] = useState({});
+  // const [fileCount,setFileCount] = useState(0);
   const [name, setName] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
@@ -34,6 +38,10 @@ export default function CreateEvent(){
   const [endTime, setEndTime] = useState(null);
 
   const formatDate = (date) => format(date, "MMMM d, yyyy"); //format the dates
+  const [selectedImageId, setSelectedImageId] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
 
 
 
@@ -108,44 +116,45 @@ useEffect(() => {
 
 
 const handleButtonClick = async () => {
+  console.log(files);
   const allFieldsFilled = name && shortDescription && longDescription && latitude && longitude && dateRangeString;
-  if (!allFieldsFilled || files.length === 0) {
+  if (!allFieldsFilled || Object.keys(files).length === 0) {
     console.log("Please fill in all fields and select at least one file");
     creationFailed();
     return;
   }
 
-  let uploadedFileIDs = [];
-
-  const uploadFiles = async () => {
-    try {
-      for (const file of files) {
-        const response = await storage.createFile(BUCKET_ID, ID.unique(), file);
-        console.log(response);
-        uploadedFileIDs.push(response.$id);
-        // setFileCount(fileCount + 1);
-      }
-
-      const data = {
-        Name: name,
-        Date: dateRangeString,
-        EventListDescription: shortDescription,
-        EventDetailsDescription: longDescription,
-        Latitude: latitude,
-        Longitude: longitude,
-        Time: timeRangeString || null,
-        FileID: uploadedFileIDs,
-      };
-
-      createdDoc(data);
-
-    } catch (error) {
-      console.error(error);
-      creationFailed();
-    }
-  };
-
   uploadFiles();
+};
+
+let uploadedFileIDs = [];
+
+const uploadFiles = async () => {
+  try {
+    for (const key of Object.keys(files)) {
+      const response = await storage.createFile(BUCKET_ID, ID.unique(), files[key].File);
+      console.log(response);
+      uploadedFileIDs.push(response.$id);
+      // setFileCount(fileCount + 1);
+    }
+
+    const data = {
+      Name: name,
+      Date: dateRangeString,
+      EventListDescription: shortDescription,
+      EventDetailsDescription: longDescription,
+      Latitude: latitude,
+      Longitude: longitude,
+      Time: timeRangeString || null,
+      FileID: uploadedFileIDs,
+    };
+
+    createdDoc(data);
+
+  } catch (error) {
+    console.error(error);
+    creationFailed();
+  }
 };
 
   
@@ -161,11 +170,11 @@ try{
     creationFailed();
     }
   };
+  
 
 
   const clearInput = () =>{
-    setFiles([]);
-    setFileID("");
+    setFiles({});
     setName("");
     setShortDescription("");
     setLongDescription("");
@@ -176,26 +185,143 @@ try{
     setUploaderKey((prevValue) => !prevValue);
   };
 
-  const handleFileChange = (e) => {
-    const selectedFiles = e.target.files;
-    setFiles([...files,...selectedFiles]);
+  const fileInputRef = useRef(null);
+
+
+  const handleNewFile = (e) => {
+    const newFiles = e.target.files;
+
+  // Iterate over each file
+  for (let i = 0; i < newFiles.length; i++) {
+    const file = newFiles[i];
+    const url = URL.createObjectURL(file);
+
+    console.log(file);
+    console.log(url);
+
+    // Update imageUrls with the new image URL and File
+    setFiles((prevImageUrls) => ({
+      ...prevImageUrls,
+      [Object.keys(files).length+1]: { href: url, File: file },
+    }));
+  }
+  e.target.value = "";
+
   };
+
+
+  const handleImageReplace = async (e, index) => {
+    const file = e.target.files[0];
+    const url = URL.createObjectURL(file);
   
+    const updatedFiles = { ...files, [index]: { href: url, File: file } };
+
+    setFiles(updatedFiles);
+  };
+
+
+  const settings = { //slider settings
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 6000,
+    cssEase: "linear",
+    BorderAllRounded: true,
+    
+  };
+  const handleImageSelect = (imageId) => {
+    setSelectedImageId(imageId);
+    setIsModalOpen(true);
+
+  };
+  const openFileExplorer = () =>{
+    setIsModalOpen(false);
+    fileInputRef.current.click();
+  
+  };
+  const deleteImage = async () => {
+    setIsModalOpen(false);
+    
+    const imageUrlKey = selectedImageId;
+    const updatedImageUrls = { ...files};
+    delete updatedImageUrls[imageUrlKey];
+    
+    setFiles(updatedImageUrls); 
+    
+  };
   return (
     <div>
       <ToastContainer />
+      <h1 className="title">New Event</h1>
       <div className="newEventContainer">
-        <h1 className="title">New Event</h1>
+        <div className="slider-and-uploader" style={{height: "300px"}}>
+        <div className="image-slider">
+        {Object.keys(files).length > 1 ? (
+          <Slider {...settings}>
+            {Object.keys(files).map((key, index) => (
+              <div key={index} onClick={() => handleImageSelect(key)}>
+                <img
+
+                  width={"250px"}
+                  height={"200px"}
+                  src={files[key].href}
+                  alt={`Image ${index + 1}`}
+                  className={selectedImageId === index ? "selected-image" : ""}
+                />
+              </div>
+            ))}
+          </Slider>
+        ) : Object.keys(files).length === 1 ? (
+          <div>
+            <img
+              width={"250px"}
+              height={"200px"}
+              src={files[Object.keys(files)[0]].href}
+              alt="Uploaded Image"
+              onClick={() => handleImageSelect(Object.keys(files)[0])}
+              className={selectedImageId === Object.keys(files)[0] ? "selected-image" : ""}
+            />
+          </div>
+        ) : null}
+
         <input
-          className="uploader"
-          type="file"
-          key={uploaderKey}
-          id="uploader"
-          onChange={handleFileChange}
-          multiple
-        />
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        onChange={(e) => handleImageReplace(e, selectedImageId)}
+      />
+        
+      <input
+        className="uploader"
+        type="file"
+        key={uploaderKey}
+        id="uploader"
+        onChange={handleNewFile}
+        multiple
+      />
+      
+      
+      <div>
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+          <button onClick={() => openFileExplorer()}>Replace</button>
+          <button onClick={() => deleteImage()}>Delete</button>
+          <button onClick={() => setIsModalOpen(false)}>Close</button>
+            </div>
+            </div>
+          )}
+          </div>
+          
+          </div>
+
+      </div>
+      <div className="input-fields" style={{width: "250px", height: "300px"}}>
         <input
-          className="eventName"
+          className="input"
           type="text"
           placeholder="Name"
           value={name}
@@ -208,6 +334,7 @@ try{
         {dateMode === "range" ? (
           <div>
             <DatePicker
+              className="input-field"
               selected={startDate}
               onChange={(date) => setStartDate(date)}
               selectsStart
@@ -216,6 +343,7 @@ try{
               placeholderText="Start Date"
             />
             <DatePicker
+              className="input-field"
               selected={endDate}
               onChange={(date) => setEndDate(date)}
               selectsEnd
@@ -227,6 +355,7 @@ try{
           </div>
         ) : (
           <DatePicker
+            className="input-field"
             selected={startDate}
             onChange={(date) => {
               setStartDate(date);
@@ -246,7 +375,8 @@ try{
           <input type="time" onChange={(e) => setEndTime(e.target.value)} />
         </label>
         <br />
-
+        </div>
+        <div className="input-fields2" style={{width: "250px", height: "300px"}}>
         <input
           type="text"
           placeholder="Short Description"
@@ -279,7 +409,9 @@ try{
             }
           }}
         />
-        <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 2 }}>
+        </div>
+        </div>
+        <Box sx={{ display: "flex",  justifyContent: "center", gap: 1, mt: 2 }}>
           <Button variant="contained" color="primary" onClick={handleButtonClick}>
             Create POI
           </Button>
@@ -287,7 +419,6 @@ try{
             Back to POI Menu
           </Button>
         </Box>
-      </div>
     </div>
   );
 }

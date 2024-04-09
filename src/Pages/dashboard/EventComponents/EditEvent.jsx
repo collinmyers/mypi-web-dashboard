@@ -17,8 +17,8 @@ import "slick-carousel/slick/slick-theme.css";
 
 
 export default function EditEvent(){
-  const[currentFile,setCurrentFile] = useState("");
-  const[newFile,setNewFile] = useState("");
+  // const[currentFile,setCurrentFile] = useState("");
+  // const[newFile,setNewFile] = useState("");
   const navigate = useNavigate();
   
     const location = useLocation();
@@ -26,7 +26,7 @@ export default function EditEvent(){
    
     let selectedItem = location.state.Event;
 
-  const[imageUrl, setImageUrl] = useState("");
+  const[imageUrls, setImageUrls] = useState({});// key value pair imageId: href
 
   const [name, setName] = useState(selectedItem.Name);
   // const [time, setTime] = useState(selectedItem.Time);
@@ -38,10 +38,12 @@ export default function EditEvent(){
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [dateMode, setDateMode] = useState("range"); // 'range' or 'single'
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-
+  const [imagesToDelete, setImagesToDelete] = useState([]);
   const formatDate = (date) => format(date, "MMMM d, yyyy"); //format the dates
 
   
@@ -96,10 +98,25 @@ export default function EditEvent(){
     Latitude:  latitude,
     Longitude: longitude,
   };
+  const getAllImages = async()=>{
+    const urls = {};
+    selectedItem.FileID.forEach((imageId) => {
+      const href = storage.getFileView(BUCKET_ID, imageId).href;
+      urls[imageId] = { href, File: {} };
+      console.log(urls);
+    });
+    setImageUrls(urls);
+    console.log(selectedItem.FileID[0]);
+    console.log(Object.keys(imageUrls).length);
+  };
 
   useEffect(() => {
     // getImage();
     // getCurrentFile();
+
+    getAllImages();
+
+
     if (selectedItem) {
         const dateParts = selectedItem.Date.split(" - "); //split date range
         const startDate = new Date(dateParts[0]);
@@ -141,66 +158,58 @@ export default function EditEvent(){
     });
   };
 
-
-
-
-
-  
-  const deleteImage = async (imageid) => {
-    // console.log(currentFile);
-    const promise = storage.deleteFile(BUCKET_ID,imageid); //delete current image file
-    
-    promise.then(function (response) {
-      // console.log(response); // Success
-  }, function (error) {
-      console.log(error); // Failure
-    }); 
+  const ImageDeletionFailed = () => {
+    toast.error("Failed to Delete Image", {
+      position: toast.POSITION.TOP_CENTER,
+    });
   };
-  
 
-  const getImage = async () => {
-    try {
-      
-      const response = storage.getFileView(BUCKET_ID, selectedItem.FileID);//get image view from document attribute FileID
-      
-      setImageUrl((prevImageUrl) => {
-        if (response.href) {
-          return response.href;
-        }
-        return prevImageUrl;
-      });
-      console.log(response); // Success
-    } catch (error) {
-      console.error("Error fetching image URL", error); // Failure
-    }
-  };
-  
-  const getCurrentFile = async()=>{
-    try {
-      console.log("Current FileID",selectedItem.FileID);
-      const response = await storage.getFile(BUCKET_ID, selectedItem.FileID); //get current image file from document attribute
-      
-      setCurrentFile(response); // set image file
-    } catch (error) {
-      console.error("Error fetching image URL", error); // Failure
-    }
-  };
+
   
   
   const  handleSubmit = async () =>{
-    //call create and delete file if a new one has been uploaded.
-    console.log(data.timeRangeString);
-    
-    // await deleteImage();
-    // await createImage();
-   
-    updateDoc(data);
-    
-    
-  }; 
+  const ids =[];
+    for (const key of Object.keys(imageUrls)){
+      if(imageUrls[key].File instanceof File){
   
-  const updateDoc = async(data) =>{
-    data.FileID = selectedItem.FileID; // set FileID to current File ID
+        try {
+          const response = await storage.createFile(BUCKET_ID, ID.unique(),imageUrls[key].File);
+            console.log(response);
+            // uploadedFileIDs.push(response.$id);
+            ids.push(response.$id);
+            
+          } catch (error) {
+            // EditFailed();
+            console.error("Error updating document:", error);
+          }
+  
+        }else{
+          ids.push(key);
+        }
+        
+    }
+   data.FileID = ids;
+   await deleteImages();
+   updateDoc(data);
+  }; 
+
+  const deleteImages = async () => {
+    
+    for (const imageId of imagesToDelete) {
+      try {
+        const response = await storage.deleteFile(BUCKET_ID, imageId);
+        console.log(response); // Success
+      } catch (error) {
+        console.log(error); // Failure
+        // ImageDeletionFailed();
+      }
+    }
+  };
+    
+  
+  
+  const updateDoc = async() =>{
+    
 
     if (selectedItem) {
       try {
@@ -217,25 +226,6 @@ export default function EditEvent(){
       console.log();
     }
   };
-
-  const updateDocImages = async(data) =>{
-    data.FileID = selectedItem.FileID; // set FileID to current File ID
-
-    if (selectedItem) {
-      try {
-        
-        await database.updateDocument(DATABASE_ID,EVENTS_COLLECTION_ID,selectedItem.$id,data);
-        
-      } catch (error) {
-        EditFailed();
-        console.error("Error updating document:", error);
-      }
-    }else{
-      console.log();
-    }
-  };
-
-
   
   
   const clearInput = () =>{
@@ -244,111 +234,157 @@ export default function EditEvent(){
     setLongDescription("");
     setLatitude("");
     setLongitude("");
-    setNewFile(null);
-    setImageUrl("");
     setUploaderKey((prevValue) => !prevValue);
   };
 
-  // const handleUpload = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     setNewFile(file);
-  //       setImageUrl(URL.createObjectURL(file));
-  //       setUploaderKey((prevKey) => prevKey + 1);
-  //     }
+const [selectedImageId, setSelectedImageId] = useState("");
 
-    
-  //   };
-    
-    const createImage = async (file) => {
-      try {
-        const response = await storage.createFile(BUCKET_ID, ID.unique(), file);
-        // Optionally, do something with the response
-        return response; // Resolve the promise with the response
-      } catch (error) {
-        console.log(error); // Log the error
-        throw error; // Throw the error to propagate it
-      }
-    };
-    
-    
-    
-  const [selectedImageId, setSelectedImageId] = useState("");
-  
-  // Function to handle selecting an image
-  const fileInputRef = useRef(null);
+// Function to handle selecting an image
+const fileInputRef = useRef(null);
 
 const handleImageSelect = (imageId) => {
-  // Set the selected image ID
   setSelectedImageId(imageId);
-
-  // Open file input dialog
-  fileInputRef.current.click();
-  console.log("Current FileID",selectedItem.FileID);
-
-};
-
-const handleFileChange = (e) => { //adjust to also DELETE the old image
-  const file = e.target.files[0];
-  if (!file) return;
-
-  createImage(file).then((newImageId) => {
-    // Update the selectedItem with the new file ID
-    selectedItem.FileID = selectedItem.FileID.map((imageId) => //replace old image with new in list of fileIDs
-      imageId === selectedImageId ? newImageId.$id : imageId
-    );
-    deleteImage(selectedImageId); // delete old image
-    updateDocImages(data); //update doc with changes
-
-    // Update the selectedImageId state to force re-render
-    setSelectedImageId(newImageId); 
-  });
-};
-    
-
-    const settings = {    
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      autoplay: true,
-      autoplaySpeed: 6000,
-      cssEase: "linear",
-    
-    };
+  setIsModalOpen(true);
   
+  
+};
+
+const openFileExplorer = () =>{
+  setIsModalOpen(false);
+  fileInputRef.current.click();
+
+};
 
 
-  return (
+
+const settings = {    
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 6000,
+  cssEase: "linear",
+  
+};
+
+// Set the selected image ID
+
+const handleImageReplace = async (e, index) => {
+  const file = e.target.files[0];
+  const url = URL.createObjectURL(file);
+
+  imagesToDelete.push(index);
+  const updatedImageUrls = { ...imageUrls, [index]: { href: url, File: file } };
+  setImageUrls(updatedImageUrls);
+};
+
+
+const handleNewImage = async (e) => {
+  const files = e.target.files;
+
+  // Iterate over each file
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const url = URL.createObjectURL(file);
+
+    console.log(file);
+    console.log(url);
+
+    // Update imageUrls with the new image URL and File
+    setImageUrls((prevImageUrls) => ({
+      ...prevImageUrls,
+      [file.name]: { href: url, File: file },
+    }));
+  }
+
+};
+
+
+
+const deleteImage = async () => {
+  setIsModalOpen(false);
+  
+  const imageUrlKey = selectedImageId;
+  const updatedImageUrls = { ...imageUrls };
+  delete updatedImageUrls[imageUrlKey];
+  
+  imagesToDelete.push(selectedImageId);
+  setImageUrls(updatedImageUrls); 
+  
+};
+
+
+
+return (
     <div>
     <ToastContainer/>
     <div className="dropdown-container">
     <h1 className="editEventTitle">Edit Event</h1>
     <div className="image-slider">
-    <Slider {...settings}>
-    {selectedItem.FileID.map((imageId) => (
-      <div key={imageId}>
-        <img width={"250px"} height={"200px"} 
-          src={storage.getFileView(BUCKET_ID, imageId).href}
-          alt="Event Image"
-          onClick={() => handleImageSelect(imageId)}
-          className={selectedImageId === imageId ? "selected-image" : ""}
-        />
-      </div>
-    ))}
-  </Slider>
+   
+    {Object.keys(imageUrls).length > 1 ? (
+      <Slider {...settings}>
+      {Object.keys(imageUrls).map((key, index) => (
+        <div key={index} onClick={() => handleImageSelect(key)}>
+          <img
+            width={"250px"}
+            height={"200px"}
+            src={imageUrls[key].href} // Use the URL from imageUrls
+            alt="Event Image"
+            className={selectedImageId === key ? "selected-image" : ""}
+          />
+        </div>
+      ))}
+    </Slider>
+    ) : (
+      imageUrls[selectedItem.FileID[0]] && (
+        <div>
+          <img
+            width={"250px"}
+            height={"200px"}
+            src={imageUrls[selectedItem.FileID[0]].href} // Use the URL from imageUrls[selectedItem.FileID[0]]
+            alt="Event Image"
+            onClick={() => handleImageSelect(selectedItem.FileID[0])}
+            className={selectedImageId === selectedItem.FileID[0] ? "selected-image" : ""}
+          />
+        </div>
+      )
+    )}
+
     <input
+    type="file"
+    accept="image/*"
+    ref={fileInputRef}
+    style={{ display: "none" }}
+    onChange={(e) => handleImageReplace(e, selectedImageId)}
+  />
+    </div>
+
+
+    <div>
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <button onClick={() => setIsModalOpen(false)}>Close</button>
+            <button onClick={() => openFileExplorer()}>Replace</button>
+            <button onClick={() => deleteImage()}>Delete</button>
+          </div>
+        </div>
+      )}
+      </div>
+
+    <input
+      className="event-uploader"
       type="file"
-      style={{ display: "none" }}
-      ref={fileInputRef}
-      onChange={handleFileChange}
-    />
-  
+      key={uploaderKey}
+      id="uploader"
+      onChange={handleNewImage}
+      multiple
+  />
 
 
 
-  </div>
         <input className="eventName" type="text" placeholder={"Name"} id = "eventName" value={name} onChange={(e) => setName(e.target.value)} />
 
 
@@ -385,8 +421,26 @@ const handleFileChange = (e) => { //adjust to also DELETE the old image
 
         <input type="text" placeholder={"Short Description"} value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} />
         <input type="text" placeholder={ "Long Description"} value={longDescription} onChange={(e) => setLongDescription(e.target.value)} />
-        <input type="number" placeholder={"Latitude"} value={latitude} onChange={(e) => setLatitude(e.target.value)} />
-        <input type="number" placeholder={ "Longitude"} value={longitude} onChange={(e) => setLongitude(e.target.value)} />
+        <input
+          type="number"
+          placeholder="Latitude"
+            value={latitude}
+            onChange={(e) => {
+            const value = e.target.value;
+              setLatitude(parseFloat(value));
+            
+          }}
+        />
+        <input
+          type="number"
+          value={longitude}
+          placeholder="Longitude"
+          onBlur={(e) => {
+            const value = e.target.value;
+
+            setLongitude(parseFloat(value));
+          }}
+        />
         <button className="editEventSubmit" onClick={handleSubmit} >Edit Event</button>
         <button onClick={() => navigate("/events")}>go back</button>
 
