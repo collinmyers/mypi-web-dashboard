@@ -69,15 +69,17 @@ export default function EditUser() {
         getUserAlias();
     }, []);
 
-    useEffect(() => {
-        console.log(labels);
-    }, [labels]);
-
+    const timeout = () => {
+        setTimeout(() => {
+            navigate("/users");
+        }, 2000);
+    };
 
     const Successful = () => {
         toast.success("User has been Updated", {
             position: toast.POSITION.TOP_CENTER,
         });
+        timeout();
     };
 
     const Failed = () => {
@@ -102,7 +104,7 @@ export default function EditUser() {
                 "PATCH",
                 data
             );
-            if(alias != ""){
+            if (alias != "") {
                 await database.updateDocument(
                     DATABASE_ID,
                     USER_ALIAS_TABLE_ID,
@@ -120,20 +122,25 @@ export default function EditUser() {
     };
 
     function handleChange(event) {
+        const { name, checked } = event.target;
         setCheckedItems({
             ...checkedItems,
-            [event.target.name]: event.target.checked
+            [name]: checked,
         });
 
         let updatedLabels = [];
 
-
         for (const key in checkedItems) {
-            if (checkedItems[key]) {
+            if (Object.prototype.hasOwnProperty.call(checkedItems, key) && checkedItems[key]) {
                 updatedLabels.push(key);
             }
         }
-        setLabel(updatedLabels);
+
+        if (checked) {
+            setLabel([...updatedLabels, name]);
+        } else {
+            setLabel(updatedLabels.filter((label) => label !== name));
+        }
     }
 
 
@@ -289,7 +296,7 @@ export default function EditUser() {
 
                     <Button
                         startIcon={<ArrowBackIcon />}
-                        onClick={() => navigate(-1)}
+                        onClick={() => navigate("/users")}
                         variant="outlined"
                         className="actionButton"
                     >
