@@ -118,10 +118,10 @@ const Home = () => {
             md={6}
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            <div style={{ height: "80%", width: "100%" }}>
+            <div style={{ height: "325px", width: "325px" }}>
               {" "}
-              {/* Adjusted for better control */}
-              <Pie data={pieData} />
+              {/* Adjust these values as needed */}
+              <Pie data={pieData} options={{ maintainAspectRatio: false }} />
             </div>
           </Grid>
 
@@ -156,9 +156,9 @@ const Home = () => {
                       {stat.title}
                     </Typography>
                     <Typography
-                      variant="body1"
+                      variant="h4"
                       sx={{
-                        color: theme.palette.primary.main,
+                        color: "green",
                         fontWeight: "bold",
                       }}
                     >
