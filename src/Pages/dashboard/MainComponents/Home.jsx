@@ -68,7 +68,7 @@ const Home = () => {
           dashboardStats.RegisteredUsers,
           dashboardStats.TotalUsers - dashboardStats.RegisteredUsers,
         ],
-        backgroundColor: [blue[500], orange[500]],
+        backgroundColor: ["#005588", "#FFB238"],
       },
     ],
   };
@@ -80,21 +80,21 @@ const Home = () => {
       title: "Total Events",
       value: dashboardStats.TotalEvents,
       icon: <AddAlertIcon />,
-      color: blue[500],
+      color: "#FFB238",
       link: links[0],
     },
     {
       title: "Total Notifications",
       value: dashboardStats.TotalNotifications,
       icon: <CalendarMonthIcon />,
-      color: green[500],
+      color: "#FFB238",
       link: links[1],
     },
     {
       title: "Total Points of Interests",
       value: dashboardStats.TotalPoints,
       icon: <MapIcon />,
-      color: orange[500],
+      color: "#FFB238",
       link: links[2],
     },
   ];
@@ -119,7 +119,11 @@ const Home = () => {
             sx={{ display: "flex", justifyContent: "center" }}
           >
             <div style={{ height: "325px", width: "325px" }}>
-              {" "}
+              <div
+                style={{ textAlign: "center", fontSize: 20, color: "#0078AA" }}
+              >
+                Total Users
+              </div>
               {/* Adjust these values as needed */}
               <Pie data={pieData} options={{ maintainAspectRatio: false }} />
             </div>
@@ -151,14 +155,15 @@ const Home = () => {
                     <Typography
                       variant="h6"
                       component="div"
-                      sx={{ fontWeight: "medium" }}
+                      sx={{ fontWeight: "medium", color: "#005588" }}
                     >
                       {stat.title}
                     </Typography>
+
                     <Typography
                       variant="h4"
                       sx={{
-                        color: "green",
+                        color: "#005588",
                         fontWeight: "bold",
                       }}
                     >
