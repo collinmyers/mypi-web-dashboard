@@ -16,7 +16,8 @@ export const PARKINFO_COLLECTION_ID = import.meta.env.VITE_PUBLIC_PARKINFO_COLLE
 export const USER_ALIAS_TABLE_ID = import.meta.env.VITE_PUBLIC_USER_ALIAS_TABLE_COLLECTION_ID;
 export const EDITUSER_FUNCTION_ID = import.meta.env.VITE_APPWRTIE_EDITUSERS_FUNCTION_ID;
 export const PUSH_NOTIFICATION_ID = import.meta.env.VITE_APPWRITE_PUSH_NOTIFICATION_ID;
-
+export const DASHBOARD_STATS_COLLECTION_ID = import.meta.env.VITE_PUBLIC_DASHBOARD_STATS_COLLECTION_ID;
+export const DASHBOARD_STATS_FUNCTION_ID = import.meta.env.VITE_APPWRITE_DASHBOARD_STATS_FUNCTION_ID;
 // Create a client to connect
 const client = new Client()
     .setEndpoint(API_ENDPOINT)
