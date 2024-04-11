@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import {
   Box,
@@ -18,7 +17,7 @@ import {
 import Tooltip from "@mui/material/Tooltip";
 import "../../../styling/POIStyling/POITableStyle.css"; // Ensure this path is correct
 
-const VendorPOITable = ({ allData, onEdit, onDelete, onCreate }) => {
+const VendorPOITable = ({ allData, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0); // Zero-based indexing
   const [pageSize] = useState(6);
@@ -70,7 +69,6 @@ const VendorPOITable = ({ allData, onEdit, onDelete, onCreate }) => {
               "Longitude",
               "Status",
               "Type",
-              "Edit",
               "Delete",
             ].map((header) => (
               <TableCell key={header} className="poi-table-cell">
@@ -93,9 +91,7 @@ const VendorPOITable = ({ allData, onEdit, onDelete, onCreate }) => {
                   {value}
                 </TableCell>
               ))}
-              <TableCell className="poi-table-cell">
-                <Button onClick={() => onEdit(item)} startIcon={<EditIcon />} />
-              </TableCell>
+
               <TableCell className="poi-table-cell">
                 <Button
                   className="delete-button"
@@ -127,7 +123,6 @@ const VendorPOITable = ({ allData, onEdit, onDelete, onCreate }) => {
 
 VendorPOITable.propTypes = {
   allData: PropTypes.array.isRequired,
-  onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
 };

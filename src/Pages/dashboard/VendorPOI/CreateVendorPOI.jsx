@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     Container,
-    TextField,
     Button,
     FormControl,
     InputLabel,
@@ -11,18 +10,21 @@ import {
     Typography,
     Box,
 } from "@mui/material";
-import { ID } from "appwrite";
-import { database } from "../../../utils/AppwriteConfig";
-import { DATABASE_ID, MAP_COLLECTION_ID } from "../../../utils/AppwriteConfig";
+import { ID, Query } from "appwrite";
+import { MAP_COLLECTION_ID, VENDOR_POI_COLLECTION_ID, database } from "../../../utils/AppwriteConfig";
+import { DATABASE_ID } from "../../../utils/AppwriteConfig";
 import { toast, ToastContainer } from "react-toastify";
 
 export default function CreateVendorPOI() {
+
     const [name, setName] = useState("");
     const [latitude, setLatitude] = useState("");
     const [longitude, setLongitude] = useState("");
     const [status, setStatus] = useState("Open");
     const [type, setType] = useState("");
+    const [POIs, setPOIs] = useState([]);
     const navigate = useNavigate();
+    const [selectedPOI, setSelectedPOI] = useState("");
 
     const SuccessfulCreation = () => {
         toast.success("New POI Created", {
@@ -48,7 +50,7 @@ export default function CreateVendorPOI() {
         try {
             await database.createDocument(
                 DATABASE_ID,
-                MAP_COLLECTION_ID,
+                VENDOR_POI_COLLECTION_ID,
                 ID.unique(),
                 data
             );
@@ -59,6 +61,58 @@ export default function CreateVendorPOI() {
         }
     };
 
+
+
+
+    const renderPOIsDropdown = () => {
+
+        return POIs.map((POI, index) => {
+
+            const POIName = POI.Name;
+
+            return (
+                <MenuItem key={index} value={POIName}>
+                    {POIName}
+                </MenuItem>
+            );
+        });
+    };
+
+    useEffect(() => {
+        const getPOIs = async () => {
+            try {
+                const response = await database.listDocuments(
+                    DATABASE_ID,
+                    MAP_COLLECTION_ID,
+                    [
+                        Query.limit(1000), // Fetch all documents
+                        Query.offset(0)
+                    ]
+                );
+                setPOIs(response.documents);
+            }
+            catch (error) {
+                console.error("Error fetching documents:", error);
+            }
+        };
+        getPOIs();
+
+    }, [selectedPOI, name, latitude, longitude, status, type]);
+
+    const handleChange = (event) => {
+        setSelectedPOI(event.target.value);
+        const values = POIs.find(POIs => POIs.Name === event.target.value);
+
+        setName(values.Name);
+        setLatitude(values.Latitude);
+        setLongitude(values.Longitude);
+        setStatus(values.Status);
+        setType(values.Type);
+
+    };
+
+
+
     return (
         <Container maxWidth="sm">
             <ToastContainer />
@@ -68,67 +122,27 @@ export default function CreateVendorPOI() {
                 align="center"
                 sx={{ color: "#005588", fontWeight: "bold", marginY: 2 }}
             >
-                New POI
+                Add Vendor POI
             </Typography>
-            <TextField
-                fullWidth
-                label="Name"
-                variant="outlined"
-                margin="normal"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-            />
-            <TextField
-                fullWidth
-                label="Latitude"
-                variant="outlined"
-                margin="normal"
-                value={latitude}
-                onChange={(e) => {
-                    const value = e.target.value;
-                    if (/^-?\d*\.?\d*$/.test(value)) {
-                        setLatitude(value);
-                    }
-                }}
-            />
-            <TextField
-                fullWidth
-                label="Longitude"
-                variant="outlined"
-                margin="normal"
-                value={longitude}
-                onChange={(e) => {
-                    const value = e.target.value;
-                    if (/^-?\d*\.?\d*$/.test(value)) {
-                        setLongitude(value);
-                    }
-                }}
-            />
-            <FormControl fullWidth margin="normal">
-                <InputLabel>Status</InputLabel>
+            <FormControl fullWidth>
+                <InputLabel>Vendor POI</InputLabel>
                 <Select
-                    label="Status"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
+                    value={selectedPOI}
+                    onChange={handleChange}
                 >
-                    <MenuItem value="Open">Open</MenuItem>
-                    <MenuItem value="Closed">Closed</MenuItem>
+                    {
+                        renderPOIsDropdown()
+                    }
                 </Select>
             </FormControl>
-            <TextField
-                fullWidth
-                label="Type"
-                variant="outlined"
-                margin="normal"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-            />
+
+
             <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 2 }}>
                 <Button variant="contained" color="primary" onClick={handleSubmit}>
-                    Create POI
+                    Add Vendor POI
                 </Button>
-                <Button variant="outlined" onClick={() => navigate("/points-of-interest")}>
-                    Back to POI Menu
+                <Button variant="outlined" onClick={() => navigate("/vendor-points-of-interest")}>
+                    Back to Vendor POI Menu
                 </Button>
             </Box>
         </Container>

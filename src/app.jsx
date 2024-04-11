@@ -23,8 +23,8 @@ import EditFAQ from "./Pages/dashboard/FAQComponents/EditFAQ";
 import CreateFAQ from "./Pages/dashboard/FAQComponents/CreateFAQ";
 import VendorPOITable from "./Pages/dashboard/VendorPOI/VendorPOITable";
 import CreateVendorPOI from "./Pages/dashboard/VendorPOI/CreateVendorPOI";
-import EditVendorPOI from "./Pages/dashboard/VendorPOI/EditVendorPOI";
 import { useAuth } from "./components/AuthContext";
+import VendorPOIEdit from "./Pages/dashboard/MainComponents/VendorPOIEditor";
 export default function App() {
 
     const { isSignedIn } = useAuth();
@@ -82,9 +82,8 @@ export default function App() {
                     </Route>
 
                     <Route element={<PrivateRoute allowedRoles="ManagePoints" />}>
-                        <Route path="/vendor-points-of-interest" element={<VendorPOITable />} />
+                        <Route path="/vendor-points-of-interest" element={<VendorPOIEdit />} />
                         <Route path="/create-vendor-point-of-interest" element={<CreateVendorPOI />} />
-                        <Route path="/edit-vendor-point-of-interest" element={<EditVendorPOI />} />
                     </Route>
 
                 </Routes>
