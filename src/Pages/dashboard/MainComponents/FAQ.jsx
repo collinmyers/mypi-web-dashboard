@@ -1,22 +1,22 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Query } from "appwrite";
 import { useNavigate } from "react-router-dom";
 import FAQTable from "../FAQComponents/FAQTable";
 import { database } from "../../../utils/AppwriteConfig";
 import { FAQ_COLLECTION_ID } from "../../../utils/AppwriteConfig";
 import { DATABASE_ID } from "../../../utils/AppwriteConfig";
-import { toast,ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
-import Layout from "./Layout"; 
+import Layout from "./Layout";
 
-export default function FAQ(){
-  const [data,setData] = useState([]);
+export default function FAQ() {
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     getFAQs();
-    
-  },[]);
+
+  }, []);
 
 
   const SuccessfulDeletion = () => {
@@ -31,9 +31,9 @@ export default function FAQ(){
     });
   };
 
-  
 
-  const getFAQs = async () =>{
+
+  const getFAQs = async () => {
     try {
       const response = await database.listDocuments(
         DATABASE_ID,
@@ -51,34 +51,34 @@ export default function FAQ(){
 
   };
 
-  const deletFAQ = async (faq) =>{
-    try{
+  const deletFAQ = async (faq) => {
+    try {
       console.log(faq.$id);
-      await database.deleteDocument(DATABASE_ID,FAQ_COLLECTION_ID,faq.$id);
+      await database.deleteDocument(DATABASE_ID, FAQ_COLLECTION_ID, faq.$id);
       //success toast
       getFAQs();
       SuccessfulDeletion();
 
-    } catch(error){
+    } catch (error) {
       console.log(error);
       FailedDeletion();
       //failtoast
 
-    } 
-  
+    }
+
   };
 
   const editFAQ = (faq) => {
-    navigate("/edit-FAQ", {
+    navigate("/edit-faq", {
       state: {
         FAQ: faq,
       }
     });
   };
 
-  const createFAQ = (faq) =>{
-    navigate("/create-FAQ",{
-      state:{
+  const createFAQ = (faq) => {
+    navigate("/create-faq", {
+      state: {
         FAQ: faq,
       }
 
@@ -95,9 +95,9 @@ export default function FAQ(){
 
   return (
     <Layout> {/* Wrap your content inside the Layout component */}
-      <ToastContainer/>
-      <div>             
-          <FAQTable data={data} onDelete = {deletFAQ} onEdit = {editFAQ} onCreate ={createFAQ}/>
+      <ToastContainer />
+      <div>
+        <FAQTable data={data} onDelete={deletFAQ} onEdit={editFAQ} onCreate={createFAQ} />
       </div>
     </Layout>
   );
