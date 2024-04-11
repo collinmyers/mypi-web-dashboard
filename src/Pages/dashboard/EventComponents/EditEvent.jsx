@@ -106,16 +106,16 @@ const cleanExtraURL = extraURL.filter((url, index) => extraTitle[index].trim() !
     ExtraInfoTitle: cleanExtraTitle,
     ExtraInfoURL: cleanExtraURL,
   };
+
   const getAllImages = async()=>{
     const urls = {};
-    selectedItem.FileID.forEach((imageId) => {
+    selectedItem.FileID.forEach((imageId, index) => {
       const href = storage.getFileView(BUCKET_ID, imageId).href;
-      urls[imageId] = { href, File: {} };
-      console.log(urls);
-    });
+      urls[index] = { imageId, href, File: {} };
+  });
+    console.log(urls);
     setImageUrls(urls);
-    console.log(selectedItem.FileID[0]);
-    console.log(Object.keys(imageUrls).length);
+    console.log(imageUrls);
   };
 
   useEffect(() => {
@@ -176,29 +176,28 @@ const cleanExtraURL = extraURL.filter((url, index) => extraTitle[index].trim() !
   
   
   const  handleSubmit = async () =>{
-  const ids =[];
-    for (const key of Object.keys(imageUrls)){
-      if(imageUrls[key].File instanceof File){
+    console.log(imageUrls);
+  // const ids =[];
+  //   for (const key of Object.keys(imageUrls)){
+  //     if(imageUrls[key].File instanceof File){
   
-        try {
-          const response = await storage.createFile(BUCKET_ID, ID.unique(),imageUrls[key].File);
-            console.log(response);
-            // uploadedFileIDs.push(response.$id);
-            ids.push(response.$id);
+  //       try {
+  //         const response = await storage.createFile(BUCKET_ID, ID.unique(),imageUrls[key].File);
+  //           console.log(response);
+  //           ids.push(response.$id);
             
-          } catch (error) {
-            // EditFailed();
-            console.error("Error updating document:", error);
-          }
-  
-        }else{
-          ids.push(key);
-        }
+  //         } catch (error) {
+  //           console.error("Error updating document:", error);
+  //         }
+  //         console.log();
+  //       }else{
+  //         ids.push(imageUrls[key].imageId);
+  //       }
         
-    }
-   data.FileID = ids;
-   await deleteImages();
-   updateDoc(data);
+  //   }
+  //  data.FileID = ids;
+  //  await deleteImages();
+  //  updateDoc(data);
   }; 
 
   const deleteImages = async () => {
@@ -251,6 +250,7 @@ const [selectedImageId, setSelectedImageId] = useState("");
 const fileInputRef = useRef(null);
 
 const handleImageSelect = (imageId) => {
+  console.log(imageId);
   setSelectedImageId(imageId);
   setIsModalOpen(true);
   
@@ -279,34 +279,38 @@ const settings = {
 // Set the selected image ID
 
 const handleImageReplace = async (e, index) => {
+  console.log("replacing: ", index);
   const file = e.target.files[0];
   const url = URL.createObjectURL(file);
 
-  imagesToDelete.push(index);
-  const updatedImageUrls = { ...imageUrls, [index]: { href: url, File: file } };
+  imagesToDelete.push(imageUrls[index].imageId);
+  const updatedImageUrls = { ...imageUrls, [index]: {imageId: file.name, href: url, File: file } };
   setImageUrls(updatedImageUrls);
 };
 
-
 const handleNewImage = async (e) => {
   const files = e.target.files;
+  console.log("ADDING:" , files);
+  // Find the highest existing key
+  const keys = Object.keys(imageUrls).map(Number); // Convert keys to numbers
+  const highestKey = Math.max(...keys, 0); // Get the highest key or 0 if no keys exist
 
   // Iterate over each file
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     const url = URL.createObjectURL(file);
 
-    console.log(file);
-    console.log(url);
-
-    // Update imageUrls with the new image URL and File
-    setImageUrls((prevImageUrls) => ({
-      ...prevImageUrls,
-      [file.name]: { href: url, File: file },
-    }));
+    // Create a new element with the next available key
+    const newKey = highestKey + i + 1; // Increment by i to avoid key collisions
+    imageUrls[newKey] = { imageId: file.name, href: url, File: file };
   }
 
+  // Update state with the new imageUrls object
+  setImageUrls({ ...imageUrls });
+  const uploader = document.getElementById("uploader");
+  uploader.value = ""; 
 };
+
 
 
 
@@ -317,10 +321,17 @@ const deleteImage = async () => {
   const updatedImageUrls = { ...imageUrls };
   delete updatedImageUrls[imageUrlKey];
   
+  // Reindex the keys
+  let newIndex = 0;
+  const reindexedImageUrls = {};
+  Object.keys(updatedImageUrls).forEach((key) => {
+    reindexedImageUrls[newIndex++] = updatedImageUrls[key];
+  });
+
   imagesToDelete.push(selectedImageId);
-  setImageUrls(updatedImageUrls); 
-  
+  setImageUrls(reindexedImageUrls);
 };
+
 
 
 const handleExtraTitleChange = (index, event) => {
@@ -339,7 +350,7 @@ const addInputs = () => {
     setExtraTitle([...extraTitle, ""]);
     setExtraURL([...extraURL, ""]);
   } else {
-    console.error('Arrays are out of sync');
+    console.error("Arrays are out of sync");
   }
 };
 
@@ -350,34 +361,34 @@ return (
     <div className="dropdown-container">
     <h1 className="editEventTitle">Edit Event</h1>
     <div className="image-slider">
-   
     {Object.keys(imageUrls).length > 1 ? (
       <Slider {...settings}>
-      {Object.keys(imageUrls).map((key, index) => (
-        <div key={index} onClick={() => handleImageSelect(key)}>
+        {Object.keys(imageUrls).map((key, index) => (
+          <div key={index} onClick={() => handleImageSelect(key)}>
+            <img
+              width={"250px"}
+              height={"200px"}
+              src={imageUrls[key].href}
+              alt="Event Image"
+              className={selectedImageId === key ? "selected-image" : ""}
+            />
+          </div>
+        ))}
+      </Slider>
+    ) : (
+      <div>
+        {Object.keys(imageUrls).map((key, index) => (
           <img
+            key={index}
             width={"250px"}
             height={"200px"}
-            src={imageUrls[key].href} // Use the URL from imageUrls
+            src={imageUrls[key].href}
             alt="Event Image"
+            onClick={() => handleImageSelect(key)}
             className={selectedImageId === key ? "selected-image" : ""}
           />
-        </div>
-      ))}
-    </Slider>
-    ) : (
-      imageUrls[selectedItem.FileID[0]] && (
-        <div>
-          <img
-            width={"250px"}
-            height={"200px"}
-            src={imageUrls[selectedItem.FileID[0]].href} // Use the URL from imageUrls[selectedItem.FileID[0]]
-            alt="Event Image"
-            onClick={() => handleImageSelect(selectedItem.FileID[0])}
-            className={selectedImageId === selectedItem.FileID[0] ? "selected-image" : ""}
-          />
-        </div>
-      )
+        ))}
+      </div>
     )}
 
     <input
@@ -405,7 +416,6 @@ return (
     <input
       className="event-uploader"
       type="file"
-      key={uploaderKey}
       id="uploader"
       onChange={handleNewImage}
       multiple

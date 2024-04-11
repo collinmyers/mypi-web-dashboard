@@ -197,6 +197,10 @@ try{
 
   const handleNewFile = (e) => {
     const newFiles = e.target.files;
+    console.log("Adding:", newFiles);
+
+    const keys = Object.keys(files).map(Number);
+    const highestKey = Math.max(...keys,0);
 
   // Iterate over each file
   for (let i = 0; i < newFiles.length; i++) {
@@ -205,13 +209,11 @@ try{
 
     console.log(file);
     console.log(url);
-
-    // Update imageUrls with the new image URL and File
-    setFiles((prevImageUrls) => ({
-      ...prevImageUrls,
-      [Object.keys(files).length+1]: { href: url, File: file },
-    }));
+    const newKey = highestKey + i + 1;
+    files[newKey] = {href: url, File: file};
+    
   }
+  setFiles({...files});
   e.target.value = "";
 
   };
@@ -255,6 +257,13 @@ try{
     const updatedImageUrls = { ...files};
     delete updatedImageUrls[imageUrlKey];
     
+    let newIndex = 0;
+    const reindexedImageUrls = {};
+    Object.keys(updatedImageUrls).forEach((key) => {
+      reindexedImageUrls[newIndex++] = updatedImageUrls[key];
+    });
+
+
     setFiles(updatedImageUrls); 
     
   };
@@ -291,28 +300,30 @@ try{
             {Object.keys(files).map((key, index) => (
               <div key={index} onClick={() => handleImageSelect(key)}>
                 <img
-
                   width={"250px"}
                   height={"200px"}
                   src={files[key].href}
                   alt={`Image ${index + 1}`}
-                  className={selectedImageId === index ? "selected-image" : ""}
+                  className={selectedImageId === key ? "selected-image" : ""}
                 />
               </div>
             ))}
           </Slider>
-        ) : Object.keys(files).length === 1 ? (
+        ) : (
           <div>
+          {Object.keys(files).map((key, index) => (
             <img
+              key={index}
               width={"250px"}
               height={"200px"}
-              src={files[Object.keys(files)[0]].href}
-              alt="Uploaded Image"
-              onClick={() => handleImageSelect(Object.keys(files)[0])}
-              className={selectedImageId === Object.keys(files)[0] ? "selected-image" : ""}
+              src={files[key].href}
+              alt="Event Image"
+              onClick={() => handleImageSelect(key)}
+              className={selectedImageId === key ? "selected-image" : ""}
             />
+          ))}
           </div>
-        ) : null}
+        )}
 
         <input
         type="file"
