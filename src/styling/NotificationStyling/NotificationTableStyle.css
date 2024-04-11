@@ -1,3 +1,18 @@
+.notif-card {
+    min-height: 75vh;
+}
+
+.notif-table {
+    min-width: 75vw;
+    max-width: 75vw;
+}
+
+.search-and-add-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
 
 .custom-table {
     width: 75%;

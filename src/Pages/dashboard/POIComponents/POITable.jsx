@@ -3,12 +3,23 @@ import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import { Box, Card, Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TextField, Button } from "@mui/material";
+import {
+  Box,
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TablePagination,
+  TextField,
+  Button,
+} from "@mui/material";
 import { styled } from "@mui/system";
-import "../../../styling/POIStyling/POITable.css";
+import "../../../styling/POIStyling/POITableStyle.css";
 import Tooltip from "@mui/material/Tooltip";
 const StyledTableCell = styled(TableCell)({
-  maxWidth: "50px",
+  minWidth: "50px",
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",
@@ -18,7 +29,7 @@ const StyledTableCell = styled(TableCell)({
 const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0); // Zero-based indexing
-  const [pageSize, setPageSize] = useState(6);
+  const [pageSize] = useState(6);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value.toLowerCase());
@@ -48,7 +59,7 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
           justifyContent: "space-between",
           alignItems: "center",
           padding: "1rem",
-          backgroundColor: "#f5f5f5"
+          backgroundColor: "#f5f5f5",
         }}
       >
         <TextField
@@ -59,19 +70,19 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
           sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
         />
         <Tooltip title="Create New POI" placement="bottom">
-        <Button onClick={onCreate} startIcon={<AddIcon />} />
+          <Button onClick={onCreate} startIcon={<AddIcon />} />
         </Tooltip>
       </Box>
       <Table className="poi-table">
-        <TableHead >
+        <TableHead>
           <TableRow className="poi-row">
-          <StyledTableCell>Name</StyledTableCell>
-          <StyledTableCell>Latitude</StyledTableCell>
-          <StyledTableCell>Longitude</StyledTableCell>
-          <StyledTableCell>Status</StyledTableCell>
-          <StyledTableCell>Type</StyledTableCell>
-          <StyledTableCell>Edit</StyledTableCell>
-          <StyledTableCell>Delete</StyledTableCell>
+            <StyledTableCell>Name</StyledTableCell>
+            <StyledTableCell>Latitude</StyledTableCell>
+            <StyledTableCell>Longitude</StyledTableCell>
+            <StyledTableCell>Status</StyledTableCell>
+            <StyledTableCell>Type</StyledTableCell>
+            <StyledTableCell>Edit</StyledTableCell>
+            <StyledTableCell>Delete</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -83,10 +94,15 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
               <StyledTableCell>{item.Status}</StyledTableCell>
               <StyledTableCell>{item.Type}</StyledTableCell>
               <StyledTableCell>
-                <Button sx={{ml:2}} onClick={() => onEdit(item)} startIcon={<EditIcon />} />
+                <Button
+                  sx={{ ml: 2 }}
+                  onClick={() => onEdit(item)}
+                  startIcon={<EditIcon />}
+                />
               </StyledTableCell>
               <StyledTableCell>
-                <Button sx ={{ml:2}}
+                <Button
+                  sx={{ ml: 2 }}
                   onClick={() => handleDeleteClick(item.$id)}
                   startIcon={<DeleteIcon />}
                 />

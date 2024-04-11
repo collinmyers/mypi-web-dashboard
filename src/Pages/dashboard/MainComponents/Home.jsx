@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
 import {
   Card,
@@ -16,18 +16,59 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddAlertIcon from "@mui/icons-material/AddAlert";
 import { blue, green, orange } from "@mui/material/colors";
 import { Chart, ArcElement, PieController, Tooltip, Legend } from "chart.js";
+import {
+  database,
+  functions,
+  DATABASE_ID,
+  DASHBOARD_STATS_COLLECTION_ID,
+  DASHBOARD_STATS_FUNCTION_ID,
+} from "../../../utils/AppwriteConfig";
 
 Chart.register(ArcElement, PieController, Tooltip, Legend);
 
 const Home = () => {
   const theme = useTheme();
 
+  const [dashboardStats, setDashboardStats] = useState({
+    TotalUsers: 0,
+    RegisteredUsers: 0,
+    TotalEvents: 0,
+    TotalPoints: 0,
+    TotalNotifications: 0,
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await database.listDocuments(
+          DATABASE_ID,
+          DASHBOARD_STATS_COLLECTION_ID
+        );
+        const stats = res.documents[0];
+        setDashboardStats({
+          TotalUsers: stats.TotalUsers,
+          RegisteredUsers: stats.RegisteredUsers,
+          TotalEvents: stats.TotalEvents,
+          TotalPoints: stats.TotalPoints,
+          TotalNotifications: stats.TotalNotifications,
+        });
+        console.log(stats);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   const pieData = {
-    labels: ["Total Events", "Total Notifications", "Total Points of Interest"],
+    labels: ["Registered Users", "Unregistered Users"],
     datasets: [
       {
-        data: [35, 20, 50],
-        backgroundColor: [blue[500], green[500], orange[500]],
+        data: [
+          dashboardStats.RegisteredUsers,
+          dashboardStats.TotalUsers - dashboardStats.RegisteredUsers,
+        ],
+        backgroundColor: ["#005588", "#FFB238"],
       },
     ],
   };
@@ -37,23 +78,23 @@ const Home = () => {
   const stats = [
     {
       title: "Total Events",
-      value: 35,
+      value: dashboardStats.TotalEvents,
       icon: <AddAlertIcon />,
-      color: blue[500],
+      color: "#FFB238",
       link: links[0],
     },
     {
       title: "Total Notifications",
-      value: 20,
+      value: dashboardStats.TotalNotifications,
       icon: <CalendarMonthIcon />,
-      color: green[500],
+      color: "#FFB238",
       link: links[1],
     },
     {
       title: "Total Points of Interests",
-      value: 50,
+      value: dashboardStats.TotalPoints,
       icon: <MapIcon />,
-      color: orange[500],
+      color: "#FFB238",
       link: links[2],
     },
   ];
@@ -77,10 +118,19 @@ const Home = () => {
             md={6}
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            <div style={{ height: "80%", width: "100%" }}>
-              {" "}
-              {/* Adjusted for better control */}
-              <Pie data={pieData} />
+            <div style={{ height: "325px", width: "325px" }}>
+              <div
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                  color: "#0078AA",
+                  fontWeight: "bold",
+                }}
+              >
+                Total Users
+              </div>
+              {/* Adjust these values as needed */}
+              <Pie data={pieData} options={{ maintainAspectRatio: false }} />
             </div>
           </Grid>
 
@@ -110,14 +160,15 @@ const Home = () => {
                     <Typography
                       variant="h6"
                       component="div"
-                      sx={{ fontWeight: "medium" }}
+                      sx={{ fontWeight: "medium", color: "#005588" }}
                     >
                       {stat.title}
                     </Typography>
+
                     <Typography
-                      variant="body1"
+                      variant="h4"
                       sx={{
-                        color: theme.palette.primary.main,
+                        color: "#005588",
                         fontWeight: "bold",
                       }}
                     >
