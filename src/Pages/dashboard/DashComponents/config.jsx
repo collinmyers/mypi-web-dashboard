@@ -55,6 +55,15 @@ export const items = [
     ),
   },
   {
+    title: "Vendor POIs",
+    path: "/vendor-points-of-interest",
+    icon: (
+      <SvgIcon fontSize="small">
+        <MapIcon />
+      </SvgIcon>
+    )
+  },
+  {
     title: "About",
     path: "/about",
     icon: (
