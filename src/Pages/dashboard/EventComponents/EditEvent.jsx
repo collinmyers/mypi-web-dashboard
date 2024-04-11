@@ -177,27 +177,27 @@ const cleanExtraURL = extraURL.filter((url, index) => extraTitle[index].trim() !
   
   const  handleSubmit = async () =>{
     console.log(imageUrls);
-  // const ids =[];
-  //   for (const key of Object.keys(imageUrls)){
-  //     if(imageUrls[key].File instanceof File){
+  const ids =[];
+    for (const key of Object.keys(imageUrls)){
+      if(imageUrls[key].File instanceof File){
   
-  //       try {
-  //         const response = await storage.createFile(BUCKET_ID, ID.unique(),imageUrls[key].File);
-  //           console.log(response);
-  //           ids.push(response.$id);
+        try {
+          const response = await storage.createFile(BUCKET_ID, ID.unique(),imageUrls[key].File);
+            console.log(response);
+            ids.push(response.$id);
             
-  //         } catch (error) {
-  //           console.error("Error updating document:", error);
-  //         }
-  //         console.log();
-  //       }else{
-  //         ids.push(imageUrls[key].imageId);
-  //       }
+          } catch (error) {
+            console.error("Error updating document:", error);
+          }
+          console.log();
+        }else{
+          ids.push(imageUrls[key].imageId);
+        }
         
-  //   }
-  //  data.FileID = ids;
-  //  await deleteImages();
-  //  updateDoc(data);
+    }
+   data.FileID = ids;
+   await deleteImages();
+   updateDoc(data);
   }; 
 
   const deleteImages = async () => {
