@@ -32,7 +32,7 @@
 }
 
 .statCard {
-  minWidth: 345px;
+  min-Width: 345px;
   margin-bottom: 16px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }

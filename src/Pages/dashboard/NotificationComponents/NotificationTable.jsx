@@ -1,22 +1,32 @@
 import React, { useState } from "react";
-import { Card, Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TextField, Button, Box } from "@mui/material";
+import {
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TablePagination,
+  TextField,
+  Button,
+  Box,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import { Tooltip }  from "@mui/material";
+import { Tooltip } from "@mui/material";
 
 const ScrollableTableCell = styled(TableCell)({
-  minWidth: 127,
-  maxWidth: 127,
-  
+  minWidth: 200,
+  maxWidth: 200,
+
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",
   backgroundColor: "#f5f5f5",
   textAlign: "center",
 });
-
 
 const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -44,17 +54,9 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
   const currentPageData = filteredData.slice(startIndex, startIndex + pageSize);
   const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
-
   return (
-    <Card sx={{ height: 580 }}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          minWidth: 800,
-        }}
-      >
+    <Card className="notif-card">
+      <Box className="search-and-add-box">
         <TextField
           placeholder="Search by Name..."
           variant="outlined"

@@ -19,9 +19,17 @@
   min-width: 75vw;
 }
 
+.search-and-add-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
 .poi-table-cell {
   text-align: center;
-  vertical-align: middle; /* Add this for vertical alignment, if necessary */
+  vertical-align: middle;
+  justify-content: "space-between";
 }
 
 .poi-row > th {
@@ -31,13 +39,12 @@
   color: white; /* Assuming you want white text for the headers */
 }
 
-/* Added classes for the styles previously using sx prop */
-.search-and-add-box {
-  display: flex;
-  justify-content: center;
+.poi-row{
+justify-content: center;
+  text-align: center;
   align-items: center;
-  padding: 1rem;
 }
+
 
 .search-text-field {
   flex-grow: 1;
