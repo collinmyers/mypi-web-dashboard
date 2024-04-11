@@ -1,17 +1,27 @@
 /* POITableStyle.css */
+.add-icon-button {
+  background-color: #005588;
+  color: white;
+}
+
+/* Adjust the size of the add icon within the button */
+.add-icon-button .MuiButton-startIcon svg {
+  font-size: 2rem; /* Example size, adjust as needed */
+  width: 2em; /* Ensures the icon's width is consistent with its font size */
+  height: 2em; /* Ensures the icon's height is consistent with its font size */
+}
 
 .poi-card {
-  min-height: 590px;
-  max-height: 590px;
+  min-height: 75vh;
 }
 
 .poi-table {
-  min-width: 1100px;
+  min-width: 75vw;
 }
 
 .poi-table-cell {
   text-align: center;
-  align-content: center;
+  vertical-align: middle; /* Add this for vertical alignment, if necessary */
 }
 
 .poi-row > th {

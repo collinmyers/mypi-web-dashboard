@@ -1,11 +1,23 @@
 import React, { useState } from "react";
-import { Card, Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TextField, Button, Box } from "@mui/material";
+import {
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TablePagination,
+  TextField,
+  Button,
+  Box,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import { Tooltip } from "@mui/material";
 import PropTypes from "prop-types";
+import "../../../styling/EventsStyling/EventsTableStyle.css";
 
 const ScrollableTableCell = styled(TableCell)({
   minWidth: 74,
@@ -35,10 +47,6 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
       deleteEvent(item);
     }
   };
-
-  // ...
-
-  // ...
 
   EventsTable.propTypes = {
     data: PropTypes.array.isRequired,
@@ -70,14 +78,25 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
-          sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
+          sx={{
+            flexGrow: 1,
+            marginRight: "1rem",
+            backgroundColor: "white",
+            "& .MuiInputBase-input": {
+              color: "#0000FF", // Change input text color here
+            },
+            "& .MuiInputBase-input::placeholder": {
+              color: "orange", // Change placeholder text color here
+              opacity: 1, // Ensures that the placeholder text color is fully visible
+            },
+          }}
         />
         <Tooltip title="Create New Event" placement="bottom">
-        <Button
-          onClick={() => createEvent()}
-          startIcon={<AddIcon />}
-          className="create-event-button"
-        ></Button>
+          <Button
+            onClick={() => createEvent()}
+            startIcon={<AddIcon />}
+            className="create-event-button"
+          ></Button>
         </Tooltip>
       </Box>
       <Table sx={{ minHeight: 400 }}>

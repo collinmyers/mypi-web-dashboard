@@ -15,17 +15,8 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { styled } from "@mui/system";
-import "../../../styling/POIStyling/POITableStyle.css"; // Ensure this path is correct
 import Tooltip from "@mui/material/Tooltip";
-// Define a general StyledTableCell for reuse
-const StyledTableCell = styled(TableCell)({
-  maxWidth: "50px", // Adjust or remove maxWidth as per your design needs
-  whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  textAlign: "center",
-});
+import "../../../styling/POIStyling/POITableStyle.css"; // Ensure this path is correct
 
 const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -62,54 +53,56 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
           onChange={handleSearchChange}
           className="search-text-field"
         />
-        <Tooltip title="Create New POI" placement="bottom">
-          <Button onClick={onCreate} startIcon={<AddIcon />} />
+        <Tooltip title="Create New POI" placement="top">
+          <Button
+            className="add-icon-button"
+            onClick={onCreate}
+            startIcon={<AddIcon />}
+          />
         </Tooltip>
       </Box>
       <Table className="poi-table">
         <TableHead>
           <TableRow className="poi-row">
-            <StyledTableCell component="th" scope="row">
-              Name
-            </StyledTableCell>
-            <StyledTableCell component="th" scope="row">
-              Latitude
-            </StyledTableCell>
-            <StyledTableCell component="th" scope="row">
-              Longitude
-            </StyledTableCell>
-            <StyledTableCell component="th" scope="row">
-              Status
-            </StyledTableCell>
-            <StyledTableCell component="th" scope="row">
-              Type
-            </StyledTableCell>
-            <StyledTableCell component="th" scope="row">
-              Edit
-            </StyledTableCell>
-            <StyledTableCell component="th" scope="row">
-              Delete
-            </StyledTableCell>
+            {[
+              "Name",
+              "Latitude",
+              "Longitude",
+              "Status",
+              "Type",
+              "Edit",
+              "Delete",
+            ].map((header) => (
+              <TableCell key={header} className="poi-table-cell">
+                {header}
+              </TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {currentPageData.map((item) => (
-            <TableRow key={item.$id}>
-              <StyledTableCell>{item.Name}</StyledTableCell>
-              <StyledTableCell>{item.Latitude}</StyledTableCell>
-              <StyledTableCell>{item.Longitude}</StyledTableCell>
-              <StyledTableCell>{item.Status}</StyledTableCell>
-              <StyledTableCell>{item.Type}</StyledTableCell>
-              <StyledTableCell>
+            <TableRow key={item.$id} sx={{ textAlign: "center" }}>
+              {[
+                item.Name,
+                item.Latitude,
+                item.Longitude,
+                item.Status,
+                item.Type,
+              ].map((value, index) => (
+                <TableCell key={index} className="poi-table-cell">
+                  {value}
+                </TableCell>
+              ))}
+              <TableCell className="poi-table-cell">
                 <Button onClick={() => onEdit(item)} startIcon={<EditIcon />} />
-              </StyledTableCell>
-              <StyledTableCell>
+              </TableCell>
+              <TableCell className="poi-table-cell">
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item.$id)}
                   startIcon={<DeleteIcon />}
                 />
-              </StyledTableCell>
+              </TableCell>
             </TableRow>
           ))}
           {emptyRows > 0 && (

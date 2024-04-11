@@ -120,7 +120,12 @@ const Home = () => {
           >
             <div style={{ height: "325px", width: "325px" }}>
               <div
-                style={{ textAlign: "center", fontSize: 20, color: "#0078AA" }}
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                  color: "#0078AA",
+                  fontWeight: "bold",
+                }}
               >
                 Total Users
               </div>
