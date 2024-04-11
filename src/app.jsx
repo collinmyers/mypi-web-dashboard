@@ -68,8 +68,8 @@ export default function App() {
                             <Route path="/edit-user" element={<EditUser />} />
                         </Route>
 
-                        <Route element={<PrivateRoute allowedRoles="ManageParkInfo" />}>
-                            <Route path="/park-info" element={<ParkInfo />} />
+                        <Route element={<PrivateRoute allowedRoles="ManageAbout" />}>
+                            <Route path="/about" element={<ParkInfo />} />
                         </Route>
 
                         <Route element={<PrivateRoute allowedRoles="ManageFaq" />}>

@@ -55,8 +55,8 @@ export const items = [
     ),
   },
   {
-    title: "Park Info",
-    path: "/park-info",
+    title: "About",
+    path: "/about",
     icon: (
       <SvgIcon fontSize="small">
         <InformationCircleIcon />
