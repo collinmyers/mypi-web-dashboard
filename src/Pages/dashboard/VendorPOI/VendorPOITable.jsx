@@ -71,7 +71,7 @@ const VendorPOITable = ({ allData, onDelete, onCreate }) => {
               "Type",
               "Delete",
             ].map((header) => (
-              <TableCell key={header} className="poi-table-cell">
+              <TableCell key={header}>
                 {header}
               </TableCell>
             ))}
@@ -79,7 +79,7 @@ const VendorPOITable = ({ allData, onDelete, onCreate }) => {
         </TableHead>
         <TableBody>
           {currentPageData.map((item) => (
-            <TableRow key={item.$id} sx={{ textAlign: "center" }}>
+            <TableRow className="poi-row" key={item.$id} sx={{ textAlign: "center" }}>
               {[
                 item.Name,
                 item.Latitude,
@@ -87,12 +87,12 @@ const VendorPOITable = ({ allData, onDelete, onCreate }) => {
                 item.Status,
                 item.Type,
               ].map((value, index) => (
-                <TableCell key={index} className="poi-table-cell">
+                <TableCell key={index} >
                   {value}
                 </TableCell>
               ))}
 
-              <TableCell className="poi-table-cell">
+              <TableCell >
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item.$id)}

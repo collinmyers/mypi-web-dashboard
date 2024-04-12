@@ -15,6 +15,7 @@
   min-height: 75vh;
 }
 
+
 .poi-table {
   min-width: 75vw;
 }
@@ -26,10 +27,13 @@
   padding: 1rem;
 }
 
-.poi-table-cell {
+
+.poi-row > td{
+  
   text-align: center;
   vertical-align: middle;
   justify-content: "space-between";
+
 }
 
 .poi-row > th {
@@ -52,9 +56,3 @@ justify-content: center;
   background-color: white;
 }
 
-.pagination {
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  right: 100px;
-}
