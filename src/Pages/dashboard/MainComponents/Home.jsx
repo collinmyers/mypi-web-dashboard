@@ -110,7 +110,7 @@ const Home = () => {
           height: "100vh",
         }}
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={15}>
           {/* Pie Chart Section */}
           <Grid
             item
