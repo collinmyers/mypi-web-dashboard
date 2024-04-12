@@ -60,7 +60,7 @@ const handleDeleteClick = (item) => {
           onChange={handleSearchChange}
           sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
         />
-        <Button  startIcon={<AddIcon />}/>
+        <Button onClick={() => onCreate()} startIcon={<AddIcon />}/>
       </Box>
       <Table className="FAQ-table">
         <TableHead >

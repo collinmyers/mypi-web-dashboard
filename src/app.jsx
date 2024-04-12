@@ -25,6 +25,7 @@ import VendorPOITable from "./Pages/dashboard/VendorPOI/VendorPOITable";
 import CreateVendorPOI from "./Pages/dashboard/VendorPOI/CreateVendorPOI";
 import { useAuth } from "./components/AuthContext";
 import VendorPOIEdit from "./Pages/dashboard/MainComponents/VendorPOIEditor";
+import CreateAbout from "./Pages/dashboard/AboutComponents/CreateAbout";
 export default function App() {
 
     const { isSignedIn } = useAuth();
@@ -73,6 +74,7 @@ export default function App() {
 
                     <Route element={<PrivateRoute allowedRoles="ManageAbout" />}>
                         <Route path="/about" element={<About />} />
+                        <Route path="/create-about" element={<CreateAbout/>}/>
                     </Route>
 
                     <Route element={<PrivateRoute allowedRoles="ManageFaq" />}>
