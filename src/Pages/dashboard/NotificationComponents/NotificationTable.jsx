@@ -16,6 +16,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import { Tooltip } from "@mui/material";
+import "../../../styling/TableStyling.css";
 
 const ScrollableTableCell = styled(TableCell)({
   minWidth: 200,
@@ -55,7 +56,7 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
   const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
   return (
-    <Card className="notif-card">
+    <Card className="card">
       <Box className="search-and-add-box">
         <TextField
           placeholder="Search by Name..."
@@ -64,12 +65,12 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
           onChange={handleSearchChange}
           sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
         />
-        <Tooltip title="Create Notification" placement="bottom">
+        <Tooltip title="Create New Notification" placement="bottom">
           <Button
+            className="add-icon-button"
             onClick={() => onCreate()}
             startIcon={<AddIcon />}
-            className="create-notification-button"
-          ></Button>
+          />
         </Tooltip>
       </Box>
       <Table sx={{ minHeight: 400 }}>

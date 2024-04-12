@@ -16,8 +16,9 @@ import {
   Button,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import "../../../styling/POIStyling/POITableStyle.css";
 import Tooltip from "@mui/material/Tooltip";
+import "../../../styling/TableStyling.css";
+
 const StyledTableCell = styled(TableCell)({
   minWidth: "50px",
   whiteSpace: "nowrap",
@@ -52,30 +53,26 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
   const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
   return (
-    <Card className="poi-card">
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "1rem",
-          backgroundColor: "#f5f5f5",
-        }}
-      >
+    <Card className="card">
+      <Box className="search-and-add-box">
         <TextField
+          className="search-text-field"
           placeholder="Search by Name..."
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
-          sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
         />
         <Tooltip title="Create New POI" placement="bottom">
-          <Button onClick={onCreate} startIcon={<AddIcon />} />
+          <Button
+            className="add-icon-button"
+            onClick={onCreate}
+            startIcon={<AddIcon />}
+          />
         </Tooltip>
       </Box>
-      <Table className="poi-table">
+      <Table className="table">
         <TableHead>
-          <TableRow className="poi-row">
+          <TableRow className="row">
             <StyledTableCell>Name</StyledTableCell>
             <StyledTableCell>Latitude</StyledTableCell>
             <StyledTableCell>Longitude</StyledTableCell>
@@ -94,18 +91,17 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
               <StyledTableCell>{item.Status}</StyledTableCell>
               <StyledTableCell>{item.Type}</StyledTableCell>
               <StyledTableCell>
-                <Button
-                  sx={{ ml: 2 }}
-                  onClick={() => onEdit(item)}
-                  startIcon={<EditIcon />}
-                />
+                <Button className="edit-button" onClick={() => onEdit(item)}>
+                  <EditIcon />
+                </Button>
               </StyledTableCell>
               <StyledTableCell>
                 <Button
-                  sx={{ ml: 2 }}
+                  className="delete-button"
                   onClick={() => handleDeleteClick(item.$id)}
-                  startIcon={<DeleteIcon />}
-                />
+                >
+                  <DeleteIcon />
+                </Button>
               </StyledTableCell>
             </TableRow>
           ))}
@@ -123,7 +119,7 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
         page={currentPage}
         rowsPerPage={pageSize}
         rowsPerPageOptions={[pageSize]}
-        sx={{ position: "sticky", bottom: 0, left: 0, right: 100 }}
+        className="pagination"
       />
     </Card>
   );
