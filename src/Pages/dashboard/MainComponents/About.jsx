@@ -14,26 +14,26 @@ export default function About(){
   const navigate = useNavigate();
 
   useEffect(() => {
-    getParkInfo();
+    getAbout();
     
   },[]);
 
 
   const SuccessfulDeletion = () => {
-    toast.success("Park Info deleted", {
+    toast.success("About deleted", {
       position: toast.POSITION.TOP_CENTER,
     });
   };
 
   const FailedDeletion = () => {
-    toast.error("Failed to delete Park Info", {
+    toast.error("Failed to delete About", {
       position: toast.POSITION.TOP_CENTER,
     });
   };
 
   
 
-  const getParkInfo = async () =>{
+  const getAbout = async () =>{
     try {
       const response = await database.listDocuments(
         DATABASE_ID,
@@ -51,12 +51,11 @@ export default function About(){
 
   };
 
-  const deletParkInfo = async (info) =>{
+  const deletAbout = async (info) =>{
     try{
-      console.log(info.$id);
       await database.deleteDocument(DATABASE_ID,PARKINFO_COLLECTION_ID,info.$id);
       //success toast
-      getParkInfo();
+      getAbout();
       SuccessfulDeletion();
 
     } catch(error){
@@ -68,15 +67,15 @@ export default function About(){
   
   };
 
-  const editParkInfo = (info) => {
+  const editAbout = (item) => {
     navigate("/edit-about", {
       state: {
-          ParkInfo: info,
+          About: item,
       }
     });
   };
 
-  const createParkInfo = (info) =>{
+  const createAbout = (info) =>{
     navigate("/create-about",{
       state:{
         ParkInfo: info,
@@ -97,7 +96,7 @@ export default function About(){
     <Layout> {/* Wrap your content inside the Layout component */}
       <ToastContainer/>
       <div>             
-          <ParkInfoTable data={data} onDelete = {deletParkInfo} onEdit = {editParkInfo} onCreate ={createParkInfo}/>
+          <ParkInfoTable data={data} onDelete = {deletAbout} onEdit = {editAbout} onCreate ={createAbout}/>
       </div>
     </Layout>
   );

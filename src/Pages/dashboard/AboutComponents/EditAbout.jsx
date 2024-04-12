@@ -1,17 +1,20 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import {Container,TextField,Button,Typography} from "@mui/material";
 import { ID } from "appwrite";
 import { database } from "../../../utils/AppwriteConfig";
 import {PARKINFO_COLLECTION_ID,DATABASE_ID,} from "../../../utils/AppwriteConfig";
 import { toast, ToastContainer } from "react-toastify";
-// import "../../../styling/NotificationStyling/CreateNotificationStyle.css"; // Obsolete styling file
 import {FormControl,InputLabel,Select,MenuItem,Box} from "@mui/material";
+import { Description } from "@mui/icons-material";
 
-export default function CreateAbout() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [aboutType,setAboutType] = useState("partnership");
+export default function EditAbout() {
+    const location = useLocation();
+    let about = location.state.About;
+  const [title, setTitle] = useState(about.Title);
+  const [description, setDescription] = useState(about.Description);
+  const [aboutType,setAboutType] = useState(about.AboutType);
+
 
   const navigate = useNavigate();
   const timeout = () =>{
@@ -21,14 +24,14 @@ export default function CreateAbout() {
   };
 
   const SuccessfulCreation = () => {
-    toast.success("New About section Created", {
+    toast.success("About Successfully Edited", {
       position: toast.POSITION.TOP_CENTER,
     });
     timeout();
   };
 
   const creationFailed = () => {
-    toast.error("Failed to Create", {
+    toast.error("Failed to Edit About", {
       position: toast.POSITION.TOP_CENTER,
     });
   };
@@ -53,10 +56,10 @@ export default function CreateAbout() {
 
 
     try {
-      await database.createDocument(
+      await database.updateDocument(
         DATABASE_ID,
         PARKINFO_COLLECTION_ID,
-        ID.unique(),
+        about.$id,
         data
       );
       clearInput();
@@ -79,9 +82,10 @@ export default function CreateAbout() {
         variant="h4"
         sx={{ color: "#005588", fontWeight: "bold", textAlign: "center", my: 2 }}
       >
-        New About
+        Edit About
       </Typography>
       <TextField
+        value={title}
         fullWidth
         label="Title"
         variant="outlined"
@@ -89,6 +93,7 @@ export default function CreateAbout() {
         onChange={(e) => setTitle(e.target.value)}
       />
       <TextField
+        value={description}
         fullWidth
         rows={5}
         label="Description"

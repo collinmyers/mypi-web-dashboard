@@ -77,10 +77,10 @@ const handleDeleteClick = (item) => {
               <StyledTableCell>{item.Title}</StyledTableCell>
               <StyledTableCell>{item.Description}</StyledTableCell>
               <TableCell className="FAQ-cell">
-                <Button sx={{ml:2}}  startIcon={<EditIcon />} />
+                <Button sx={{ml:2}} onClick={() => onEdit(item)}  startIcon={<EditIcon />} />
               </TableCell>
               <TableCell className="FAQ-cell">
-                <Button sx ={{ml:2}}  startIcon={<DeleteIcon />}/>
+                <Button sx ={{ml:2}} onClick={() => handleDeleteClick(item)} startIcon={<DeleteIcon />}/>
               </TableCell>
             </TableRow>
           ))}

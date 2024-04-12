@@ -25,6 +25,7 @@ import VendorPOITable from "./Pages/dashboard/VendorPOI/VendorPOITable";
 import CreateVendorPOI from "./Pages/dashboard/VendorPOI/CreateVendorPOI";
 import { useAuth } from "./components/AuthContext";
 import VendorPOIEdit from "./Pages/dashboard/MainComponents/VendorPOIEditor";
+import EditAbout from "./Pages/dashboard/AboutComponents/EditAbout";
 import CreateAbout from "./Pages/dashboard/AboutComponents/CreateAbout";
 export default function App() {
 
@@ -75,6 +76,8 @@ export default function App() {
                     <Route element={<PrivateRoute allowedRoles="ManageAbout" />}>
                         <Route path="/about" element={<About />} />
                         <Route path="/create-about" element={<CreateAbout/>}/>
+                        <Route path="/edit-about" element={<EditAbout/>}/>
+
                     </Route>
 
                     <Route element={<PrivateRoute allowedRoles="ManageFaq" />}>
