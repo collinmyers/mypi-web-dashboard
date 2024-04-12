@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import { Query } from "appwrite";
 import { useNavigate } from "react-router-dom";
-import ParkInfoTable from "../ParkInfoComponents/ParkInfoTable";
+import ParkInfoTable from "../AboutComponents/AboutTable";
 import { database } from "../../../utils/AppwriteConfig";
 import { PARKINFO_COLLECTION_ID} from "../../../utils/AppwriteConfig";
 import { DATABASE_ID } from "../../../utils/AppwriteConfig";
@@ -9,7 +9,7 @@ import { toast,ToastContainer } from "react-toastify";
 
 import Layout from "./Layout"; 
 
-export default function ParkInfo(){
+export default function About(){
   const [data,setData] = useState([]);
   const navigate = useNavigate();
 
@@ -69,7 +69,7 @@ export default function ParkInfo(){
   };
 
   const editParkInfo = (info) => {
-    navigate("/edit-park-info", {
+    navigate("/edit-about", {
       state: {
           ParkInfo: info,
       }
@@ -77,7 +77,7 @@ export default function ParkInfo(){
   };
 
   const createParkInfo = (info) =>{
-    navigate("/create-park-info",{
+    navigate("/create-about",{
       state:{
         ParkInfo: info,
       }

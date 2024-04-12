@@ -17,7 +17,7 @@ import CreateNotification from "./Pages/dashboard/NotificationComponents/CreateN
 import EditNotification from "./Pages/dashboard/NotificationComponents/EditNotification";
 import UserEditor from "./Pages/dashboard/MainComponents/UserEditor";
 import EditUser from "./Pages/dashboard/UserComponents/EditUser";
-import ParkInfo from "./Pages/dashboard/MainComponents/ParkInfo";
+import About from "./Pages/dashboard/MainComponents/About";
 import FAQ from "./Pages/dashboard/MainComponents/FAQ";
 import EditFAQ from "./Pages/dashboard/FAQComponents/EditFAQ";
 import CreateFAQ from "./Pages/dashboard/FAQComponents/CreateFAQ";
@@ -72,7 +72,7 @@ export default function App() {
                     </Route>
 
                     <Route element={<PrivateRoute allowedRoles="ManageAbout" />}>
-                        <Route path="/about" element={<ParkInfo />} />
+                        <Route path="/about" element={<About />} />
                     </Route>
 
                     <Route element={<PrivateRoute allowedRoles="ManageFaq" />}>
