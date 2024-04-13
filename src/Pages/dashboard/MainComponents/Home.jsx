@@ -154,7 +154,7 @@ const Home = () => {
               variant="body2"
               sx={{
                 position: "absolute",
-                top: theme.spacing(2.25),
+                top: theme.spacing(4),
                 right: theme.spacing(10),
                 color: "#005588",
                 fontWeight: 500,

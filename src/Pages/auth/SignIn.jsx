@@ -90,7 +90,7 @@ export default function LoginScreen() {
           <Box
             component="img"
             src={myPIIcon}
-            alt="Park Icon"
+            alt="myPI Logo"
             sx={{ height: 120, mb: 2, display: "block", mx: "auto" }}
           />
           <Typography
@@ -103,7 +103,7 @@ export default function LoginScreen() {
               fontWeight: "bold",
             }}
           >
-            Admin Login
+            Admin Dashboard
           </Typography>
           <TextField
             label="Email"
@@ -128,11 +128,18 @@ export default function LoginScreen() {
             onClick={handleLogin}
             fullWidth
             variant="contained"
-            color="primary"
-            sx={{ mt: 2, fontWeight: "bold" }}
+            sx={{
+              mt: 2,
+              fontWeight: "bold",
+              backgroundColor: "#FFB238",
+              "&:hover": {
+                backgroundColor: "#0078AA", // Set hover color
+              },
+            }}
           >
             Sign In
           </Button>
+
         </Card>
       </Box>
     </ThemeProvider>
