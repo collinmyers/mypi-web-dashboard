@@ -90,12 +90,15 @@ export const SideNav = (props) => {
           }}
         >
           <div>
-            <img src={logo} style={{
-              flex: 1,
-              width: "100%",
-              height: "100%",
-              resizeMode: "contain",
-            }} />
+            <img
+              src={logo}
+              alt="myPI Logo"
+              style={{
+                flex: 1,
+                width: "100%",
+                height: "100%",
+                resizeMode: "contain",
+              }} />
             <Typography
               color="neutral.400"
               variant="body2"
