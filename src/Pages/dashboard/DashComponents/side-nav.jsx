@@ -90,16 +90,12 @@ export const SideNav = (props) => {
           }}
         >
           <div>
-            <Typography
-              color="inherit"
-              variant="subtitle1"
-              fontSize={30}
-              sx={{ mb: 1, mt: 0 }}
-              style={{ fontWeight: "bold" }}
-              textAlign="center"
-            >
-              MyPI
-            </Typography>
+            <img src={logo} style={{
+              flex: 1,
+              width: "100%",
+              height: "100%",
+              resizeMode: "contain",
+            }} />
             <Typography
               color="neutral.400"
               variant="body2"

@@ -136,7 +136,7 @@ const Home = () => {
           component="h3"
           sx={{ textAlign: "center", mb: 4, color: "#005588" }}
         >
-          myPI Platform Analytics
+          Platform Statistics
         </Typography>
 
         <Paper
