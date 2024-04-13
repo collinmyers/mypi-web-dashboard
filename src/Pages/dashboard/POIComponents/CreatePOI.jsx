@@ -68,7 +68,7 @@ export default function CreatePOI() {
         align="center"
         sx={{ color: "#005588", fontWeight: "bold", marginY: 2 }}
       >
-        New POI
+        New Point of Interest
       </Typography>
       <TextField
         fullWidth

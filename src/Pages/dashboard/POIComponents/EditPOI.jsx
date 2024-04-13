@@ -85,7 +85,7 @@ export default function EditPOI(){
           marginBottom: 4, // Adjust the bottom margin as needed
         }}
       >
-        Edit POI
+        Edit Point of Interest
       </Typography>
       <Box component="form"  noValidate sx={{ mt: 1 }}>
         <Grid container spacing={2}>
