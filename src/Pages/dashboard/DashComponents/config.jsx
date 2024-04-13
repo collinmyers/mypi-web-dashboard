@@ -55,7 +55,7 @@ export const items = [
     ),
   },
   {
-    title: "Vendor POIs",
+    title: "Vendor Locations",
     path: "/vendor-points-of-interest",
     icon: (
       <SvgIcon fontSize="small">

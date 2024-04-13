@@ -6,6 +6,7 @@ import {
   Typography,
   Box,
   Grid,
+  Paper,
   useTheme,
   Avatar,
   CardActionArea,
@@ -14,14 +15,11 @@ import { Pie } from "react-chartjs-2";
 import MapIcon from "@mui/icons-material/Map";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddAlertIcon from "@mui/icons-material/AddAlert";
-import { blue, green, orange } from "@mui/material/colors";
 import { Chart, ArcElement, PieController, Tooltip, Legend } from "chart.js";
 import {
   database,
-  functions,
   DATABASE_ID,
   DASHBOARD_STATS_COLLECTION_ID,
-  DASHBOARD_STATS_FUNCTION_ID,
 } from "../../../utils/AppwriteConfig";
 
 Chart.register(ArcElement, PieController, Tooltip, Legend);
@@ -35,6 +33,7 @@ const Home = () => {
     TotalEvents: 0,
     TotalPoints: 0,
     TotalNotifications: 0,
+    Timestamp: "",
   });
 
   useEffect(() => {
@@ -51,14 +50,34 @@ const Home = () => {
           TotalEvents: stats.TotalEvents,
           TotalPoints: stats.TotalPoints,
           TotalNotifications: stats.TotalNotifications,
+          Timestamp: stats.$updatedAt
         });
-        console.log(stats);
+        console.log(stats.$updatedAt);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
   }, []);
+
+  const formatLastUpdated = (time) => {
+    const currentTime = new Date();
+    const updatedTime = new Date(time);
+    const diff = currentTime.getTime() - updatedTime.getTime();
+    const minutes = Math.floor(diff / (1000 * 60));
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (minutes < 1) {
+      return "now";
+    } else if (minutes < 60) {
+      return `${minutes} min${minutes > 1 ? "s" : ""} ago`;
+    } else if (hours < 24) {
+      return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+    } else {
+      return `${days} day${days > 1 ? "s" : ""} ago`;
+    }
+  };
 
   const pieData = {
     labels: ["Registered Users", "Unregistered Users"],
@@ -105,83 +124,121 @@ const Home = () => {
         sx={{
           flexGrow: 1,
           display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           height: "100vh",
         }}
       >
-        <Grid container spacing={15}>
-          {/* Pie Chart Section */}
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{ display: "flex", justifyContent: "center" }}
-          >
-            <div style={{ height: "325px", width: "325px" }}>
-              <div
-                style={{
-                  textAlign: "center",
-                  fontSize: 20,
-                  color: "#0078AA",
-                  fontWeight: "bold",
-                }}
-              >
-                Total Users
-              </div>
-              {/* Adjust these values as needed */}
-              <Pie data={pieData} options={{ maintainAspectRatio: false }} />
-            </div>
-          </Grid>
+        {/* Page Title */}
+        <Typography
+          variant="h3"
+          component="h3"
+          sx={{ textAlign: "center", mb: 4, color: "#005588" }}
+        >
+          myPI Platform Analytics
+        </Typography>
 
-          {/* Cards Section */}
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {stats.map((stat, index) => (
-              <Card key={index} sx={{ minWidth: 345, mb: 2, boxShadow: 5 }}>
-                <CardActionArea
-                  component="a" // Change to "Link" if using react-router-dom
-                  href={stat.link} // Change to "to" if using Link from react-router-dom
-                  sx={{ display: "flex", justifyContent: "flex-start" }}
+        <Paper
+          elevation={5}
+          sx={{
+            borderRadius: 10, // Adjust the border radius as needed
+            padding: theme.spacing(10),
+            position: "relative",
+          }}
+        >
+
+          <Grid container spacing={25}>
+            {/* Last updated time component */}
+            <Typography
+              variant="body2"
+              sx={{
+                position: "absolute",
+                top: theme.spacing(2.25),
+                right: theme.spacing(10),
+                color: "#005588",
+                fontWeight: 500,
+                fontSize: 16
+              }}
+            >
+              Lastest Change: {formatLastUpdated(dashboardStats.Timestamp)}
+            </Typography>
+
+
+
+            {/* Pie Chart Section */}
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              <div style={{ height: "325px", width: "325px" }}>
+                <div
+                  style={{
+                    textAlign: "center",
+                    fontSize: 20,
+                    color: "#005588",
+                    fontWeight: 500,
+                  }}
                 >
-                  <Avatar sx={{ bgcolor: stat.color, ml: 2 }}>
-                    {stat.icon}
-                  </Avatar>
-                  <CardContent>
-                    <Typography
-                      variant="h6"
-                      component="div"
-                      sx={{ fontWeight: "medium", color: "#005588" }}
-                    >
-                      {stat.title}
-                    </Typography>
+                  Total Users
+                </div>
+                {/* Adjust these values as needed */}
+                <Pie data={pieData} options={{ maintainAspectRatio: false }} />
+              </div>
+            </Grid>
 
-                    <Typography
-                      variant="h4"
-                      sx={{
-                        color: "#005588",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {stat.value}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            ))}
+            {/* Cards Section */}
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {stats.map((stat, index) => (
+                <Card key={index} sx={{ minWidth: 345, mb: 3, boxShadow: 5 }}>
+                  <CardActionArea
+                    component="a" // Change to "Link" if using react-router-dom
+                    href={stat.link} // Change to "to" if using Link from react-router-dom
+                    sx={{ display: "flex", justifyContent: "flex-start" }}
+                  >
+                    <Avatar sx={{ bgcolor: stat.color, ml: 2 }}>
+                      {stat.icon}
+                    </Avatar>
+                    <CardContent>
+                      <Typography
+                        variant="h6"
+                        component="div"
+                        sx={{ fontWeight: "medium", color: "#005588" }}
+                      >
+                        {stat.title}
+                      </Typography>
+
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          color: "#005588",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {stat.value}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              ))}
+
+            </Grid>
           </Grid>
-        </Grid>
+        </Paper>
       </Box>
-    </Layout>
+    </Layout >
   );
 };
 
