@@ -11,24 +11,12 @@ import {
   Button,
   Box,
 } from "@mui/material";
-import { styled } from "@mui/system";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import { Tooltip } from "@mui/material";
 import PropTypes from "prop-types";
-import "../../../styling/EventsStyling/EventsTableStyle.css";
-
-const ScrollableTableCell = styled(TableCell)({
-  minWidth: 74,
-  maxWidth: 74,
-  width: 230,
-  whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  backgroundColor: "#f5f5f5",
-  textAlign: "center",
-});
+import "../../../styling/TableStyling.css";
 
 const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -64,95 +52,80 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
   const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
   return (
-    <Card sx={{ height: 580 }}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          minWidth: 800,
-        }}
-      >
+    <Card className="card">
+      <Box className="search-box">
         <TextField
           placeholder="Search by Name..."
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
-          sx={{
-            flexGrow: 1,
-            marginRight: "1rem",
-            backgroundColor: "white",
-            "& .MuiInputBase-input": {
-              color: "#0000FF", // Change input text color here
-            },
-            "& .MuiInputBase-input::placeholder": {
-              color: "orange", // Change placeholder text color here
-              opacity: 1, // Ensures that the placeholder text color is fully visible
-            },
-          }}
+          className="search-text-field"
         />
         <Tooltip title="Create New Event" placement="bottom">
           <Button
+            className="add-icon-button"
             onClick={() => createEvent()}
             startIcon={<AddIcon />}
-            className="create-event-button"
-          ></Button>
+          />
         </Tooltip>
       </Box>
-      <Table sx={{ minHeight: 400 }}>
-        <TableHead sx={{ backgroundColor: "#f5f5f5" }}>
-          <TableRow>
-            <ScrollableTableCell>Name</ScrollableTableCell>
-            <ScrollableTableCell>Latitude</ScrollableTableCell>
-            <ScrollableTableCell>Longitude</ScrollableTableCell>
-            <ScrollableTableCell>Date</ScrollableTableCell>
-            <ScrollableTableCell>Time</ScrollableTableCell>
-            <ScrollableTableCell>Description</ScrollableTableCell>
-            <ScrollableTableCell>Long Description</ScrollableTableCell>
-            <ScrollableTableCell>Edit</ScrollableTableCell>
-            <ScrollableTableCell>Delete</ScrollableTableCell>
+      <Table className="table">
+        <TableHead>
+          <TableRow className="row">
+            {[
+              "Name",
+              "Latitude",
+              "Longitude",
+              "Date",
+              "Time",
+              "Description",
+              "Long Description",
+              "Edit",
+              "Delete",
+            ].map((header) => (
+              <TableCell key={header}>{header}</TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {currentPageData.map((item) => (
-            <TableRow key={item.$id}>
-              <ScrollableTableCell>{item.Name}</ScrollableTableCell>
-              <ScrollableTableCell>{item.Latitude}</ScrollableTableCell>
-              <ScrollableTableCell>{item.Longitude}</ScrollableTableCell>
-              <ScrollableTableCell>{item.Date}</ScrollableTableCell>
-              <ScrollableTableCell>{item.Time}</ScrollableTableCell>
-              <ScrollableTableCell>
-                <Tooltip
-                  title={item.EventDetailsDescription}
-                  placement="bottom-start"
-                >
-                  {item.EventListDescription}
-                </Tooltip>
-              </ScrollableTableCell>
-              <ScrollableTableCell>
-                {item.EventDetailsDescription}
-              </ScrollableTableCell>
-              <ScrollableTableCell>
+            <TableRow
+              className="row"
+              key={item.$id}
+              sx={{ textAlign: "center" }}
+            >
+              {[
+                item.Name,
+                item.Latitude,
+                item.Longitude,
+                item.Date,
+                item.Time,
+                item.Description,
+                item.LongDescription,
+              ].map((value, index) => (
+                <TableCell key={index}>{value}</TableCell>
+              ))}
+
+              <TableCell>
                 <Button
-                  sx={{ ml: 2 }}
+                  className="edit-button"
                   onClick={() => editEvent(item)}
                   startIcon={<EditIcon />}
-                  className="edit-button"
                 />
-              </ScrollableTableCell>
-              <ScrollableTableCell>
+              </TableCell>
+
+              <TableCell>
                 <Button
-                  sx={{ ml: 2 }}
-                  onClick={() => handleDeleteClick(item)}
-                  startIcon={<DeleteIcon />}
                   className="delete-button"
+                  onClick={() => handleDeleteClick(item.$id)}
+                  startIcon={<DeleteIcon />}
                 />
-              </ScrollableTableCell>
+              </TableCell>
             </TableRow>
           ))}
           {emptyRows > 0 && (
             <TableRow style={{ height: 65 * emptyRows }}>
-              <TableCell colSpan={9} />
+              <TableCell colSpan={7} />
             </TableRow>
           )}
         </TableBody>
@@ -161,13 +134,18 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
         component="div"
         count={filteredData.length}
         onPageChange={(event, page) => setCurrentPage(page + 1)}
-        page={currentPage - 1}
+        page={currentPage}
         rowsPerPage={pageSize}
         rowsPerPageOptions={[pageSize]}
-        sx={{ position: "absolute", bottom: 0, left: 0, right: 35 }}
+        className="pagination"
       />
     </Card>
   );
 };
 
 export default EventsTable;
+
+// Needs Fixed. Description and LD are not showing up in the table.
+// Consistent Styling Implemented.
+// I went line by line for this shit, omg.
+// But the code from VendorPOI helped a lot, so thanks.

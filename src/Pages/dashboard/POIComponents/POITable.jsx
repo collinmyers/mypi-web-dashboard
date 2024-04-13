@@ -15,17 +15,8 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { styled } from "@mui/system";
 import Tooltip from "@mui/material/Tooltip";
 import "../../../styling/TableStyling.css";
-
-const StyledTableCell = styled(TableCell)({
-  minWidth: "50px",
-  whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  textAlign: "center",
-});
 
 const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -54,13 +45,13 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
 
   return (
     <Card className="card">
-      <Box className="search-and-add-box">
+      <Box className="search-box">
         <TextField
-          className="search-text-field"
           placeholder="Search by Name..."
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
+          className="search-text-field"
         />
         <Tooltip title="Create New POI" placement="bottom">
           <Button
@@ -73,38 +64,54 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
       <Table className="table">
         <TableHead>
           <TableRow className="row">
-            <StyledTableCell>Name</StyledTableCell>
-            <StyledTableCell>Latitude</StyledTableCell>
-            <StyledTableCell>Longitude</StyledTableCell>
-            <StyledTableCell>Status</StyledTableCell>
-            <StyledTableCell>Type</StyledTableCell>
-            <StyledTableCell>Edit</StyledTableCell>
-            <StyledTableCell>Delete</StyledTableCell>
+            {[
+              "Name",
+              "Latitude",
+              "Longitude",
+              "Status",
+              "Type",
+              "Edit",
+              "Delete",
+            ].map((header) => (
+              <TableCell key={header}>{header}</TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {currentPageData.map((item) => (
-            <TableRow key={item.$id}>
-              <StyledTableCell>{item.Name}</StyledTableCell>
-              <StyledTableCell>{item.Latitude}</StyledTableCell>
-              <StyledTableCell>{item.Longitude}</StyledTableCell>
-              <StyledTableCell>{item.Status}</StyledTableCell>
-              <StyledTableCell>{item.Type}</StyledTableCell>
-              <StyledTableCell>
-                <Button className="edit-button" onClick={() => onEdit(item)}>
-                  <EditIcon />
-                </Button>
-              </StyledTableCell>
-              <StyledTableCell>
+            <TableRow
+              className="row"
+              key={item.$id}
+              sx={{ textAlign: "center" }}
+            >
+              {[
+                item.Name,
+                item.Latitude,
+                item.Longitude,
+                item.Status,
+                item.Type,
+              ].map((value, index) => (
+                <TableCell key={index}>{value}</TableCell>
+              ))}
+
+              <TableCell>
+                <Button
+                  className="edit-button"
+                  onClick={() => onEdit(item.$id)}
+                  startIcon={<EditIcon />}
+                />
+              </TableCell>
+
+              <TableCell>
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item.$id)}
-                >
-                  <DeleteIcon />
-                </Button>
-              </StyledTableCell>
+                  startIcon={<DeleteIcon />}
+                />
+              </TableCell>
             </TableRow>
           ))}
+
           {emptyRows > 0 && (
             <TableRow style={{ height: 65 * emptyRows }}>
               <TableCell colSpan={7} />

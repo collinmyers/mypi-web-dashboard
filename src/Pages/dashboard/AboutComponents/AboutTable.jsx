@@ -3,7 +3,18 @@ import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import { Box, Card, Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TextField, Button } from "@mui/material";
+import {
+  Box,
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TablePagination,
+  TextField,
+  Button,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import "../../../styling/FAQStyling/FAQTableStyle.css";
 
@@ -13,7 +24,7 @@ const StyledTableCell = styled(TableCell)({
   overflow: "hidden",
   textOverflow: "ellipsis",
   textAlign: "center",
-//   backgroundColor: "white",
+  //   backgroundColor: "white",
 });
 
 const ParkInfoTable = ({ data, onDelete, onEdit, onCreate }) => {
@@ -26,13 +37,12 @@ const ParkInfoTable = ({ data, onDelete, onEdit, onCreate }) => {
     setCurrentPage(0); // Reset to the first page when searching
   };
 
-const handleDeleteClick = (item) => {
-  const isConfirmed = window.confirm("Are you sure you want to delete?");
-  if (isConfirmed) {
-    onDelete(item);
-  }
-};
-
+  const handleDeleteClick = (item) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete?");
+    if (isConfirmed) {
+      onDelete(item);
+    }
+  };
 
   const filteredData = data.filter((item) =>
     item.Title.toLowerCase().includes(searchTerm)
@@ -60,15 +70,15 @@ const handleDeleteClick = (item) => {
           onChange={handleSearchChange}
           sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
         />
-        <Button onClick={() => onCreate()} startIcon={<AddIcon />}/>
+        <Button onClick={() => onCreate()} startIcon={<AddIcon />} />
       </Box>
       <Table className="FAQ-table">
-        <TableHead >
+        <TableHead>
           <TableRow className="FAQ-row">
-          <StyledTableCell>Title</StyledTableCell>
-          <StyledTableCell>Description</StyledTableCell>
-          <StyledTableCell>Edit</StyledTableCell>
-          <StyledTableCell>Delete</StyledTableCell>
+            <StyledTableCell>Title</StyledTableCell>
+            <StyledTableCell>Description</StyledTableCell>
+            <StyledTableCell>Edit</StyledTableCell>
+            <StyledTableCell>Delete</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -77,10 +87,18 @@ const handleDeleteClick = (item) => {
               <StyledTableCell>{item.Title}</StyledTableCell>
               <StyledTableCell>{item.Description}</StyledTableCell>
               <TableCell className="FAQ-cell">
-                <Button sx={{ml:2}} onClick={() => onEdit(item)}  startIcon={<EditIcon />} />
+                <Button
+                  sx={{ ml: 2 }}
+                  onClick={() => onEdit(item)}
+                  startIcon={<EditIcon />}
+                />
               </TableCell>
               <TableCell className="FAQ-cell">
-                <Button sx ={{ml:2}} onClick={() => handleDeleteClick(item)} startIcon={<DeleteIcon />}/>
+                <Button
+                  sx={{ ml: 2 }}
+                  onClick={() => handleDeleteClick(item)}
+                  startIcon={<DeleteIcon />}
+                />
               </TableCell>
             </TableRow>
           ))}
@@ -108,7 +126,7 @@ ParkInfoTable.propTypes = {
   data: PropTypes.array.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired
+  onCreate: PropTypes.func.isRequired,
 };
 
 export default ParkInfoTable;

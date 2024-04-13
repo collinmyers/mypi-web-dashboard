@@ -2,9 +2,17 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  Box,
+  Card,
+  Typography,
+  TextField,
+  Button,
+  CssBaseline,
+} from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { account } from "../../utils/AppwriteConfig";
 import myPIIcon from "/src/assets/myPI-Icon.png";
-import "../../styling/AuthStyling/AuthStyle.css";
 import { useAuth } from "../../components/AuthContext";
 
 export default function LoginScreen() {
@@ -13,14 +21,8 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const InvalidCreds = () => {
-    toast.error("Invalid Username or Password", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  };
-
-  const ValidCreds = () => {
-    toast.success("Successfully Signed in!", {
+  const notify = (isSuccess, message) => {
+    toast[isSuccess ? "success" : "error"](message, {
       position: toast.POSITION.TOP_CENTER,
     });
   };
@@ -28,64 +30,111 @@ export default function LoginScreen() {
   const handleLogin = async () => {
     try {
       await account.createEmailSession(email, password);
-      await account
-        .get()
-        .then((response) => {
-          if (response.labels.includes("PrivilegedUser")) {
-            ValidCreds();
-            setIsSignedIn(true);
-            navigate("/");
-          } else {
-            account.deleteSessions();
-            InvalidCreds();
-            setIsSignedIn(false);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      const response = await account.get();
+
+      if (response.labels.includes("PrivilegedUser")) {
+        notify(true, "Successfully Signed in!");
+        setIsSignedIn(true);
+        navigate("/");
+      } else {
+        await account.deleteSessions();
+        notify(false, "Invalid Username or Password");
+        setIsSignedIn(false);
+      }
     } catch (error) {
-      InvalidCreds();
-      setIsSignedIn(false);
       console.error(error);
+      notify(false, "Invalid Username or Password");
     }
   };
 
-  // Function to handle key down event
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleLogin();
     }
   };
 
+  // Create a theme instance.
+  const theme = createTheme({
+    palette: {
+      background: {
+        default: "#005588", // This sets the BG color! - Q
+      },
+    },
+  });
+
   return (
-    <div className="container">
-      <ToastContainer />
-      <div className="center">
-        <img src={myPIIcon} alt="myPI Icon" className="myPIIcon" />
-        <div className="sign-in-container">
-          <h2 className="AuthTitle">Sign In</h2>
-          <input
-            className="EmailTextfield"
-            type="text"
-            placeholder="Email"
+    <ThemeProvider theme={theme}>
+      <CssBaseline />{" "}
+      {/* This resets the margin and background for the entire document. 
+      Without it, the BG color does not get applied. */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+          width: "100vw", // Ensures the box takes the full viewport width
+        }}
+      >
+        <ToastContainer />
+        <Card
+          sx={{
+            minWidth: 275,
+            maxWidth: 400,
+            padding: 4,
+            boxShadow: 3,
+            backgroundColor: "#FFFFFF",
+          }}
+        >
+          <Box
+            component="img"
+            src={myPIIcon}
+            alt="Park Icon"
+            sx={{ height: 120, mb: 2, display: "block", mx: "auto" }}
+          />
+          <Typography
+            variant="h5"
+            component="h2"
+            sx={{
+              mb: 2,
+              textAlign: "center",
+              color: "#0078AA",
+              fontWeight: "bold",
+            }}
+          >
+            Admin Login
+          </Typography>
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <input
-            className="PasswordTextField"
+          <TextField
+            label="Password"
             type="password"
-            placeholder="Password"
+            variant="outlined"
+            fullWidth
+            margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <button className="SignInButton" onClick={handleLogin}>
+          <Button
+            onClick={handleLogin}
+            fullWidth
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2, fontWeight: "bold" }}
+          >
             Sign In
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </Card>
+      </Box>
+    </ThemeProvider>
   );
 }

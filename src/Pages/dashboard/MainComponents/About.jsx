@@ -6,7 +6,6 @@ import { database } from "../../../utils/AppwriteConfig";
 import { PARKINFO_COLLECTION_ID} from "../../../utils/AppwriteConfig";
 import { DATABASE_ID } from "../../../utils/AppwriteConfig";
 import { toast,ToastContainer } from "react-toastify";
-
 import Layout from "./Layout"; 
 
 export default function About(){
@@ -51,7 +50,7 @@ export default function About(){
 
   };
 
-  const deletAbout = async (info) =>{
+  const deleteAbout = async (info) =>{
     try{
       await database.deleteDocument(DATABASE_ID,PARKINFO_COLLECTION_ID,info.$id);
       //success toast
@@ -80,10 +79,7 @@ export default function About(){
       state:{
         ParkInfo: info,
       }
-
     });
-
-
   };
 
 
@@ -96,7 +92,7 @@ export default function About(){
     <Layout> {/* Wrap your content inside the Layout component */}
       <ToastContainer/>
       <div>             
-          <ParkInfoTable data={data} onDelete = {deletAbout} onEdit = {editAbout} onCreate ={createAbout}/>
+          <ParkInfoTable data={data} onDelete = {deleteAbout} onEdit = {editAbout} onCreate ={createAbout}/>
       </div>
     </Layout>
   );

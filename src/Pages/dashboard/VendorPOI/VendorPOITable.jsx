@@ -15,7 +15,7 @@ import {
   Button,
 } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
-import "../../../styling/POIStyling/POITableStyle.css"; // Ensure this path is correct
+import "../../../styling/TableStyling.css";
 
 const VendorPOITable = ({ allData, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -43,8 +43,8 @@ const VendorPOITable = ({ allData, onDelete, onCreate }) => {
   const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
   return (
-    <Card className="poi-card">
-      <Box className="search-and-add-box">
+    <Card className="card">
+      <Box className="search-box">
         <TextField
           placeholder="Search by Name..."
           variant="outlined"
@@ -60,26 +60,23 @@ const VendorPOITable = ({ allData, onDelete, onCreate }) => {
           />
         </Tooltip>
       </Box>
-      <Table className="poi-table">
+      <Table className="table">
         <TableHead>
-          <TableRow className="poi-row">
-            {[
-              "Name",
-              "Latitude",
-              "Longitude",
-              "Status",
-              "Type",
-              "Delete",
-            ].map((header) => (
-              <TableCell key={header}>
-                {header}
-              </TableCell>
-            ))}
+          <TableRow className="row">
+            {["Name", "Latitude", "Longitude", "Status", "Type", "Delete"].map(
+              (header) => (
+                <TableCell key={header}>{header}</TableCell>
+              )
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
           {currentPageData.map((item) => (
-            <TableRow className="poi-row" key={item.$id} sx={{ textAlign: "center" }}>
+            <TableRow
+              className="row"
+              key={item.$id}
+              sx={{ textAlign: "center" }}
+            >
               {[
                 item.Name,
                 item.Latitude,
@@ -87,12 +84,10 @@ const VendorPOITable = ({ allData, onDelete, onCreate }) => {
                 item.Status,
                 item.Type,
               ].map((value, index) => (
-                <TableCell key={index} >
-                  {value}
-                </TableCell>
+                <TableCell key={index}>{value}</TableCell>
               ))}
 
-              <TableCell >
+              <TableCell>
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item.$id)}
