@@ -91,7 +91,7 @@ const UserTable = ({ allData, passwordReset, onEdit, onDelete }) => {
               <TableCell>
                 <Button
                   className="edit-button"
-                  onClick={() => onEdit(item.$id)}
+                  onClick={() => onEdit(item)}
                   startIcon={<EditIcon />}
                 />
               </TableCell>
