@@ -12,6 +12,7 @@ import { ACCOUNT_RECOVERY_DOMAIN } from "../../../utils/AppwriteConfig";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   const getUserInfo = async () => {
@@ -25,18 +26,14 @@ export default function Users() {
       );
       const responseBody = JSON.parse(response.responseBody);
       setUsers(responseBody["userInfo"]);
+      setIsLoading(false);
     } catch (err) {
       console.error(err);
     }
   };
 
-
-
-
   useEffect(() => {
-
     getUserInfo();
-
   }, []);
 
   const editUser = (item) => {
@@ -78,12 +75,8 @@ export default function Users() {
       <Layout>
         <div>
           <ToastContainer />
-
-          <UserTable allData={users} passwordReset={handlePasswordReset} onEdit={editUser} />
-
-
+          {isLoading ? <div>Loading...</div> : <UserTable allData={users} passwordReset={handlePasswordReset} onEdit={editUser} />}
         </div>
-
       </Layout>
     </div>
   );
