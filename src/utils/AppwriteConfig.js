@@ -19,6 +19,7 @@ export const PUSH_NOTIFICATION_ID = import.meta.env.VITE_APPWRITE_PUSH_NOTIFICAT
 export const DASHBOARD_STATS_COLLECTION_ID = import.meta.env.VITE_PUBLIC_DASHBOARD_STATS_COLLECTION_ID;
 export const DASHBOARD_STATS_FUNCTION_ID = import.meta.env.VITE_APPWRITE_DASHBOARD_STATS_FUNCTION_ID;
 export const VENDOR_POI_COLLECTION_ID = import.meta.env.VITE_PUBLIC_VENDOR_POI_COLLECTION_ID;
+export const DELETE_USER_FUNCTION_ID = import.meta.env.VITE_APPWRITE_DELETE_USER_FUNCTION_ID;
 
 // Create a client to connect
 const client = new Client()

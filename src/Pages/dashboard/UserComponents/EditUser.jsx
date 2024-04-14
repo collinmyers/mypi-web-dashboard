@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { DATABASE_ID, EDITUSER_FUNCTION_ID, USER_ALIAS_TABLE_ID, database, functions } from "../../../utils/AppwriteConfig";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Query } from "appwrite";
+import { ID, Query } from "appwrite";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function EditUser() {
@@ -17,6 +17,7 @@ export default function EditUser() {
     const [email, setEmail] = useState(user.email);
     const [labels, setLabel] = useState(user.labels);
     const [alias, setAlias] = useState("");
+    const [prevAlias, setPrevAlias] = useState("");
     const [userID, setUserID] = useState(user.$id);
     const [userAliasDocID, setUserAliasDocID] = useState("");
     const [checkedItems, setCheckedItems] = useState({
@@ -45,6 +46,7 @@ export default function EditUser() {
                     ]
                 );
                 if (response.documents.length > 0) {
+                    setPrevAlias(response.documents.at(0).UserName);
                     setAlias(response.documents.at(0).UserName);
                     setUserAliasDocID(response.documents.at(0).$id);
                 }
@@ -104,7 +106,17 @@ export default function EditUser() {
                 "PATCH",
                 data
             );
-            if (alias != "") {
+            if (alias != ""  && prevAlias == "") {
+
+                await database.createDocument(
+                    DATABASE_ID,
+                    USER_ALIAS_TABLE_ID,
+                    ID.unique(),
+                    { UserID: userID, UserName: alias}
+                );
+            }
+
+            else if(alias != ""){
                 await database.updateDocument(
                     DATABASE_ID,
                     USER_ALIAS_TABLE_ID,
@@ -112,6 +124,15 @@ export default function EditUser() {
                     { UserID: userID, UserName: alias }
                 );
             }
+
+            else if(alias == ""){
+                await database.deleteDocument(
+                    DATABASE_ID,
+                    USER_ALIAS_TABLE_ID,
+                    userAliasDocID
+                );
+            }
+
 
             Successful();
         } catch (error) {
