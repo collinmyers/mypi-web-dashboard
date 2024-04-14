@@ -10,6 +10,8 @@ import {
   TextField,
   Button,
   Box,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -21,7 +23,10 @@ import "../../../styling/TableStyling.css";
 const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
-  const [pageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(5);
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleSearchChange = (event) => {
     const value = event.target.value.toLowerCase();
@@ -62,7 +67,10 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
           />
         </Tooltip>
       </Box>
-      <Table className="table">
+      <Table
+        className="table"
+        style={{ width: isSmallScreen ? "100%" : "auto" }}
+      >
         <TableHead>
           <TableRow className="row">
             {[
@@ -76,7 +84,12 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
               "Edit",
               "Delete",
             ].map((header) => (
-              <TableCell key={header}>{header}</TableCell>
+              <TableCell
+                sx={{ padding: isSmallScreen ? "0.4rem" : "0.7rem" }}
+                key={header}
+              >
+                {header}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -92,7 +105,8 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  maxWidth: "100px",
+                  maxWidth: isSmallScreen ? "80px" : "100px",
+                  padding: isSmallScreen ? "0.4rem" : "0.7rem",
                 }}
               >
                 {item.Name}
@@ -102,7 +116,8 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  maxWidth: "100px",
+                  maxWidth: isSmallScreen ? "80px" : "100px",
+                  padding: isSmallScreen ? "0.4rem" : "0.7rem",
                 }}
               >
                 {item.Latitude}
@@ -112,7 +127,8 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  maxWidth: "100px",
+                  maxWidth: isSmallScreen ? "80px" : "100px",
+                  padding: isSmallScreen ? "0.4rem" : "0.7rem",
                 }}
               >
                 {item.Longitude}
@@ -122,7 +138,8 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  maxWidth: "100px",
+                  maxWidth: isSmallScreen ? "80px" : "100px",
+                  padding: isSmallScreen ? "0.4rem" : "0.7rem",
                 }}
               >
                 {item.Date}
@@ -132,7 +149,8 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  maxWidth: "100px",
+                  maxWidth: isSmallScreen ? "80px" : "100px",
+                  padding: isSmallScreen ? "0.4rem" : "0.7rem",
                 }}
               >
                 {item.Time}
@@ -142,7 +160,8 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  maxWidth: "100px",
+                  maxWidth: isSmallScreen ? "80px" : "100px",
+                  padding: isSmallScreen ? "0.4rem" : "0.7rem",
                 }}
               >
                 {item.EventListDescription}
@@ -152,19 +171,20 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  maxWidth: "200px",
+                  maxWidth: isSmallScreen ? "50px" : "100px",
+                  padding: isSmallScreen ? "0.4rem" : "0.7rem",
                 }}
               >
                 {item.EventDetailsDescription}
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ padding: isSmallScreen ? "0.4rem" : "0.7rem" }}>
                 <Button
                   className="edit-button"
                   onClick={() => editEvent(item)}
                   startIcon={<EditIcon />}
                 />
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ padding: isSmallScreen ? "0.4rem" : "0.7rem" }}>
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item)}
@@ -186,8 +206,12 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
         onPageChange={(event, page) => setCurrentPage(page)}
         page={currentPage}
         rowsPerPage={pageSize}
-        rowsPerPageOptions={[pageSize]}
+        rowsPerPageOptions={[5, 10, 15]}
         className="pagination"
+        onRowsPerPageChange={(event) => {
+          setPageSize(parseInt(event.target.value, 10));
+          setCurrentPage(0);
+        }}
       />
     </Card>
   );
