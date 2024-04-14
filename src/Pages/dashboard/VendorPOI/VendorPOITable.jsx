@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import "../../../styling/TableStyling.css";
+// import "../../../styling/POIStyling/POITableStyle.css";
 
 const VendorPOITable = ({ allData, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -55,7 +56,7 @@ const VendorPOITable = ({ allData, onDelete, onCreate }) => {
         <Tooltip title="Create New POI" placement="top">
           <Button
             className="add-icon-button"
-            onClick={onCreate}
+            onClick={() => onCreate()}
             startIcon={<AddIcon />}
           />
         </Tooltip>
@@ -65,7 +66,9 @@ const VendorPOITable = ({ allData, onDelete, onCreate }) => {
           <TableRow className="row">
             {["Name", "Latitude", "Longitude", "Status", "Type", "Delete"].map(
               (header) => (
-                <TableCell key={header}>{header}</TableCell>
+                <TableCell sx={{ padding: "0.7rem" }} key={header}>
+                  {header}
+                </TableCell>
               )
             )}
           </TableRow>
@@ -84,10 +87,12 @@ const VendorPOITable = ({ allData, onDelete, onCreate }) => {
                 item.Status,
                 item.Type,
               ].map((value, index) => (
-                <TableCell key={index}>{value}</TableCell>
+                <TableCell sx={{ padding: "0.7rem" }} key={index}>
+                  {value}
+                </TableCell>
               ))}
 
-              <TableCell>
+              <TableCell sx={{ padding: ".7rem" }}>
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item.$id)}
@@ -97,8 +102,8 @@ const VendorPOITable = ({ allData, onDelete, onCreate }) => {
             </TableRow>
           ))}
           {emptyRows > 0 && (
-            <TableRow style={{ height: 65 * emptyRows }}>
-              <TableCell colSpan={7} />
+            <TableRow style={{ height: 55 * emptyRows }}>
+              <TableCell sx={{ padding: ".7rem" }} colSpan={7} />
             </TableRow>
           )}
         </TableBody>

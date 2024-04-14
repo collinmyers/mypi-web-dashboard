@@ -19,12 +19,12 @@ import "../../../styling/TableStyling.css";
 
 const UserTable = ({ allData, passwordReset, onEdit, onDelete }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(6);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value.toLowerCase());
-    setCurrentPage(0); // Reset to first page when searching
+    setCurrentPage(1); // Reset to first page when searching
   };
 
   const handleDeleteClick = ($id) => {
@@ -46,7 +46,7 @@ const UserTable = ({ allData, passwordReset, onEdit, onDelete }) => {
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const startIndex = currentPage * pageSize;
+  const startIndex = (currentPage - 1) * pageSize;
   const currentPageData = filteredData.slice(startIndex, startIndex + pageSize);
   const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
@@ -133,7 +133,6 @@ UserTable.propTypes = {
 };
 
 export default UserTable;
-
 
 // Pagination is weird on this page and Notifications.jsx
 // Good luck figuring out why.

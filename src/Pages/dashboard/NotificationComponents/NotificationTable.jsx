@@ -36,8 +36,6 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
     }
   };
 
-
-
   const startIndex = (currentPage - 1) * pageSize;
   const currentPageData = allData.slice(startIndex, startIndex + pageSize);
   const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
@@ -71,7 +69,9 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
               "Edit",
               "Delete",
             ].map((header) => (
-              <TableCell key={header}>{header}</TableCell>
+              <TableCell sx={{ padding: "0.7rem" }} key={header}>
+                {header}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -79,27 +79,40 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
           {currentPageData.map((item) => (
             <TableRow
               className="row"
+              sx={{
+                overflow: "hidden",
+              }}
               key={item.$id}
-              sx={{ textAlign: "center" }}
             >
-              {[
-                item.Title,
-                item.Details,
-                item.AlertType,
-                item.NotificationType,
-              ].map((value, index) => (
-                <TableCell key={index}>{value}</TableCell>
-              ))}
-
-              <TableCell>
+              <TableCell
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {item.Title}
+              </TableCell>
+              <TableCell
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "200px", // Adjust the max width as needed
+                }}
+              >
+                {item.Details}
+              </TableCell>
+              <TableCell>{item.AlertType}</TableCell>
+              <TableCell>{item.NotificationType}</TableCell>
+              <TableCell sx={{ padding: "0.7rem" }}>
                 <Button
                   className="edit-button"
                   onClick={() => onEdit(item.$id)}
                   startIcon={<EditIcon />}
                 />
               </TableCell>
-
-              <TableCell>
+              <TableCell sx={{ padding: "0.7rem" }}>
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item.$id)}
@@ -110,7 +123,7 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
           ))}
 
           {emptyRows > 0 && (
-            <TableRow style={{ height: 65 * emptyRows }}>
+            <TableRow style={{ height: 55 * emptyRows }}>
               <TableCell colSpan={7} />
             </TableRow>
           )}
@@ -129,11 +142,11 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
   );
 };
 
-  NotificationTable.propTypes = {
-    allData: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onEdit: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    onCreate: PropTypes.func.isRequired,
-  };
+NotificationTable.propTypes = {
+  allData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired,
+};
 
 export default NotificationTable;

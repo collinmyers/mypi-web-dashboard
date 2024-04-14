@@ -20,13 +20,13 @@ import "../../../styling/TableStyling.css";
 
 const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [pageSize] = useState(5);
 
   const handleSearchChange = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchTerm(value);
-    setCurrentPage(1); // Reset to first page when searching
+    setCurrentPage(0); // Reset to first page when searching
   };
 
   const handleDeleteClick = (item) => {
@@ -36,18 +36,11 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
     }
   };
 
-  EventsTable.propTypes = {
-    data: PropTypes.array.isRequired,
-    deleteEvent: PropTypes.func.isRequired,
-    editEvent: PropTypes.func.isRequired,
-    createEvent: PropTypes.func.isRequired,
-  };
-
   const filteredData = data.filter((item) =>
     item.Name.toLowerCase().includes(searchTerm)
   );
 
-  const startIndex = (currentPage - 1) * pageSize;
+  const startIndex = currentPage * pageSize;
   const currentPageData = filteredData.slice(startIndex, startIndex + pageSize);
   const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
@@ -94,18 +87,76 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
               key={item.$id}
               sx={{ textAlign: "center" }}
             >
-              {[
-                item.Name,
-                item.Latitude,
-                item.Longitude,
-                item.Date,
-                item.Time,
-                item.Description,
-                item.LongDescription,
-              ].map((value, index) => (
-                <TableCell key={index}>{value}</TableCell>
-              ))}
-
+              <TableCell
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "100px",
+                }}
+              >
+                {item.Name}
+              </TableCell>
+              <TableCell
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "100px",
+                }}
+              >
+                {item.Latitude}
+              </TableCell>
+              <TableCell
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "100px",
+                }}
+              >
+                {item.Longitude}
+              </TableCell>
+              <TableCell
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "100px",
+                }}
+              >
+                {item.Date}
+              </TableCell>
+              <TableCell
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "100px",
+                }}
+              >
+                {item.Time}
+              </TableCell>
+              <TableCell
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "100px",
+                }}
+              >
+                {item.EventListDescription}
+              </TableCell>
+              <TableCell
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "200px",
+                }}
+              >
+                {item.EventDetailsDescription}
+              </TableCell>
               <TableCell>
                 <Button
                   className="edit-button"
@@ -113,19 +164,18 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   startIcon={<EditIcon />}
                 />
               </TableCell>
-
               <TableCell>
                 <Button
                   className="delete-button"
-                  onClick={() => handleDeleteClick(item.$id)}
+                  onClick={() => handleDeleteClick(item)}
                   startIcon={<DeleteIcon />}
                 />
               </TableCell>
             </TableRow>
           ))}
           {emptyRows > 0 && (
-            <TableRow style={{ height: 65 * emptyRows }}>
-              <TableCell colSpan={7} />
+            <TableRow style={{ height: 55 * emptyRows }}>
+              <TableCell colSpan={9} />
             </TableRow>
           )}
         </TableBody>
@@ -133,7 +183,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
       <TablePagination
         component="div"
         count={filteredData.length}
-        onPageChange={(event, page) => setCurrentPage(page + 1)}
+        onPageChange={(event, page) => setCurrentPage(page)}
         page={currentPage}
         rowsPerPage={pageSize}
         rowsPerPageOptions={[pageSize]}
@@ -143,9 +193,11 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
   );
 };
 
-export default EventsTable;
+EventsTable.propTypes = {
+  data: PropTypes.array.isRequired,
+  deleteEvent: PropTypes.func.isRequired,
+  editEvent: PropTypes.func.isRequired,
+  createEvent: PropTypes.func.isRequired,
+};
 
-// Needs Fixed. Description and LD are not showing up in the table.
-// Consistent Styling Implemented.
-// I went line by line for this shit, omg.
-// But the code from VendorPOI helped a lot, so thanks.
+export default EventsTable;

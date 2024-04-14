@@ -73,7 +73,18 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
               "Edit",
               "Delete",
             ].map((header) => (
-              <TableCell key={header}>{header}</TableCell>
+              <TableCell
+                key={header}
+                align="center"
+                style={{
+                  padding: "0.7rem",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {header}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -82,7 +93,7 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
             <TableRow
               className="row"
               key={item.$id}
-              sx={{ textAlign: "center" }}
+              style={{ textAlign: "center" }}
             >
               {[
                 item.Name,
@@ -91,10 +102,21 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
                 item.Status,
                 item.Type,
               ].map((value, index) => (
-                <TableCell key={index}>{value}</TableCell>
+                <TableCell
+                  key={index}
+                  align="center"
+                  style={{
+                    padding: "0.7rem",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {value}
+                </TableCell>
               ))}
 
-              <TableCell>
+              <TableCell sx={{ padding: "0.7rem" }}>
                 <Button
                   className="edit-button"
                   onClick={() => onEdit(item.$id)}
@@ -102,7 +124,7 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
                 />
               </TableCell>
 
-              <TableCell>
+              <TableCell sx={{ padding: "0.7rem" }}>
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item.$id)}
@@ -113,7 +135,7 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
           ))}
 
           {emptyRows > 0 && (
-            <TableRow style={{ height: 65 * emptyRows }}>
+            <TableRow style={{ height: 40 * emptyRows }}>
               <TableCell colSpan={7} />
             </TableRow>
           )}

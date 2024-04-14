@@ -161,7 +161,7 @@ const Home = () => {
                 fontSize: 16
               }}
             >
-              Lastest Change: {formatLastUpdated(dashboardStats.Timestamp)}
+              Latest Change: {formatLastUpdated(dashboardStats.Timestamp)}
             </Typography>
 
 
@@ -233,7 +233,6 @@ const Home = () => {
                   </CardActionArea>
                 </Card>
               ))}
-
             </Grid>
           </Grid>
         </Paper>

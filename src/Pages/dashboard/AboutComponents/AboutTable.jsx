@@ -15,36 +15,26 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { styled } from "@mui/system";
-import "../../../styling/FAQStyling/FAQTableStyle.css";
+import "../../../styling/TableStyling.css";
 
-const StyledTableCell = styled(TableCell)({
-  maxWidth: "250px",
-  whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  textAlign: "center",
-  //   backgroundColor: "white",
-});
-
-const ParkInfoTable = ({ data, onDelete, onEdit, onCreate }) => {
+const ParkInfoTable = ({ allData, onDelete, onEdit, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0); // Zero-based indexing
-  const [pageSize, setPageSize] = useState(6);
+  const [pageSize] = useState(6);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value.toLowerCase());
     setCurrentPage(0); // Reset to the first page when searching
   };
 
-  const handleDeleteClick = (item) => {
+  const handleDeleteClick = ($id) => {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
     if (isConfirmed) {
-      onDelete(item);
+      onDelete($id);
     }
   };
 
-  const filteredData = data.filter((item) =>
+  const filteredData = allData.filter((item) =>
     item.Title.toLowerCase().includes(searchTerm)
   );
 
@@ -53,50 +43,47 @@ const ParkInfoTable = ({ data, onDelete, onEdit, onCreate }) => {
   const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
   return (
-    <Card className="FAQ-card">
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "1rem",
-          backgroundColor: "#f5f5f5",
-        }}
-      >
+    <Card className="card">
+      <Box className="search-box">
         <TextField
           placeholder="Search by Name..."
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
-          sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
+          className="search-text-field"
         />
         <Button onClick={() => onCreate()} startIcon={<AddIcon />} />
       </Box>
-      <Table className="FAQ-table">
+      <Table className="table">
         <TableHead>
-          <TableRow className="FAQ-row">
-            <StyledTableCell>Title</StyledTableCell>
-            <StyledTableCell>Description</StyledTableCell>
-            <StyledTableCell>Edit</StyledTableCell>
-            <StyledTableCell>Delete</StyledTableCell>
+          <TableRow className="row">
+            {["Title", "Description", "Edit", "Delete"].map((header) => (
+              <TableCell key={header}>{header}</TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {currentPageData.map((item) => (
-            <TableRow key={item.$id}>
-              <StyledTableCell>{item.Title}</StyledTableCell>
-              <StyledTableCell>{item.Description}</StyledTableCell>
-              <TableCell className="FAQ-cell">
+            <TableRow
+              className="row"
+              key={item.$id}
+              sx={{ textAlign: "center" , overflow: "hidden",}}
+            >
+              {[item.Title, item.Description].map((value, index) => (
+                <TableCell key={index}>{value}</TableCell>
+              ))}
+
+              <TableCell>
                 <Button
-                  sx={{ ml: 2 }}
-                  onClick={() => onEdit(item)}
+                  className="edit-button"
+                  onClick={() => onEdit(item.$id)}
                   startIcon={<EditIcon />}
                 />
               </TableCell>
-              <TableCell className="FAQ-cell">
+              <TableCell>
                 <Button
-                  sx={{ ml: 2 }}
-                  onClick={() => handleDeleteClick(item)}
+                  className="delete-button"
+                  onClick={() => handleDeleteClick(item.$id)}
                   startIcon={<DeleteIcon />}
                 />
               </TableCell>
@@ -116,14 +103,14 @@ const ParkInfoTable = ({ data, onDelete, onEdit, onCreate }) => {
         page={currentPage}
         rowsPerPage={pageSize}
         rowsPerPageOptions={[pageSize]}
-        sx={{ position: "sticky", bottom: 0, left: 0, right: 100 }}
+        className="pagination"
       />
     </Card>
   );
 };
 
 ParkInfoTable.propTypes = {
-  data: PropTypes.array.isRequired,
+  allData: PropTypes.array.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,

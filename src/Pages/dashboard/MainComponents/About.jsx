@@ -92,7 +92,7 @@ export default function About(){
     <Layout> {/* Wrap your content inside the Layout component */}
       <ToastContainer/>
       <div>             
-          <ParkInfoTable data={data} onDelete = {deleteAbout} onEdit = {editAbout} onCreate ={createAbout}/>
+          <ParkInfoTable allData={data} onDelete = {deleteAbout} onEdit = {editAbout} onCreate ={createAbout}/>
       </div>
     </Layout>
   );
