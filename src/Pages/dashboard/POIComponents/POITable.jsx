@@ -119,7 +119,7 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
               <TableCell sx={{ padding: "0.7rem" }}>
                 <Button
                   className="edit-button"
-                  onClick={() => onEdit(item.$id)}
+                  onClick={() => onEdit(item)}
                   startIcon={<EditIcon />}
                 />
               </TableCell>
@@ -127,7 +127,7 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
               <TableCell sx={{ padding: "0.7rem" }}>
                 <Button
                   className="delete-button"
-                  onClick={() => handleDeleteClick(item.$id)}
+                  onClick={() => handleDeleteClick(item)}
                   startIcon={<DeleteIcon />}
                 />
               </TableCell>

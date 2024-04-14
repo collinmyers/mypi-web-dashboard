@@ -59,9 +59,9 @@ export default function VendorPOIEdit() {
         navigate("/create-vendor-point-of-interest");
     };
 
-    const deletePOI = async (id) => {
+    const deletePOI = async (poi) => {
         try {
-            await database.deleteDocument(DATABASE_ID, VENDOR_POI_COLLECTION_ID, id);
+            await database.deleteDocument(DATABASE_ID, VENDOR_POI_COLLECTION_ID, poi.$id);
             SuccessfulDeletion();
             getPOI();
         } catch (error) {

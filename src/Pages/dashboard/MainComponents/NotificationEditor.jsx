@@ -59,9 +59,9 @@ export default function NotificationEdit() {
     navigate("/create-notification");
   };
 
-  const deleteNotification = async (id) => {
+  const deleteNotification = async (item) => {
     try {
-      await database.deleteDocument(DATABASE_ID, ALERTS_COLLECTION_ID, id);
+      await database.deleteDocument(DATABASE_ID, ALERTS_COLLECTION_ID, item.$id);
       SuccessfulDeletion();
       getNotifications();
     } catch (error) {

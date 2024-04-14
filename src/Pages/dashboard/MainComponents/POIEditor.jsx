@@ -59,9 +59,9 @@ export default function POIEdit() {
     navigate("/create-point-of-interest");
   };
 
-  const deletePOI = async (id) => {
+  const deletePOI = async (poi) => {
     try {
-      await database.deleteDocument(DATABASE_ID, MAP_COLLECTION_ID, id);
+      await database.deleteDocument(DATABASE_ID, MAP_COLLECTION_ID, poi.$id);
       SuccessfulDeletion();
       getPOI();
     } catch (error) {

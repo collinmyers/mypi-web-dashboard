@@ -92,14 +92,14 @@ const AboutTable = ({ allData, onDelete, onEdit, onCreate }) => {
               <TableCell>
                 <Button
                   className="edit-button"
-                  onClick={() => onEdit(item.$id)}
+                  onClick={() => onEdit(item)}
                   startIcon={<EditIcon />}
                 />
               </TableCell>
               <TableCell>
                 <Button
                   className="delete-button"
-                  onClick={() => handleDeleteClick(item.$id)}
+                  onClick={() => handleDeleteClick(item)}
                   startIcon={<DeleteIcon />}
                 />
               </TableCell>
