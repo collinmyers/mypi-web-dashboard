@@ -3,9 +3,21 @@ import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import { Box, Card, Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TextField, Button } from "@mui/material";
+import {
+  Box,
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TablePagination,
+  TextField,
+  Button,
+} from "@mui/material";
 import { styled } from "@mui/system";
-import "../../../styling/FAQStyling/FAQTableStyle.css";
+// import "../../../styling/FAQStyling/FAQTableStyle.css";
+import "../../../styling/TableStyling.css";
 
 const StyledTableCell = styled(TableCell)({
   maxWidth: "250px",
@@ -13,7 +25,7 @@ const StyledTableCell = styled(TableCell)({
   overflow: "hidden",
   textOverflow: "ellipsis",
   textAlign: "center",
-//   backgroundColor: "white",
+  //   backgroundColor: "white",
 });
 
 const FAQTable = ({ data, onDelete, onEdit, onCreate }) => {
@@ -26,13 +38,12 @@ const FAQTable = ({ data, onDelete, onEdit, onCreate }) => {
     setCurrentPage(0); // Reset to the first page when searching
   };
 
-const handleDeleteClick = (item) => {
-  const isConfirmed = window.confirm("Are you sure you want to delete?");
-  if (isConfirmed) {
-    onDelete(item);
-  }
-};
-
+  const handleDeleteClick = (item) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete?");
+    if (isConfirmed) {
+      onDelete(item);
+    }
+  };
 
   const filteredData = data.filter((item) =>
     item.Question.toLowerCase().includes(searchTerm)
@@ -43,7 +54,7 @@ const handleDeleteClick = (item) => {
   const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
 
   return (
-    <Card className="FAQ-card">
+    <Card className="card">
       <Box
         sx={{
           display: "flex",
@@ -60,15 +71,19 @@ const handleDeleteClick = (item) => {
           onChange={handleSearchChange}
           sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
         />
-        <Button onClick={() => onCreate()} startIcon={<AddIcon />}/>
+        <Button
+          className="add-icon-button"
+          onClick={() => onCreate()}
+          startIcon={<AddIcon />}
+        />
       </Box>
-      <Table className="FAQ-table">
-        <TableHead >
-          <TableRow className="FAQ-row">
-          <StyledTableCell>Question</StyledTableCell>
-          <StyledTableCell>Answer</StyledTableCell>
-          <StyledTableCell>Edit</StyledTableCell>
-          <StyledTableCell>Delete</StyledTableCell>
+      <Table className="table">
+        <TableHead>
+          <TableRow className="row">
+            <StyledTableCell>Question</StyledTableCell>
+            <StyledTableCell>Answer</StyledTableCell>
+            <StyledTableCell>Edit</StyledTableCell>
+            <StyledTableCell>Delete</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -76,11 +91,19 @@ const handleDeleteClick = (item) => {
             <TableRow key={item.$id}>
               <StyledTableCell>{item.Question}</StyledTableCell>
               <StyledTableCell>{item.Answer}</StyledTableCell>
-              <TableCell className="FAQ-cell">
-                <Button sx={{ml:2}} onClick={() => onEdit(item)} startIcon={<EditIcon />} />
+              <TableCell className="cell">
+                <Button
+                  sx={{ ml: 2 }}
+                  onClick={() => onEdit(item)}
+                  startIcon={<EditIcon />}
+                />
               </TableCell>
-              <TableCell className="FAQ-cell">
-                <Button sx ={{ml:2}} onClick={() => handleDeleteClick(item)} startIcon={<DeleteIcon />}/>
+              <TableCell className="cell">
+                <Button
+                  sx={{ ml: 2 }}
+                  onClick={() => handleDeleteClick(item)}
+                  startIcon={<DeleteIcon />}
+                />
               </TableCell>
             </TableRow>
           ))}
@@ -108,7 +131,7 @@ FAQTable.propTypes = {
   data: PropTypes.array.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired
+  onCreate: PropTypes.func.isRequired,
 };
 
 export default FAQTable;
