@@ -66,7 +66,9 @@ const UserTable = ({ allData, passwordReset, onEdit, onDelete }) => {
           <TableRow className="row">
             {["Name", "Email", "Password Reset", "Edit", "Delete"].map(
               (header) => (
-                <TableCell key={header}>{header}</TableCell>
+                <TableCell sx={{ padding: "0.7rem" }} key={header}>
+                  {header}
+                </TableCell>
               )
             )}
           </TableRow>
@@ -79,23 +81,25 @@ const UserTable = ({ allData, passwordReset, onEdit, onDelete }) => {
               sx={{ textAlign: "center" }}
             >
               {[item.name, item.email].map((value, index) => (
-                <TableCell key={index}>{value}</TableCell>
+                <TableCell sx={{ padding: "0.7rem" }} key={index}>
+                  {value}
+                </TableCell>
               ))}
-              <TableCell>
+              <TableCell sx={{ padding: "0.7rem" }}>
                 <Button
                   className="password-button"
                   onClick={() => handleReset(item.email)}
                   startIcon={<PasswordIcon />}
                 />
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ padding: "0.7rem" }}>
                 <Button
                   className="edit-button"
                   onClick={() => onEdit(item)}
                   startIcon={<EditIcon />}
                 />
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ padding: "0.7rem" }}>
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item.$id)}
@@ -105,8 +109,8 @@ const UserTable = ({ allData, passwordReset, onEdit, onDelete }) => {
             </TableRow>
           ))}
           {emptyRows > 0 && (
-            <TableRow style={{ height: 65 * emptyRows }}>
-              <TableCell colSpan={7} />
+            <TableRow style={{ height: 55 * emptyRows }}>
+              <TableCell sx={{ padding: "0.7rem" }} colSpan={7} />
             </TableRow>
           )}
         </TableBody>
