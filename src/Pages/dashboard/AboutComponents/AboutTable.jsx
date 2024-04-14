@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import "../../../styling/TableStyling.css";
 
-const ParkInfoTable = ({ allData, onDelete, onEdit, onCreate }) => {
+const AboutTable = ({ allData, onDelete, onEdit, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0); // Zero-based indexing
   const [pageSize] = useState(6);
@@ -67,12 +67,28 @@ const ParkInfoTable = ({ allData, onDelete, onEdit, onCreate }) => {
             <TableRow
               className="row"
               key={item.$id}
-              sx={{ textAlign: "center" , overflow: "hidden",}}
+              sx={{ textAlign: "center", overflow: "hidden" }}
             >
-              {[item.Title, item.Description].map((value, index) => (
-                <TableCell key={index}>{value}</TableCell>
-              ))}
-
+              <TableCell
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "200px",
+                }}
+              >
+                {item.Title}
+              </TableCell>
+              <TableCell
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "200px",
+                }}
+              >
+                {item.Description}
+              </TableCell>
               <TableCell>
                 <Button
                   className="edit-button"
@@ -109,11 +125,11 @@ const ParkInfoTable = ({ allData, onDelete, onEdit, onCreate }) => {
   );
 };
 
-ParkInfoTable.propTypes = {
+AboutTable.propTypes = {
   allData: PropTypes.array.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
 };
 
-export default ParkInfoTable;
+export default AboutTable;
