@@ -11,7 +11,7 @@ import {
   Avatar,
   CardActionArea,
 } from "@mui/material";
-import { Pie } from "react-chartjs-2";
+import { Pie ,Doughnut} from "react-chartjs-2";
 import MapIcon from "@mui/icons-material/Map";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddAlertIcon from "@mui/icons-material/AddAlert";
@@ -79,8 +79,8 @@ const Home = () => {
     }
   };
 
-  const pieData = {
-    labels: ["Registered Users", "Unregistered Users"],
+  const chartData = {
+    labels: ["Registered", "Unregistered"],
     datasets: [
       {
         data: [
@@ -91,6 +91,7 @@ const Home = () => {
       },
     ],
   };
+
 
   const links = ["/events", "/notifications", "/points-of-interest"];
 
@@ -161,7 +162,7 @@ const Home = () => {
                 fontSize: 16
               }}
             >
-              Latest Change: {formatLastUpdated(dashboardStats.Timestamp)}
+              Lastest Change: {formatLastUpdated(dashboardStats.Timestamp)}
             </Typography>
 
 
@@ -180,12 +181,13 @@ const Home = () => {
                     fontSize: 20,
                     color: "#005588",
                     fontWeight: 500,
+                    margin: "2%"
                   }}
                 >
                   Total Users
                 </div>
                 {/* Adjust these values as needed */}
-                <Pie data={pieData} options={{ maintainAspectRatio: false }} />
+                <Doughnut data={chartData} />
               </div>
             </Grid>
 
@@ -202,7 +204,7 @@ const Home = () => {
               }}
             >
               {stats.map((stat, index) => (
-                <Card key={index} sx={{ minWidth: 345, mb: 3, boxShadow: 5 }}>
+                <Card key={index} sx={{ minWidth: "100%", mb: 3, boxShadow: 5 }}>
                   <CardActionArea
                     component="a" // Change to "Link" if using react-router-dom
                     href={stat.link} // Change to "to" if using Link from react-router-dom
@@ -233,6 +235,7 @@ const Home = () => {
                   </CardActionArea>
                 </Card>
               ))}
+
             </Grid>
           </Grid>
         </Paper>
