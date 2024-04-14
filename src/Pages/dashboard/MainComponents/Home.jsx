@@ -11,7 +11,7 @@ import {
   Avatar,
   CardActionArea,
 } from "@mui/material";
-import { Pie ,Doughnut} from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 import MapIcon from "@mui/icons-material/Map";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddAlertIcon from "@mui/icons-material/AddAlert";
@@ -167,7 +167,7 @@ const Home = () => {
 
 
 
-            {/* Pie Chart Section */}
+            {/* Chart Section */}
             <Grid
               item
               xs={12}
