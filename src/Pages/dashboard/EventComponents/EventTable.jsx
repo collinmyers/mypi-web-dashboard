@@ -118,20 +118,20 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
               <STableCell>
                 {item.EventDetailsDescription}
               </STableCell>
-              <STableCell sx={{ padding: ".7rem" }}>
+              <TableCell sx={{ padding: ".7rem" }}>
                 <Button
                   className="edit-button"
                   onClick={() => editEvent(item)}
                   startIcon={<EditIcon />}
                 />
-              </STableCell>
-              <STableCell sx={{ padding: ".7rem" }}>
+              </TableCell>
+              <TableCell sx={{ padding: ".7rem" }}>
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item)}
                   startIcon={<DeleteIcon />}
                 />
-              </STableCell>
+              </TableCell>
             </TableRow>
           ))}
           {emptyRows > 0 && (
