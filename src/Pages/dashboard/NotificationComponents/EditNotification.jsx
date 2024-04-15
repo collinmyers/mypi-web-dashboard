@@ -106,7 +106,9 @@ export default function EditNotification() {
       />
       <FormControl fullWidth margin="normal" sx={{ mt: 2 }}>
         <InputLabel>Alert Type</InputLabel>
+
         <Select
+          label="Alert Type"
           value={alertType}
           onChange={(e) => setAlertType(e.target.value)}
         >
@@ -118,6 +120,7 @@ export default function EditNotification() {
       <FormControl fullWidth margin="normal" sx={{ mt: 2 }}>
         <InputLabel>Notification Type</InputLabel>
         <Select
+          label="Notification Type"
           value={notificationType}
           onChange={(e) => setNotificationType(e.target.value)}
         >

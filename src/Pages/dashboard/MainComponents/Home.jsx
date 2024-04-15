@@ -50,7 +50,7 @@ const Home = () => {
           TotalEvents: stats.TotalEvents,
           TotalPoints: stats.TotalPoints,
           TotalNotifications: stats.TotalNotifications,
-          Timestamp: stats.$updatedAt
+          Timestamp: stats.$updatedAt,
         });
         console.log(stats.$updatedAt);
       } catch (error) {
@@ -92,7 +92,6 @@ const Home = () => {
     ],
   };
 
-
   const links = ["/events", "/notifications", "/points-of-interest"];
 
   const stats = [
@@ -132,23 +131,22 @@ const Home = () => {
         }}
       >
         {/* Page Title */}
-        <Typography
+        {/* <Typography
           variant="h3"
           component="h3"
           sx={{ textAlign: "center", mb: 4, color: "#005588" }}
         >
           Platform Statistics
-        </Typography>
+        </Typography> */}
 
         <Paper
           elevation={5}
           sx={{
             borderRadius: 10, // Adjust the border radius as needed
-            padding: theme.spacing(10),
+            padding: theme.spacing(7),
             position: "relative",
           }}
         >
-
           <Grid container spacing={25}>
             {/* Last updated time component */}
             <Typography
@@ -159,13 +157,11 @@ const Home = () => {
                 right: theme.spacing(10),
                 color: "#005588",
                 fontWeight: 500,
-                fontSize: 16
+                fontSize: 16,
               }}
             >
-              Lastest Change: {formatLastUpdated(dashboardStats.Timestamp)}
+              Latest Change: {formatLastUpdated(dashboardStats.Timestamp)}
             </Typography>
-
-
 
             {/* Chart Section */}
             <Grid
@@ -181,7 +177,7 @@ const Home = () => {
                     fontSize: 20,
                     color: "#005588",
                     fontWeight: 500,
-                    margin: "2%"
+                    margin: "2%",
                   }}
                 >
                   Total Users
@@ -204,7 +200,10 @@ const Home = () => {
               }}
             >
               {stats.map((stat, index) => (
-                <Card key={index} sx={{ minWidth: "100%", mb: 3, boxShadow: 5 }}>
+                <Card
+                  key={index}
+                  sx={{ minWidth: "100%", mb: 3, boxShadow: 5 }}
+                >
                   <CardActionArea
                     component="a" // Change to "Link" if using react-router-dom
                     href={stat.link} // Change to "to" if using Link from react-router-dom
@@ -235,12 +234,11 @@ const Home = () => {
                   </CardActionArea>
                 </Card>
               ))}
-
             </Grid>
           </Grid>
         </Paper>
       </Box>
-    </Layout >
+    </Layout>
   );
 };
 
