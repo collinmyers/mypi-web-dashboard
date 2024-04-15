@@ -18,7 +18,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BorderAllRounded } from "@mui/icons-material";
-import {Container,TextField,Button,Typography,} from "@mui/material";
+import {TextField,Button} from "@mui/material";
 
 
 export default function CreateEvent(){
@@ -295,7 +295,7 @@ try{
       <ToastContainer />
       <h1 className="title">New Event</h1>
       <div className="newEventContainer">
-        <div className="slider-and-uploader" style={{height: "300px"}}>
+        <div className="slider-and-uploader" style={{height: "300px", width: "300px"}}>
         <div className="image-slider" style={{width: "250px"}}>
         {Object.keys(files).length > 1 ? (
           <Slider {...settings}>
@@ -361,6 +361,7 @@ try{
           </div>
 
       </div>
+
       <div className="input-fields" style={{width: "300px", height: "300px"}}>
 
         <TextField

@@ -23,6 +23,7 @@ body {
 .slider-and-uploader {
   display: flex;
   flex-direction: column;
+  
   gap: 50px;
 }
 .uploader{
