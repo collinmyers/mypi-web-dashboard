@@ -20,7 +20,7 @@ export default function CreatePOI() {
   const [name, setName] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
-  const [status, setStatus] = useState("Open");
+  const [status, setStatus] = useState("");
   const [type, setType] = useState("");
   const navigate = useNavigate();
 
@@ -70,67 +70,98 @@ export default function CreatePOI() {
       >
         New Point of Interest
       </Typography>
-      <TextField
-        fullWidth
-        label="Name"
-        variant="outlined"
-        margin="normal"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <TextField
-        fullWidth
-        label="Latitude"
-        variant="outlined"
-        margin="normal"
-        value={latitude}
-        onChange={(e) => {
-          const value = e.target.value;
-          if (/^-?\d*\.?\d*$/.test(value)) {
-            setLatitude(value);
-          }
-        }}
-      />
-      <TextField
-        fullWidth
-        label="Longitude"
-        variant="outlined"
-        margin="normal"
-        value={longitude}
-        onChange={(e) => {
-          const value = e.target.value;
-          if (/^-?\d*\.?\d*$/.test(value)) {
-            setLongitude(value);
-          }
-        }}
-      />
-      <FormControl fullWidth margin="normal">
-        <InputLabel>Status</InputLabel>
-        <Select
-          label="Status"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        >
-          <MenuItem value="Open">Open</MenuItem>
-          <MenuItem value="Closed">Closed</MenuItem>
-        </Select>
-      </FormControl>
-      <TextField
-        fullWidth
-        label="Type"
-        variant="outlined"
-        margin="normal"
-        value={type}
-        onChange={(e) => setType(e.target.value)}
-      />
-      <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 2 }}>
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Create POI
-        </Button>
-        <Button variant="outlined" onClick={() => navigate("/points-of-interest")}>
-          Back to POI Menu
-        </Button>
+
+      <Box component="form" noValidate sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}>
+
+        <TextField
+          fullWidth
+          label="Name"
+          variant="outlined"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          sx={{ m: "4%", mt: 0 }}
+        />
+
+        <TextField
+          fullWidth
+          label="Latitude"
+          variant="outlined"
+          value={latitude}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (/^-?\d*\.?\d*$/.test(value)) {
+              setLatitude(value);
+            }
+          }}
+          sx={{ m: "1%", mb: "4%" }}
+        />
+
+        <TextField
+          fullWidth
+          label="Longitude"
+          variant="outlined"
+          value={longitude}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (/^-?\d*\.?\d*$/.test(value)) {
+              setLongitude(value);
+            }
+          }}
+          sx={{ m: "1%", mb: "4%" }}
+        />
+
+        <FormControl fullWidth>
+          <InputLabel id="type-label" >Type</InputLabel>
+          <Select
+            labelId="type-label"
+            id="type"
+            value={type}
+            label="Type"
+            onChange={(e) => setType(e.target.value)}
+            sx={{ mb: "4%" }}
+          >
+            <MenuItem value="Amenities">Amenities</MenuItem>
+            <MenuItem value="Attraction">Attraction</MenuItem>
+            <MenuItem value="Beach">Beaches</MenuItem>
+            <MenuItem value="FoodTruck">Food Truck</MenuItem>
+            <MenuItem value="Information">Information</MenuItem>
+            <MenuItem value="Parking">Parking</MenuItem>
+            <MenuItem value="Restroom">Restrooms</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth>
+          <InputLabel id="status-label">Status</InputLabel>
+          <Select
+            labelId="status-label"
+            id="status"
+            value={status}
+            label="Status"
+            onChange={(e) => setStatus(e.target.value)}
+            sx={{ mb: "4%" }}
+          >
+            <MenuItem value="Open">Open</MenuItem>
+            <MenuItem value="Closed">Closed</MenuItem>
+          </Select>
+        </FormControl>
+
+
+        <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 2 }}>
+          <Button onClick={handleSubmit} variant="contained" >
+            Create Point
+          </Button>
+
+          <Button variant="outlined" onClick={() => navigate("/points-of-interest")}>
+            Back to Points
+          </Button>
+        </Box>
       </Box>
+
+
     </Container>
   );
 }
