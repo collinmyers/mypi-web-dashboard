@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { styled } from "@mui/material/styles";
+import PropTypes from "prop-types";
 import { SideNav } from "../DashComponents/side-nav";
 import { TopNav } from "../DashComponents/top-nav";
-import PropTypes from "prop-types";
 
 const SIDE_NAV_WIDTH = 250;
 
@@ -27,15 +27,13 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const [openNav, setOpenNav] = useState(false);
 
-  const handlePathnameChange = useCallback(() => {
+  useEffect(() => {
+    // Function is simple enough that we can inline it inside useEffect,
+    // unless it's used elsewhere that justifies useCallback.
     if (openNav) {
       setOpenNav(false);
     }
-  }, [openNav]);
-
-  useEffect(() => {
-    handlePathnameChange();
-  }, [location.pathname]);
+  }, [location.pathname, openNav]); // Ensure dependencies are correct
 
   return (
     <>
@@ -49,7 +47,7 @@ const Layout = ({ children }) => {
 };
 
 Layout.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.node.isRequired, // This covers any renderable content
 };
 
 export default Layout;

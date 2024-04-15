@@ -85,7 +85,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
             <TableRow
               className="row"
               key={item.$id}
-              sx={{ textAlign: "center" }}
+              sx={{ textAlign: "center", padding: ".7rem" }}
             >
               <TableCell
                 style={{
@@ -93,6 +93,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   maxWidth: "50px",
+                  padding: ".7rem",
                 }}
               >
                 {item.Name}
@@ -103,6 +104,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   maxWidth: "50px",
+                  padding: ".7rem",
                 }}
               >
                 {item.Latitude}
@@ -113,6 +115,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   maxWidth: "50px",
+                  padding: ".7rem",
                 }}
               >
                 {item.Longitude}
@@ -123,6 +126,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   maxWidth: "50px",
+                  padding: ".7rem",
                 }}
               >
                 {item.Date}
@@ -133,6 +137,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   maxWidth: "50px",
+                  padding: ".7rem",
                 }}
               >
                 {item.Time}
@@ -143,6 +148,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   maxWidth: "50px",
+                  padding: ".7rem",
                 }}
               >
                 {item.EventListDescription}
@@ -153,18 +159,19 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   maxWidth: "50px",
+                  padding: ".7rem",
                 }}
               >
                 {item.EventDetailsDescription}
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ padding: ".7rem" }}>
                 <Button
                   className="edit-button"
                   onClick={() => editEvent(item)}
                   startIcon={<EditIcon />}
                 />
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ padding: ".7rem" }}>
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item)}
@@ -175,7 +182,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
           ))}
           {emptyRows > 0 && (
             <TableRow style={{ height: 55 * emptyRows }}>
-              <TableCell colSpan={9} />
+              <TableCell sx={{ padding: ".7rem" }} colSpan={9} />
             </TableRow>
           )}
         </TableBody>

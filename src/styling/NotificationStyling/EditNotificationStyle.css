@@ -1,42 +1,49 @@
 body {
-    margin: 0;
-    padding: 0;
-    justify-content: center;
-  }
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  height: 100vh; /* Ensures the entire view height is covered */
+}
 
-  .editNotificationContainer {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 100%; /* Set width to 100% to take the full width of the page */
-  }
-  
-  .editNotificationContainer input {
-    margin: 10px 0; /* Add spacing to the top and bottom of each input field */
-  }
-  
-  .editNotificationContainer button {
-    margin-top: 20px; /* Add spacing above the button */
-  }
- .editNotificationContainer .uploader {
-    width: 100%; /* Make the file input take full width */
-    margin: 10px 0; /* Add spacing to the top and bottom of the file input */
-  }
-  .dropdown-container {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .dropdown-label {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .dropdown {
-    margin-top: 5px; /* Adjust as needed */
-  }
+.editNotificationContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%; /* Set width to 100% to take the full width of the page */
+}
 
-  @media (max-width: 768px) {
+.editNotificationContainer input,
+.editNotificationContainer select {
+  margin: 10px 0; /* Add spacing to the top and bottom of each input field */
+}
+
+.editNotificationContainer button {
+  margin-top: 20px; /* Add spacing above the button */
+}
+
+.editNotificationContainer .uploader {
+  width: 100%; /* Make the file input take full width */
+  margin: 10px 0; /* Add spacing to the top and bottom of the file input */
+}
+
+.dropdown-container {
+  display: flex;
+  gap: 10px;
+  width: 100%; /* Full width to accommodate the flex layout properly */
+  justify-content: center; /* Centers dropdowns */
+}
+
+.dropdown-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown {
+  margin-top: 5px; /* Adjust as needed */
+}
+
+@media (max-width: 768px) {
   .editNotificationContainer {
     flex-direction: column;
     padding: 20px;
@@ -46,7 +53,7 @@ body {
     color: #005588;
     font-size: x-large;
     text-align: center;
- }
+  }
 }
 
 .editNotificationContainer button:hover,
@@ -56,7 +63,8 @@ body {
 }
 
 /* Adjustments for form elements for better spacing and visual feedback */
-.editNotificationContainer input:focus {
+.editNotificationContainer input:focus,
+.editNotificationContainer select:focus {
   border: 1px solid #76a5af; /* Enhances focus visibility */
 }
 
@@ -67,22 +75,20 @@ body {
 }
 
 .formControl {
-  max-width: 150px;
-  margin: auto;
+  max-width: 300px; /* Increased width to avoid overlapping labels */
+  width: 100%; /* Takes full width */
+  margin: 10px auto; /* Centers the form control */
 }
 
-/* Add vertical margins to space out the buttons */
 .actionButton {
   max-width: 200px;
   width: 100%;
   margin: 10px auto; /* Adjusted margin for vertical spacing */
 }
 
-/* If you choose to wrap buttons, you can define a wrapper style */
 .buttonWrapper {
   display: flex;
   flex-direction: column;
   gap: 10px; /* Adjust this value as needed to space out buttons */
   align-items: center;
 }
-

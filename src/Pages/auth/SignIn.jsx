@@ -57,7 +57,7 @@ export default function LoginScreen() {
   const theme = createTheme({
     palette: {
       background: {
-        default: "#005588", // This sets the BG color! - Q
+        default: "#0078AA", // This sets the BG color! - Q
       },
     },
   });
@@ -85,6 +85,7 @@ export default function LoginScreen() {
             padding: 4,
             boxShadow: 3,
             backgroundColor: "#FFFFFF",
+            borderRadius: "16px", // Rounded corners
           }}
         >
           <Box
@@ -139,7 +140,6 @@ export default function LoginScreen() {
           >
             Sign In
           </Button>
-
         </Card>
       </Box>
     </ThemeProvider>
