@@ -1,61 +1,68 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "../../../styling/NotificationStyling/EditNotificationStyle.css";
-// import {ID} from "appwrite";
-import { database, functions, PUSH_NOTIFICATION_ID } from "../../../utils/AppwriteConfig";
-
-import { ALERTS_COLLECTION_ID } from "../../../utils/AppwriteConfig";
-import { DATABASE_ID } from "../../../utils/AppwriteConfig";
-import { toast, ToastContainer } from "react-toastify";
-import { useLocation } from "react-router-dom";
+import React, { useState } from "react";
 import {
-  Typography,
+  Container,
   TextField,
-  Button,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
-  Box,
-  Container,
+  Button,
+  Box, // Import Box for additional layout control
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
-
+import { database, functions } from "../../../utils/AppwriteConfig";
+import {
+  ALERTS_COLLECTION_ID,
+  DATABASE_ID,
+  PUSH_NOTIFICATION_ID,
+} from "../../../utils/AppwriteConfig";
+import { toast, ToastContainer } from "react-toastify";
+import { useNavigate, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export default function EditNotification() {
   const location = useLocation();
-  let notification = location.state.notification;
+  const notification = location?.state?.notification;
 
-  const [title, setTitle] = useState(notification.Title);
-  const [details, setDetails] = useState(notification.Details);
-  const [alertType, setAlertType] = useState(notification.AlertType);
-  const [notificationType] = useState(
-    notification.NotificationType
+  const [title, setTitle] = useState(notification?.Title || "");
+  const [details, setDetails] = useState(notification?.Details || "");
+  const [alertType, setAlertType] = useState(notification?.AlertType || "");
+  const [notificationType, setNotificationType] = useState(
+    notification?.notificationType || ""
   );
 
   const navigate = useNavigate();
 
-  const Successful = () => {
-    toast.success("Notification Update", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  };
+  const handleSubmit = async () => {
+    if (!notification) {
+      toast.error("No notification data provided!");
+      return;
+    }
 
-  const Failed = () => {
-    toast.error("Failed to Update Notification", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  };
-
-  async function schedulePushNotification(notifTitle, notifBody) {
-
-    // Function parameters
-    const params = {
-      title: notifTitle,
-      body: notifBody
+    const data = {
+      Title: title,
+      Details: details,
+      AlertType: alertType.toLowerCase(),
+      NotificationType: notificationType.toLowerCase(),
     };
+    try {
+      await database.updateDocument(
+        DATABASE_ID,
+        ALERTS_COLLECTION_ID,
+        notification.$id,
+        data
+      );
+      if (["both", "push"].includes(alertType)) {
+        await schedulePushNotification(title, details);
+      }
+      toast.success("Notification Updated");
+    } catch (error) {
+      toast.error("Failed to Update Notification");
+      console.error(error);
+    }
+  };
 
+  const schedulePushNotification = async (notifTitle, notifBody) => {
+    const params = { title: notifTitle, body: notifBody };
     try {
       await functions.createExecution(
         PUSH_NOTIFICATION_ID,
@@ -68,99 +75,94 @@ export default function EditNotification() {
     } catch (err) {
       console.error(err.message);
     }
-
-  }
-
-  useEffect(() => { });
-
-  const handleSubmit = async () => {
-    console.log(alertType);
-
-    const data = {
-      Title: title,
-      Details: details,
-      AlertType: alertType,
-      NotificationType: notificationType,
-    };
-
-    try {
-      await database.updateDocument(
-        DATABASE_ID,
-        ALERTS_COLLECTION_ID,
-        notification.$id,
-        data
-      );
-      if (alertType == "both" || alertType == "push") {
-        schedulePushNotification(title, details);
-      }
-      Successful();
-    } catch (error) {
-      Failed();
-      console.log(error);
-    }
   };
+
+  if (!notification) {
+    return <div>No notification data available.</div>;
+  }
 
   return (
     <Container>
       <ToastContainer />
-      <Typography variant="h4" gutterBottom className="editNotifTitle">
-        Edit Notification
-      </Typography>
-
-      <Box component="form" noValidate sx={{ mt: 1 }}>
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          label="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+      <TextField
+        margin="normal"
+        required
+        fullWidth
+        label="Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        sx={{ mt: 2 }}
+      />
+      <TextField
+        margin="normal"
+        required
+        fullWidth
+        label="Details"
+        multiline
+        rows={4}
+        value={details}
+        onChange={(e) => setDetails(e.target.value)}
+        sx={{ mt: 2 }}
+      />
+      <FormControl fullWidth margin="normal" sx={{ mt: 2 }}>
+        <InputLabel>Alert Type</InputLabel>
+        <Select
+          value={alertType}
+          onChange={(e) => setAlertType(e.target.value)}
+        >
+          <MenuItem value="in-app">In-App</MenuItem>
+          <MenuItem value="push">Push</MenuItem>
+          <MenuItem value="both">Both</MenuItem>
+        </Select>
+      </FormControl>
+      <FormControl fullWidth margin="normal" sx={{ mt: 2 }}>
+        <InputLabel>Notification Type</InputLabel>
+        <Select
+          value={notificationType}
+          onChange={(e) => setNotificationType(e.target.value)}
+        >
+          <MenuItem value="alerts">Alerts</MenuItem>
+          <MenuItem value="events">Events</MenuItem>
+          <MenuItem value="promos">Promos</MenuItem>
+        </Select>
+      </FormControl>
+      <Box
+        sx={{
+          mt: 4,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Button
+          onClick={handleSubmit}
+          variant="contained"
+          sx={{ mb: 2, width: "80%" }}
+        >
+          Edit Notification
+        </Button>
+        <Button
+          onClick={() => navigate(-1)}
           variant="outlined"
-        />
-
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          label="Details"
-          multiline
-          rows={4}
-          value={details}
-          onChange={(e) => setDetails(e.target.value)}
-          variant="outlined"
-        />
-
-        <FormControl fullWidth margin="normal" className="formControl">
-          <InputLabel>Alert Type</InputLabel>
-          <Select
-            value={alertType}
-            label="Alert Type"
-            onChange={(e) => setAlertType(e.target.value)}
-          >
-            <MenuItem value="in-app">In-App</MenuItem>
-            <MenuItem value="push">Push</MenuItem>
-            <MenuItem value="both">Both</MenuItem>
-          </Select>
-        </FormControl>
-
-        {/* Similar for Notification Type */}
-
-        <div className="buttonWrapper">
-
-          <Button onClick={handleSubmit} variant="contained" className="actionButton">
-            Edit Notification
-          </Button>
-
-          <Button
-            startIcon={<ArrowBackIcon />}
-            onClick={() => navigate("/notifications")}
-            variant="outlined"
-            className="actionButton"
-          >
-            Go Back
-          </Button>
-        </div>
+          sx={{ width: "80%" }}
+        >
+          Go Back
+        </Button>
       </Box>
     </Container>
   );
 }
+
+EditNotification.propTypes = {
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      notification: PropTypes.shape({
+        Title: PropTypes.string,
+        Details: PropTypes.string,
+        AlertType: PropTypes.string,
+        notificationType: PropTypes.string,
+        $id: PropTypes.string,
+      }),
+    }),
+  }),
+};
