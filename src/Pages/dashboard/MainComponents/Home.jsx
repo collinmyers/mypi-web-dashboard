@@ -131,19 +131,19 @@ const Home = () => {
         }}
       >
         {/* Page Title */}
-        <Typography
+        {/* <Typography
           variant="h3"
           component="h3"
           sx={{ textAlign: "center", mb: 4, color: "#005588" }}
         >
           Platform Statistics
-        </Typography>
+        </Typography> */}
 
         <Paper
           elevation={5}
           sx={{
             borderRadius: 10, // Adjust the border radius as needed
-            padding: theme.spacing(10),
+            padding: theme.spacing(7),
             position: "relative",
           }}
         >
