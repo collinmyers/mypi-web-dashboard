@@ -16,16 +16,13 @@ import {
   Button,
 } from "@mui/material";
 import { styled } from "@mui/system";
-// import "../../../styling/FAQStyling/FAQTableStyle.css";
 import "../../../styling/TableStyling.css";
 
-const StyledTableCell = styled(TableCell)({
-  maxWidth: "250px",
-  whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  textAlign: "center",
-  //   backgroundColor: "white",
+const STableCell = styled(TableCell)({
+  padding: ".7rem", 
+  whiteSpace: "nowrap", 
+  overflow: "hidden", 
+  textOverflow: "ellipsis"
 });
 
 const FAQTable = ({ data, onDelete, onEdit, onCreate }) => {
@@ -55,21 +52,13 @@ const FAQTable = ({ data, onDelete, onEdit, onCreate }) => {
 
   return (
     <Card className="card">
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "1rem",
-          backgroundColor: "#f5f5f5",
-        }}
-      >
+      <Box className="search-box">
         <TextField
           placeholder="Search by Name..."
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
-          sx={{ flexGrow: 1, marginRight: "1rem", backgroundColor: "white" }}
+          className="search-text-field"
         />
         <Button
           className="add-icon-button"
@@ -80,36 +69,40 @@ const FAQTable = ({ data, onDelete, onEdit, onCreate }) => {
       <Table className="table">
         <TableHead>
           <TableRow className="row">
-            <StyledTableCell>Question</StyledTableCell>
-            <StyledTableCell>Answer</StyledTableCell>
-            <StyledTableCell>Edit</StyledTableCell>
-            <StyledTableCell>Delete</StyledTableCell>
+            <STableCell >Question</STableCell>
+            <STableCell >Answer</STableCell>
+            <STableCell >Edit</STableCell>
+            <STableCell >Delete</STableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {currentPageData.map((item) => (
-            <TableRow key={item.$id}>
-              <StyledTableCell>{item.Question}</StyledTableCell>
-              <StyledTableCell>{item.Answer}</StyledTableCell>
-              <TableCell className="cell">
+            <TableRow className="row" key={item.$id}>
+              <STableCell>
+                {item.Question}
+                </STableCell>
+              <STableCell>
+              {item.Answer}
+                </STableCell>
+              <STableCell>
                 <Button
                   sx={{ ml: 2 }}
                   onClick={() => onEdit(item)}
                   startIcon={<EditIcon />}
                 />
-              </TableCell>
-              <TableCell className="cell">
+              </STableCell>
+              <STableCell>
                 <Button
                   sx={{ ml: 2 }}
                   onClick={() => handleDeleteClick(item)}
                   startIcon={<DeleteIcon />}
                 />
-              </TableCell>
+              </STableCell>
             </TableRow>
           ))}
           {emptyRows > 0 && (
-            <TableRow style={{ height: 65 * emptyRows }}>
-              <TableCell colSpan={7} />
+            <TableRow style={{ height: 55 * emptyRows }}>
+              <STableCell colSpan={7} />
             </TableRow>
           )}
         </TableBody>

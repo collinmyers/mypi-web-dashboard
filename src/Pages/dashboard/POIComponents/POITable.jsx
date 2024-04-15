@@ -135,7 +135,7 @@ const POITable = ({ allData, onEdit, onDelete, onCreate }) => {
           ))}
 
           {emptyRows > 0 && (
-            <TableRow style={{ height: 40 * emptyRows }}>
+            <TableRow style={{ height: 55 * emptyRows }}>
               <TableCell colSpan={7} />
             </TableRow>
           )}

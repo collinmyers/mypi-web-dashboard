@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+import { styled } from "@mui/system";
+
 import {
   Box,
   Card,
@@ -18,6 +20,12 @@ import {
 import "../../../styling/TableStyling.css";
 
 const AboutTable = ({ allData, onDelete, onEdit, onCreate }) => {
+  const STableCell = styled(TableCell)({
+      padding: ".7rem", 
+      whiteSpace: "nowrap", 
+      overflow: "hidden", 
+      textOverflow: "ellipsis"
+  });
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0); // Zero-based indexing
   const [pageSize] = useState(6);
@@ -58,7 +66,7 @@ const AboutTable = ({ allData, onDelete, onEdit, onCreate }) => {
         <TableHead>
           <TableRow className="row">
             {["Title", "Description", "Edit", "Delete"].map((header) => (
-              <TableCell key={header}>{header}</TableCell>
+              <STableCell key={header}>{header}</STableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -69,45 +77,31 @@ const AboutTable = ({ allData, onDelete, onEdit, onCreate }) => {
               key={item.$id}
               sx={{ textAlign: "center", overflow: "hidden" }}
             >
-              <TableCell
-                style={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: "200px",
-                }}
-              >
+              <STableCell>
                 {item.Title}
-              </TableCell>
-              <TableCell
-                style={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: "200px",
-                }}
-              >
+              </STableCell>
+              <STableCell>
                 {item.Description}
-              </TableCell>
-              <TableCell>
+              </STableCell>
+              <STableCell>
                 <Button
                   className="edit-button"
                   onClick={() => onEdit(item)}
                   startIcon={<EditIcon />}
                 />
-              </TableCell>
-              <TableCell>
+              </STableCell>
+              <STableCell>
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item)}
                   startIcon={<DeleteIcon />}
                 />
-              </TableCell>
+              </STableCell>
             </TableRow>
           ))}
           {emptyRows > 0 && (
-            <TableRow style={{ height: 65 * emptyRows }}>
-              <TableCell colSpan={7} />
+            <TableRow style={{ height: 55 * emptyRows }}>
+              <STableCell colSpan={7} />
             </TableRow>
           )}
         </TableBody>

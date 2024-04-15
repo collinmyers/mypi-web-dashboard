@@ -17,8 +17,20 @@ import AddIcon from "@mui/icons-material/Add";
 import { Tooltip } from "@mui/material";
 import PropTypes from "prop-types";
 import "../../../styling/TableStyling.css";
+import { styled } from "@mui/system";
+
+
 
 const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
+  const STableCell = styled(TableCell)({
+    padding: ".7rem", 
+    whiteSpace: "nowrap", 
+    overflow: "hidden", 
+    textOverflow: "ellipsis"
+  });
+  
+
+
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize] = useState(5);
@@ -76,7 +88,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
               "Edit",
               "Delete",
             ].map((header) => (
-              <TableCell key={header}>{header}</TableCell>
+              <STableCell key={header}>{header}</STableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -84,105 +96,47 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
           {currentPageData.map((item) => (
             <TableRow
               className="row"
-              key={item.$id}
-              sx={{ textAlign: "center", padding: ".7rem" }}
-            >
-              <TableCell
-                style={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: "50px",
-                  padding: ".7rem",
-                }}
-              >
+              key={item.$id}>
+              <STableCell>
                 {item.Name}
-              </TableCell>
-              <TableCell
-                style={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: "50px",
-                  padding: ".7rem",
-                }}
-              >
+              </STableCell>
+              <STableCell>
                 {item.Latitude}
-              </TableCell>
-              <TableCell
-                style={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: "50px",
-                  padding: ".7rem",
-                }}
-              >
+              </STableCell>
+              <STableCell>
                 {item.Longitude}
-              </TableCell>
-              <TableCell
-                style={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: "50px",
-                  padding: ".7rem",
-                }}
-              >
+              </STableCell>
+              <STableCell>
                 {item.Date}
-              </TableCell>
-              <TableCell
-                style={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: "50px",
-                  padding: ".7rem",
-                }}
-              >
+              </STableCell>
+              <STableCell>
                 {item.Time}
-              </TableCell>
-              <TableCell
-                style={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: "50px",
-                  padding: ".7rem",
-                }}
-              >
+              </STableCell>
+              <STableCell>
                 {item.EventListDescription}
-              </TableCell>
-              <TableCell
-                style={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  maxWidth: "50px",
-                  padding: ".7rem",
-                }}
-              >
+              </STableCell>
+              <STableCell>
                 {item.EventDetailsDescription}
-              </TableCell>
-              <TableCell sx={{ padding: ".7rem" }}>
+              </STableCell>
+              <STableCell sx={{ padding: ".7rem" }}>
                 <Button
                   className="edit-button"
                   onClick={() => editEvent(item)}
                   startIcon={<EditIcon />}
                 />
-              </TableCell>
-              <TableCell sx={{ padding: ".7rem" }}>
+              </STableCell>
+              <STableCell sx={{ padding: ".7rem" }}>
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item)}
                   startIcon={<DeleteIcon />}
                 />
-              </TableCell>
+              </STableCell>
             </TableRow>
           ))}
           {emptyRows > 0 && (
             <TableRow style={{ height: 55 * emptyRows }}>
-              <TableCell sx={{ padding: ".7rem" }} colSpan={9} />
+              <STableCell  colSpan={7} />
             </TableRow>
           )}
         </TableBody>
