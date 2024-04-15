@@ -14,6 +14,8 @@ import {ID} from "appwrite";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import {TextField,Button} from "@mui/material";
+
 
 
 export default function EditEvent(){
@@ -358,9 +360,10 @@ const addInputs = () => {
 return (
     <div>
     <ToastContainer/>
-    <div className="dropdown-container">
     <h1 className="editEventTitle">Edit Event</h1>
-    <div className="image-slider">
+    <div className="edit-event-container">
+    <div className="slider-and-uploader">
+    <div className="image-slider" style={{width: "250px"}}>
     {Object.keys(imageUrls).length > 1 ? (
       <Slider {...settings}>
         {Object.keys(imageUrls).map((key, index) => (
@@ -398,44 +401,46 @@ return (
     style={{ display: "none" }}
     onChange={(e) => handleImageReplace(e, selectedImageId)}
   />
-    </div>
-
-
+  
+  
     <div>
       {isModalOpen && (
         <div className="modal">
-          <div className="modal-content">
+        <div className="modal-content">
+        <button onClick={() => deleteImage()}>Delete</button>
             <button onClick={() => setIsModalOpen(false)}>Close</button>
             <button onClick={() => openFileExplorer()}>Replace</button>
-            <button onClick={() => deleteImage()}>Delete</button>
           </div>
+          </div>
+        )}
         </div>
-      )}
-      </div>
+        
+        <input
+        className="event-uploader"
+        type="file"
+        id="uploader"
+        onChange={handleNewImage}
+        multiple
+        />
 
-    <input
-      className="event-uploader"
-      type="file"
-      id="uploader"
-      onChange={handleNewImage}
-      multiple
-  />
+        </div>
+        </div>
+
+        <div className="input-fields" style={{height: "300px", width: "300px"}}>
+
+        <TextField className="eventName" type="text" label={"Name"} id = "eventName" value={name} onChange={(e) => setName(e.target.value)} />
 
 
-
-        <input className="eventName" type="text" placeholder={"Name"} id = "eventName" value={name} onChange={(e) => setName(e.target.value)} />
-
-
-        <button onClick={toggleMode}>
+        <Button onClick={toggleMode}>
         {dateMode === "range" ? "Select Single Date" : "Select Date Range"}
-      </button>
+      </Button>
       {dateMode === "range" ? (
-        <div>
-          <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} selectsStart startDate={startDate} endDate={endDate} placeholderText="Start Date"/>
-          <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} selectsEnd startDate={startDate} endDate={endDate} minDate={startDate} placeholderText="End Date"/>
+        <div className="date-picker">
+          <DatePicker className="input-field" selected={startDate} onChange={(date) => setStartDate(date)} selectsStart startDate={startDate} endDate={endDate} placeholderText="Start Date"/>
+          <DatePicker className= "input-field" selected={endDate} onChange={(date) => setEndDate(date)} selectsEnd startDate={startDate} endDate={endDate} minDate={startDate} placeholderText="End Date"/>
         </div>
       ) : (
-        <DatePicker selected={startDate} onChange={(date) => {
+        <DatePicker className="input-field" selected={startDate} onChange={(date) => {
             setStartDate(date);
             setEndDate(date); // Set end date to the same date for single date selection
           }}
@@ -443,33 +448,36 @@ return (
         />
       )}
 
-      <label>
-      Start Time:
-      <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
-    </label>
-    <br />
-    <label>
-      End Time:
-      <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
-    </label>
-    <br />
+      <TextField 
+        type="time"
+        label={"Start"}
+        value={startTime}
+        InputLabelProps={{shrink:true}} 
+        onChange={(e) => setStartTime(e.target.value)} />
+   
+      <TextField 
+        type="time"
+        InputLabelProps={{ shrink: true }}
+        label={"End"} 
+        value={endTime} 
+        onChange={(e) => setEndTime(e.target.value)} />
 
+    </div>
 
+    <div className="input-fields2" style={{height: "300px", width: "300px"}}>
 
-
-        <input type="text" placeholder={"Short Description"} value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} />
-        <input type="text" placeholder={ "Long Description"} value={longDescription} onChange={(e) => setLongDescription(e.target.value)} />
-        <input
+        <TextField type="text" rows={3} label={"Short Description"} value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} />
+        <TextField type="text" placeholder={ "Long Description"} value={longDescription} onChange={(e) => setLongDescription(e.target.value)} />
+        <TextField
           type="number"
           placeholder="Latitude"
-            value={latitude}
-            onChange={(e) => {
-            const value = e.target.value;
-              setLatitude(parseFloat(value));
-            
+          value={latitude}
+          onChange={(e) => {
+          const value = e.target.value;
+          setLatitude(parseFloat(value));  
           }}
         />
-        <input
+        <TextField
           type="number"
           value={longitude}
           placeholder="Longitude"
@@ -487,7 +495,7 @@ return (
               value={title}
               onChange={(event) => handleExtraTitleChange(index, event)}
             />
-            <input
+            <TextField
               type="text"
               placeholder={`Extra Info Link ${index + 1}`}
               value={extraURL[index]}
@@ -496,11 +504,13 @@ return (
           </div>
         ))}
         <button onClick={addInputs}>Add More</button>
-
-        <button className="editEventSubmit" onClick={handleSubmit} >Edit Event</button>
-        <button onClick={() => navigate("/events")}>go back</button>
-
+        
+        </div>
       </div>
+
+        <Button className="editEventSubmit" onClick={handleSubmit} >Edit Event</Button>
+        <Button onClick={() => navigate("/events")}>go back</Button>
+
     </div>
   );
 }
