@@ -22,7 +22,7 @@
 }
 
 .table {
-  min-width: 75vw;
+  min-width: 65vw;
   min-height: 60vh;
   max-height: 60vh;
   justify-content: "space-between";
