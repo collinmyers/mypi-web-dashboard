@@ -57,7 +57,7 @@ export default function LoginScreen() {
   const theme = createTheme({
     palette: {
       background: {
-        default: "#005588", // This sets the BG color! - Q
+        default: "#0078AA", // This sets the BG color! - Q
       },
     },
   });
