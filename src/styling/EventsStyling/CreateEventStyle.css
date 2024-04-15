@@ -14,7 +14,7 @@ body {
   
  .newEventContainer {
   height: 400px;
-  width: 1000px;
+  width: 1250px;
   display: flex;
   justify-content: center;
   gap: 10%;
@@ -68,3 +68,17 @@ margin-top: 10%;
     width: 100%;
 
   }
+.date-picker{
+
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.time-picker{
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: center;
+
+margin: auto;
+}

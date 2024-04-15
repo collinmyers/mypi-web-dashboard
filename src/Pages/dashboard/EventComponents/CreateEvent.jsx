@@ -13,11 +13,13 @@ import {storage} from "../../../utils/AppwriteConfig";
 import {BUCKET_ID} from "../../../utils/AppwriteConfig";
 import {EVENTS_COLLECTION_ID} from "../../../utils/AppwriteConfig";
 import {DATABASE_ID} from "../../../utils/AppwriteConfig";
-import { Button, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BorderAllRounded } from "@mui/icons-material";
+import {Container,TextField,Button,Typography,} from "@mui/material";
+
 
 export default function CreateEvent(){
   // const[fileID,setFileID] = useState("");
@@ -294,7 +296,7 @@ try{
       <h1 className="title">New Event</h1>
       <div className="newEventContainer">
         <div className="slider-and-uploader" style={{height: "300px"}}>
-        <div className="image-slider">
+        <div className="image-slider" style={{width: "300px"}}>
         {Object.keys(files).length > 1 ? (
           <Slider {...settings}>
             {Object.keys(files).map((key, index) => (
@@ -358,20 +360,23 @@ try{
           </div>
 
       </div>
-      <div className="input-fields" style={{width: "250px", height: "300px"}}>
-        <input
-          className="input"
-          type="text"
-          placeholder="Name"
+      <div className="input-fields" style={{width: "300px", height: "300px"}}>
+
+        <TextField
+          fullWidth
+          rows={1}
+          label="Name"
+          variant="outlined"
           value={name}
+          margin="normal"
           onChange={(e) => setName(e.target.value)}
         />
 
-        <button onClick={toggleMode}>
+        <Button onClick={toggleMode}>
           {dateMode === "range" ? "Select Single Date" : "Select Date Range"}
-        </button>
+        </Button>
         {dateMode === "range" ? (
-          <div>
+          <div className="date-picker">
             <DatePicker
               className="input-field"
               selected={startDate}
@@ -404,18 +409,24 @@ try{
           />
         )}
 
-        <label>
-          Start Time:
-          <input type="time" onChange={(e) => setStartTime(e.target.value)} />
-        </label>
-        <br />
-        <label>
-          End Time:
-          <input type="time" onChange={(e) => setEndTime(e.target.value)} />
-        </label>
-        <br />
+        <div className="time-picker">
+          <TextField 
+            label="Start" 
+            InputLabelProps={{ shrink: true }}
+            type="time" 
+            onChange={(e) => setStartTime(e.target.value)} 
+          />
+          <TextField 
+            type="time" 
+            onChange={(e) => setEndTime(e.target.value)} 
+            InputLabelProps={{shrink:true}}
+            label = "End"
+          />
+
         </div>
-        <div className="input-fields2" style={{width: "250px", height: "300px"}}>
+
+      </div>
+        <div className="input-fields2" style={{width: "300px", height: "300px"}}>
         <input
           type="text"
           placeholder="Short Description"
