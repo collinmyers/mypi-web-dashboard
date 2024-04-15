@@ -85,6 +85,7 @@ export default function LoginScreen() {
             padding: 4,
             boxShadow: 3,
             backgroundColor: "#FFFFFF",
+            borderRadius: "16px", // Rounded corners
           }}
         >
           <Box
@@ -139,7 +140,6 @@ export default function LoginScreen() {
           >
             Sign In
           </Button>
-
         </Card>
       </Box>
     </ThemeProvider>
