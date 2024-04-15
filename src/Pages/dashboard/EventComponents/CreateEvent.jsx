@@ -296,11 +296,11 @@ try{
       <h1 className="title">New Event</h1>
       <div className="newEventContainer">
         <div className="slider-and-uploader" style={{height: "300px"}}>
-        <div className="image-slider" style={{width: "300px"}}>
+        <div className="image-slider" style={{width: "250px"}}>
         {Object.keys(files).length > 1 ? (
           <Slider {...settings}>
             {Object.keys(files).map((key, index) => (
-              <div key={index} onClick={() => handleImageSelect(key)}>
+              <div key={index}  onClick={() => handleImageSelect(key)}>
                 <img
                   width={"250px"}
                   height={"200px"}
@@ -314,8 +314,8 @@ try{
         ) : (
           <div>
           {Object.keys(files).map((key, index) => (
+            <div key={index} >
             <img
-              key={index}
               width={"250px"}
               height={"200px"}
               src={files[key].href}
@@ -323,6 +323,7 @@ try{
               onClick={() => handleImageSelect(key)}
               className={selectedImageId === key ? "selected-image" : ""}
             />
+            </div>
           ))}
           </div>
         )}
@@ -427,21 +428,25 @@ try{
 
       </div>
         <div className="input-fields2" style={{width: "300px", height: "300px"}}>
-        <input
+        <TextField
           type="text"
-          placeholder="Short Description"
+          rows={2}
+          multiline
+          label="Short Description"
           value={shortDescription}
           onChange={(e) => setShortDescription(e.target.value)}
         />
-        <input
+        <TextField
           type="text"
-          placeholder="Long Description"
+          rows={3}
+          multiline
+          label="Long Description"
           value={longDescription}
           onChange={(e) => setLongDescription(e.target.value)}
         />
-        <input
+        <TextField
           type="text"
-          placeholder="Latitude"
+          label="Latitude"
             onChange={(e) => {
             const value = e.target.value;
             if (/^-?\d*\.?\d*$/.test(value)) {
@@ -449,9 +454,9 @@ try{
             }
           }}
         />
-        <input
+        <TextField
           type="text"
-          placeholder="Longitude"
+          label="Longitude"
           onChange={(e) => {
             const value = e.target.value;
             if (/^-?\d*\.?\d*$/.test(value)) {
@@ -459,25 +464,29 @@ try{
             }
           }}
         />
+        <div className="extra-info">
         {extraTitle.map((title, index) => (
           <div key={index}>
-            <input
+            <TextField
               type="text"
-              placeholder={`Extra Info Title ${index + 1}`}
+              label={`Extra Info Title ${index + 1}`}
               value={title}
               onChange={(event) => handleExtraTitleChange(index, event)}
             />
             {extraURL[index] !== undefined && (
-              <input
+              <TextField
                 type="text"
-                placeholder={`Extra Info Link ${index + 1}`}
+                label={`Extra Info Link ${index + 1}`}
                 value={extraURL[index]}
                 onChange={(event) => handleExtraURLChange(index, event)}
               />
             )}
           </div>
         ))}
-        <button onClick={addInputs}>Add More</button>
+
+      </div>
+
+        <Button onClick={addInputs}>Add More</Button>
 
         </div>
         </div>
