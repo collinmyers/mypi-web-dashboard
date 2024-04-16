@@ -465,6 +465,8 @@ export default function EditEvent() {
               <Button onClick={() => setIsModalOpen(false)}>Close</Button>
             </Box>
           </Modal>
+
+
         </div>
 
         <div className="input-fields" style={{ height: "300px", width: "25%" }}>
@@ -584,9 +586,11 @@ export default function EditEvent() {
             </div>
           ))}
           <Button onClick={addInputs}>Add More</Button>
+
+
         </div>
       </div>
-      <Box sx={{ mt: 15, display: "flex", justifyContent: "center", gap: 2 }}>
+      <Box className ="buttons" sx={{ mt: 15, display: "flex", justifyContent: "center", gap: 2 }}>
         <Button
           className="editEventSubmit"
           sx={{ color: "#FFF", backgroundColor: "#005588" }}

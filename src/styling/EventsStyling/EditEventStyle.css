@@ -9,6 +9,7 @@ body {
   justify-content: center;
   font-size: xx-large;
   margin-bottom: 5%;
+  margin-top: -5%;
 }
 /* Add these styles to adjust the spacing */
 
@@ -75,10 +76,9 @@ body {
 
 .buttons{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin: auto;
-  margin-top: 10%;
-  width: 15%;
+  width: 50%;
 }
 
 .extra-info{
