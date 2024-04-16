@@ -17,6 +17,7 @@ export const items = [
         <HomeIcon />
       </SvgIcon>
     ),
+    permissions: [""]
   },
   {
     title: "Users",
