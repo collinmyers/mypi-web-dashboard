@@ -18,7 +18,7 @@ import { Tooltip } from "@mui/material";
 import "../../../styling/TableStyling.css";
 import PropTypes from "prop-types";
 
-const NotificationTable = ({ allData, onEdit, onDelete, onCreate,size }) => {
+const NotificationTable = ({ allData, onEdit, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(6);
@@ -123,7 +123,7 @@ const NotificationTable = ({ allData, onEdit, onDelete, onCreate,size }) => {
           ))}
 
           {emptyRows > 0 && (
-            <TableRow style={{ height: size * emptyRows }}>
+            <TableRow style={{ height: 55 * emptyRows }}>
               <TableCell colSpan={7} />
             </TableRow>
           )}
@@ -147,7 +147,6 @@ NotificationTable.propTypes = {
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
-  size: PropTypes.number.isRequired,
 };
 
 export default NotificationTable;
