@@ -101,7 +101,7 @@ const AboutTable = ({ allData, onDelete, onEdit, onCreate }) => {
           ))}
           {emptyRows > 0 && (
             <TableRow style={{ height: 55 * emptyRows }}>
-              <STableCell colSpan={7} />
+              <STableCell colSpan={4} />
             </TableRow>
           )}
         </TableBody>

@@ -23,17 +23,17 @@ import { styled } from "@mui/system";
 
 const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
   const STableCell = styled(TableCell)({
-    padding: ".7rem", 
     whiteSpace: "nowrap", 
     overflow: "hidden", 
-    textOverflow: "ellipsis"
+    textOverflow: "ellipsis",
+    padding: ".7rem",
   });
   
 
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
-  const [pageSize] = useState(5);
+  const [pageSize] = useState(6);
 
   const handleSearchChange = (event) => {
     const value = event.target.value.toLowerCase();
@@ -118,20 +118,20 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
               <STableCell>
                 {item.EventDetailsDescription}
               </STableCell>
-              <TableCell sx={{ padding: ".7rem" }}>
+              <STableCell sx={{ padding: ".7rem" }}>
                 <Button
                   className="edit-button"
                   onClick={() => editEvent(item)}
                   startIcon={<EditIcon />}
                 />
-              </TableCell>
-              <TableCell sx={{ padding: ".7rem" }}>
+              </STableCell>
+              <STableCell sx={{ padding: ".7rem" }}>
                 <Button
                   className="delete-button"
                   onClick={() => handleDeleteClick(item)}
                   startIcon={<DeleteIcon />}
                 />
-              </TableCell>
+              </STableCell>
             </TableRow>
           ))}
           {emptyRows > 0 && (
