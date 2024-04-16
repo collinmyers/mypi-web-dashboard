@@ -31,7 +31,7 @@ const Layout = ({ children }) => {
     // Function is simple enough that we can inline it inside useEffect,
     // unless it's used elsewhere that justifies useCallback.
     if (openNav) {
-      setOpenNav(false);
+      setOpenNav(true);
     }
   }, [location.pathname, openNav]); // Ensure dependencies are correct
 
