@@ -12,13 +12,18 @@ import {
   Box,
 } from "@mui/material";
 import { ID } from "appwrite";
-import { PUSH_NOTIFICATION_ID, database, functions } from "../../../utils/AppwriteConfig";
+import {
+  PUSH_NOTIFICATION_ID,
+  database,
+  functions,
+} from "../../../utils/AppwriteConfig";
 import {
   ALERTS_COLLECTION_ID,
   DATABASE_ID,
 } from "../../../utils/AppwriteConfig";
 import { toast, ToastContainer } from "react-toastify";
 import "../../../styling/NotificationStyling/CreateNotificationStyle.css"; // Obsolete styling file
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function CreateNotification() {
   const [title, setTitle] = useState("");
@@ -40,11 +45,10 @@ export default function CreateNotification() {
   };
 
   async function schedulePushNotification(notifTitle, notifBody) {
-
     // Function parameters
     const params = {
       title: notifTitle,
-      body: notifBody
+      body: notifBody,
     };
 
     try {
@@ -59,7 +63,6 @@ export default function CreateNotification() {
     } catch (err) {
       console.error(err.message);
     }
-
   }
 
   const handleSubmit = async () => {
@@ -98,7 +101,12 @@ export default function CreateNotification() {
       <ToastContainer />
       <Typography
         variant="h4"
-        sx={{ color: "#005588", fontWeight: "bold", textAlign: "center", my: 2 }}
+        sx={{
+          color: "#005588",
+          fontWeight: "bold",
+          textAlign: "center",
+          my: 2,
+        }}
       >
         New Notification
       </Typography>
@@ -150,10 +158,11 @@ export default function CreateNotification() {
           Create Notification
         </Button>
         <Button
+          startIcon={<ArrowBackIcon />}
           variant="outlined"
           onClick={() => navigate("/notifications")}
         >
-          Back to Notification Menu
+          Go Back
         </Button>
       </Box>
     </Container>
