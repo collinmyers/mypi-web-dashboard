@@ -15,6 +15,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {TextField,Button,Modal,Typography,Box} from "@mui/material";
+import { BorderAllOutlined } from "@mui/icons-material";
 
 
 
@@ -291,6 +292,7 @@ const settings = {
   autoplay: true,
   autoplaySpeed: 6000,
   cssEase: "linear",
+  borderRadius: "20px",
   
 };
 
@@ -363,6 +365,10 @@ const handleExtraUrlChange = (index, event) => {
   newUrls[index] = event.target.value;
   setExtraURL(newUrls);
 };
+const handleNewFileClick = () =>{
+  newFileInputRef.current.click();
+
+};
 const addInputs = () => {
   if (extraTitle.length === extraURL.length) {
     setExtraTitle([...extraTitle, ""]);
@@ -371,9 +377,9 @@ const addInputs = () => {
     console.error("Arrays are out of sync");
   }
 };
-const handleNewFileClick = () =>{
-  newFileInputRef.current.click();
-
+const removeInput = (indexToRemove) => {
+  setExtraTitle(extraTitle.filter((_, index) => index !== indexToRemove));
+  setExtraURL(extraURL.filter((_, index) => index !== indexToRemove));
 };
 
 
@@ -390,7 +396,7 @@ return (
           <div key={index} onClick={() => handleImageSelect(key)}>
             <img
               width={"100%"}
-              height={"200px"}
+              height={"225px"}
               src={imageUrls[key].href}
               alt="Event Image"
               className={selectedImageId === key ? "selected-image" : ""}
@@ -403,8 +409,8 @@ return (
         {Object.keys(imageUrls).map((key, index) => (
           <img
             key={index}
-            width={"250px"}
-            height={"200px"}
+            width={"100%"}
+            height={"225px"}
             src={imageUrls[key].href}
             alt="Event Image"
             onClick={() => handleImageSelect(key)}
@@ -413,7 +419,6 @@ return (
         ))}
         </div>
       )}
-      
       </div>
 
       <input
@@ -446,14 +451,6 @@ return (
         </Box>
       </Modal>
 
-
-
-
-
-
-
-
-
         
         </div>
         
@@ -463,7 +460,7 @@ return (
 
 
         <Button onClick={toggleMode}>
-        {dateMode === "range" ? "Select Single Date" : "Select Date Range"}
+        {dateMode === "range" ? "Toggle Single Date" : "Toggle Date Range"}
       </Button>
       {dateMode === "range" ? (
         <div className="date-picker">
@@ -471,7 +468,7 @@ return (
           <DatePicker placeholderText="End Date" className= "input-field" selected={endDate} onChange={(date) => setEndDate(date)} />
         </div>
       ) : (
-        <DatePicker className="input-field" selected={startDate} onChange={(date) => {
+        <DatePicker  className="date-field" selected={startDate} onChange={(date) => {
             setStartDate(date);
             setEndDate(date); // Set end date to the same date for single date selection
           }}
@@ -534,23 +531,24 @@ return (
           onChange={(e) => setLongDescription(e.target.value)} />
 
        
-        {extraTitle.map((title, index) => (
-          <div className="extra-info" key={index}>
-            <TextField
-              type="text"
-              label={`Extra Info Title ${index + 1}`}
-              value={title}
-              onChange={(event) => handleExtraTitleChange(index, event)}
-            />
-            <TextField
-              type="text"
-              label={`Extra Info Link ${index + 1}`}
-              value={extraURL[index]}
-              onChange={(event) => handleExtraUrlChange(index, event)}
-            />
-          </div>
-        ))}
-        <button onClick={addInputs}>Add More</button>
+          {extraTitle.map((title, index) => (
+            <div className="extra-info" key={index}>
+              <TextField
+                type="text"
+                label={`Extra Info Title ${index + 1}`}
+                value={title}
+                onChange={(event) => handleExtraTitleChange(index, event)}
+              />
+              <TextField
+                type="text"
+                label={`Extra Info Link ${index + 1}`}
+                value={extraURL[index]}
+                onChange={(event) => handleExtraUrlChange(index, event)}
+              />
+              <Button onClick={() => removeInput(index)}>Remove</Button>
+            </div>
+          ))}
+          <Button onClick={addInputs}>Add More</Button>
         
         </div>
       </div>
