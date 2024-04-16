@@ -382,14 +382,14 @@ return (
     <ToastContainer/>
     <h1 className="editEventTitle">Edit Event</h1>
     <div className="edit-event-container">
-    <div className="slider-and-uploader" style={{width: "300px",height: "300px"}}>
+    <div className="slider-and-uploader" style={{width: "25%",height: "300px"}}>
     <div className="image-slider">
     {Object.keys(imageUrls).length > 1 ? (
       <Slider {...settings}>
         {Object.keys(imageUrls).map((key, index) => (
           <div key={index} onClick={() => handleImageSelect(key)}>
             <img
-              width={"250px"}
+              width={"100%"}
               height={"200px"}
               src={imageUrls[key].href}
               alt="Event Image"
@@ -457,7 +457,7 @@ return (
         
         </div>
         
-        <div className="input-fields" style={{height: "300px", width: "300px"}}>
+        <div className="input-fields" style={{height: "300px", width: "25%"}}>
 
         <TextField className="eventName" type="text" label={"Name"} id = "eventName" value={name} onChange={(e) => setName(e.target.value)} />
 
@@ -515,7 +515,7 @@ return (
       />
     </div>
 
-    <div className="input-fields2" style={{height: "300px", width: "300px"}}>
+    <div className="input-fields2" style={{height: "300px", width: "25%"}}>
 
         <TextField 
           type="text"
