@@ -19,7 +19,6 @@ import { useAuth } from "../../../components/AuthContext";
 import { account } from "../../../utils/AppwriteConfig";
 import { useState, useEffect } from "react";
 
-
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const location = useLocation();
@@ -27,7 +26,6 @@ export const SideNav = (props) => {
   const pathname = location.pathname; // Get the current pathname
   const { setIsSignedIn } = useAuth();
   const [name, setName] = useState("");
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -98,7 +96,8 @@ export const SideNav = (props) => {
                 width: "100%",
                 height: "100%",
                 resizeMode: "contain",
-              }} />
+              }}
+            />
             <Typography
               color="neutral.400"
               variant="body2"
@@ -145,7 +144,12 @@ export const SideNav = (props) => {
           })}
         </Stack>
       </Box>
-      <Typography textAlign="center" fontWeight="bold" color="text.tertiary" variant="body2">
+      <Typography
+        textAlign="center"
+        fontWeight="bold"
+        color="text.tertiary"
+        variant="body2"
+      >
         {name}
       </Typography>
       {/* Ensure divider is at the bottom */}
