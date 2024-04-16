@@ -18,8 +18,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BorderAllRounded } from "@mui/icons-material";
-import { TextField, Button,Modal } from "@mui/material";
+import { TextField, Button, Modal } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import zIndex from "@mui/material/styles/zIndex";
 
 export default function CreateEvent() {
   // const[fileID,setFileID] = useState("");
@@ -297,7 +298,7 @@ export default function CreateEvent() {
     newUrls[index] = event.target.value;
     setExtraURL(newUrls);
   };
-const removeInput = (indexToRemove) => {
+  const removeInput = (indexToRemove) => {
     setExtraTitle(extraTitle.filter((_, index) => index !== indexToRemove));
     setExtraURL(extraURL.filter((_, index) => index !== indexToRemove));
   };
@@ -370,12 +371,14 @@ const removeInput = (indexToRemove) => {
           />
           <Button onClick={handleNewFileClick}> + New Image</Button>
 
-          <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <Modal style={{zIndex: "3000"}} open={isModalOpen} onClose={() => setIsModalOpen(false)}>
             <Box
+            
               sx={{
                 position: "absolute",
                 top: "50%",
                 left: "50%",
+                zIndex: 3000,
                 borderRadius: "5%",
                 transform: "translate(-50%, -50%)",
                 bgcolor: "background.paper",
@@ -413,7 +416,7 @@ const removeInput = (indexToRemove) => {
             {dateMode === "range" ? "Select Single Date" : "Select Date Range"}
           </Button>
           {dateMode === "range" ? (
-            <div className="date-picker">
+            <div style={{gap: "7%", zIndex: "2000"}} className="date-picker">
               <DatePicker
                 className="input-field"
                 selected={startDate}
@@ -435,8 +438,8 @@ const removeInput = (indexToRemove) => {
               />
             </div>
           ) : (
+            <div className="date-field" style={{zIndex: "2000"}}>
             <DatePicker
-              className="date-field"
               selected={startDate}
               onChange={(date) => {
                 setStartDate(date);
@@ -444,6 +447,7 @@ const removeInput = (indexToRemove) => {
               }}
               placeholderText="Select Date"
             />
+            </div>
           )}
 
           <div className="time-container">
@@ -462,27 +466,35 @@ const removeInput = (indexToRemove) => {
               label="End"
             />
           </div>
-
-          <TextField
-            type="text"
-            label="Latitude"
-            onChange={(e) => {
-              const value = e.target.value;
-              if (/^-?\d*\.?\d*$/.test(value)) {
-                setLatitude(parseFloat(value));
-              }
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+              gap: "4%",
             }}
-          />
-          <TextField
-            type="text"
-            label="Longitude"
-            onChange={(e) => {
-              const value = e.target.value;
-              if (/^-?\d*\.?\d*$/.test(value)) {
-                setLongitude(parseFloat(value));
-              }
-            }}
-          />
+          >
+            <TextField
+              type="text"
+              label="Latitude"
+              onChange={(e) => {
+                const value = e.target.value;
+                if (/^-?\d*\.?\d*$/.test(value)) {
+                  setLatitude(parseFloat(value));
+                }
+              }}
+            />
+            <TextField
+              type="text"
+              label="Longitude"
+              onChange={(e) => {
+                const value = e.target.value;
+                if (/^-?\d*\.?\d*$/.test(value)) {
+                  setLongitude(parseFloat(value));
+                }
+              }}
+            />
+          </div>
         </div>
         <div
           className="input-fields2"
