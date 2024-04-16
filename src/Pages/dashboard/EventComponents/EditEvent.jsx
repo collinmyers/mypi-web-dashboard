@@ -439,7 +439,7 @@ export default function EditEvent() {
 
           <Button onClick={handleNewFileClick}> + New Image</Button>
 
-          <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <Modal style={{zIndex: "3000"}} open={isModalOpen} onClose={() => setIsModalOpen(false)}>
             <Box
               sx={{
                 position: "absolute",
