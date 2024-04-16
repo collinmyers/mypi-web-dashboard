@@ -27,7 +27,7 @@ export default function EditNotification() {
   const [details, setDetails] = useState(notification?.Details || "");
   const [alertType, setAlertType] = useState(notification?.AlertType || "");
   const [notificationType, setNotificationType] = useState(
-    notification?.notificationType || ""
+    notification?.NotificationType || ""
   );
 
   const navigate = useNavigate();
@@ -51,9 +51,7 @@ export default function EditNotification() {
         notification.$id,
         data
       );
-      if (["both", "push"].includes(alertType)) {
-        await schedulePushNotification(title, details);
-      }
+     
       toast.success("Notification Updated");
     } catch (error) {
       toast.error("Failed to Update Notification");
@@ -113,7 +111,6 @@ export default function EditNotification() {
           onChange={(e) => setAlertType(e.target.value)}
         >
           <MenuItem value="in-app">In-App</MenuItem>
-          <MenuItem value="push">Push</MenuItem>
           <MenuItem value="both">Both</MenuItem>
         </Select>
       </FormControl>

@@ -14,7 +14,7 @@ import {ID} from "appwrite";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {TextField,Button} from "@mui/material";
+import {TextField,Button,Modal,Typography,Box} from "@mui/material";
 
 
 
@@ -144,6 +144,8 @@ const cleanExtraURL = extraURL.filter((url, index) => extraTitle[index].trim() !
         const formattedStartTime = startTime ? formatTime(startTime) : "";//format time
         const formattedEndTime = endTime ? formatTime(endTime) : ""; //format time
 
+        console.log(formattedStartTime);
+        console.log(formattedEndTime);
         setStartTime(formattedStartTime);
         setEndTime(formattedEndTime);
     }
@@ -178,7 +180,14 @@ const cleanExtraURL = extraURL.filter((url, index) => extraTitle[index].trim() !
   
   
   const  handleSubmit = async () =>{
-    console.log(imageUrls);
+    const allFieldsFilled = name && shortDescription && longDescription && latitude && longitude && dateRangeString;
+    if (!allFieldsFilled || Object.keys(imageUrls).length === 0) {
+      console.log("Please fill in all fields and select at least one file");
+      EditFailed();
+      return;
+    }
+
+
   const ids =[];
     for (const key of Object.keys(imageUrls)){
       if(imageUrls[key].File instanceof File){
@@ -225,6 +234,7 @@ const cleanExtraURL = extraURL.filter((url, index) => extraTitle[index].trim() !
         
         await database.updateDocument(DATABASE_ID,EVENTS_COLLECTION_ID,selectedItem.$id,data);
         SuccessfulEdit();
+        navigate("/events");
         clearInput();
         
       } catch (error) {
@@ -243,6 +253,11 @@ const cleanExtraURL = extraURL.filter((url, index) => extraTitle[index].trim() !
     setLongDescription("");
     setLatitude("");
     setLongitude("");
+    setStartDate("");
+    setEndDate("");
+    setImageUrls({});
+    setExtraTitle([]);
+    setExtraURL([]);
     setUploaderKey((prevValue) => !prevValue);
   };
 
@@ -250,6 +265,7 @@ const [selectedImageId, setSelectedImageId] = useState("");
 
 // Function to handle selecting an image
 const fileInputRef = useRef(null);
+const newFileInputRef = useRef(null);
 
 const handleImageSelect = (imageId) => {
   console.log(imageId);
@@ -355,6 +371,10 @@ const addInputs = () => {
     console.error("Arrays are out of sync");
   }
 };
+const handleNewFileClick = () =>{
+  newFileInputRef.current.click();
+
+};
 
 
 return (
@@ -362,8 +382,8 @@ return (
     <ToastContainer/>
     <h1 className="editEventTitle">Edit Event</h1>
     <div className="edit-event-container">
-    <div className="slider-and-uploader">
-    <div className="image-slider" style={{width: "250px"}}>
+    <div className="slider-and-uploader" style={{width: "300px",height: "300px"}}>
+    <div className="image-slider">
     {Object.keys(imageUrls).length > 1 ? (
       <Slider {...settings}>
         {Object.keys(imageUrls).map((key, index) => (
@@ -391,41 +411,52 @@ return (
             className={selectedImageId === key ? "selected-image" : ""}
           />
         ))}
-      </div>
-    )}
-
-    <input
-    type="file"
-    accept="image/*"
-    ref={fileInputRef}
-    style={{ display: "none" }}
-    onChange={(e) => handleImageReplace(e, selectedImageId)}
-  />
-  
-  
-    <div>
-      {isModalOpen && (
-        <div className="modal">
-        <div className="modal-content">
-        <button onClick={() => deleteImage()}>Delete</button>
-            <button onClick={() => setIsModalOpen(false)}>Close</button>
-            <button onClick={() => openFileExplorer()}>Replace</button>
-          </div>
-          </div>
-        )}
         </div>
-        
-        <input
+      )}
+      
+      </div>
+
+      <input
         className="event-uploader"
         type="file"
-        id="uploader"
+        id="newImageuploader"
+        style={{display: "none"}}
+        ref={newFileInputRef}
         onChange={handleNewImage}
         multiple
-        />
+      /> 
+      
+      <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        onChange={(e) => handleImageReplace(e, selectedImageId)}
+      />
+      
+      <Button onClick={handleNewFileClick}> + New Image</Button>
+    
 
-        </div>
-        </div>
+        <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <Box sx={{ position: "absolute", top: "50%", left: "50%",borderRadius: "5%", transform: "translate(-50%, -50%)", bgcolor: "background.paper", boxShadow: 100, p: 4, display: "flex", flexDirection: "column", gap: 2 }}>
+          <Typography variant="h6">Edit Image</Typography>
+          <Button  onClick={deleteImage} color="error">Delete</Button>
+          <Button  onClick={openFileExplorer} color="primary">Replace</Button>
+          <Button  onClick={() => setIsModalOpen(false)}>Close</Button>
+        </Box>
+      </Modal>
 
+
+
+
+
+
+
+
+
+        
+        </div>
+        
         <div className="input-fields" style={{height: "300px", width: "300px"}}>
 
         <TextField className="eventName" type="text" label={"Name"} id = "eventName" value={name} onChange={(e) => setName(e.target.value)} />
@@ -436,8 +467,8 @@ return (
       </Button>
       {dateMode === "range" ? (
         <div className="date-picker">
-          <DatePicker className="input-field" selected={startDate} onChange={(date) => setStartDate(date)} selectsStart startDate={startDate} endDate={endDate} placeholderText="Start Date"/>
-          <DatePicker className= "input-field" selected={endDate} onChange={(date) => setEndDate(date)} selectsEnd startDate={startDate} endDate={endDate} minDate={startDate} placeholderText="End Date"/>
+          <DatePicker placeholderText="Start Date" className="input-field" selected={startDate} onChange={(date) => setStartDate(date)} />
+          <DatePicker placeholderText="End Date" className= "input-field" selected={endDate} onChange={(date) => setEndDate(date)} />
         </div>
       ) : (
         <DatePicker className="input-field" selected={startDate} onChange={(date) => {
@@ -447,11 +478,11 @@ return (
           placeholderText="Select Date"
         />
       )}
-
+      <div className="time-picker">
       <TextField 
         type="time"
         label={"Start"}
-        value={startTime}
+        value={startTime || ""}
         InputLabelProps={{shrink:true}} 
         onChange={(e) => setStartTime(e.target.value)} />
    
@@ -459,45 +490,61 @@ return (
         type="time"
         InputLabelProps={{ shrink: true }}
         label={"End"} 
-        value={endTime} 
+        value={endTime || ""} 
         onChange={(e) => setEndTime(e.target.value)} />
 
+        </div>
+
+        <TextField
+        type="number"
+        label="Latitude"
+        value={latitude}
+        onChange={(e) => {
+        const value = e.target.value;
+        setLatitude(parseFloat(value));  
+        }}
+      />
+      <TextField
+        type="number"
+        value={longitude}
+        label="Longitude"
+        onBlur={(e) => {
+          const value = e.target.value;
+          setLongitude(parseFloat(value));
+        }}
+      />
     </div>
 
     <div className="input-fields2" style={{height: "300px", width: "300px"}}>
 
-        <TextField type="text" rows={3} label={"Short Description"} value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} />
-        <TextField type="text" placeholder={ "Long Description"} value={longDescription} onChange={(e) => setLongDescription(e.target.value)} />
-        <TextField
-          type="number"
-          placeholder="Latitude"
-          value={latitude}
-          onChange={(e) => {
-          const value = e.target.value;
-          setLatitude(parseFloat(value));  
-          }}
-        />
-        <TextField
-          type="number"
-          value={longitude}
-          placeholder="Longitude"
-          onBlur={(e) => {
-            const value = e.target.value;
+        <TextField 
+          type="text"
+          rows={2}
+          multiline
+          label={"Short Description"}
+          value={shortDescription}
+          onChange={(e) => setShortDescription(e.target.value)} />
 
-            setLongitude(parseFloat(value));
-          }}
-        />
+        <TextField 
+          type="text"
+          rows={4} 
+          multiline 
+          label={ "Long Description"} 
+          value={longDescription} 
+          onChange={(e) => setLongDescription(e.target.value)} />
+
+       
         {extraTitle.map((title, index) => (
-          <div key={index}>
-            <input
+          <div className="extra-info" key={index}>
+            <TextField
               type="text"
-              placeholder={`Extra Info Title ${index + 1}`}
+              label={`Extra Info Title ${index + 1}`}
               value={title}
               onChange={(event) => handleExtraTitleChange(index, event)}
             />
             <TextField
               type="text"
-              placeholder={`Extra Info Link ${index + 1}`}
+              label={`Extra Info Link ${index + 1}`}
               value={extraURL[index]}
               onChange={(event) => handleExtraUrlChange(index, event)}
             />
@@ -507,10 +554,10 @@ return (
         
         </div>
       </div>
-
+      <div className="buttons">
         <Button className="editEventSubmit" onClick={handleSubmit} >Edit Event</Button>
         <Button onClick={() => navigate("/events")}>go back</Button>
-
+      </div>
     </div>
   );
 }
