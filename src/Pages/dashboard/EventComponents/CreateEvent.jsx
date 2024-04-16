@@ -13,7 +13,7 @@ import {storage} from "../../../utils/AppwriteConfig";
 import {BUCKET_ID} from "../../../utils/AppwriteConfig";
 import {EVENTS_COLLECTION_ID} from "../../../utils/AppwriteConfig";
 import {DATABASE_ID} from "../../../utils/AppwriteConfig";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -296,11 +296,11 @@ try{
       <h1 className="title">New Event</h1>
       <div className="newEventContainer">
         <div className="slider-and-uploader" style={{height: "300px", width: "300px"}}>
-        <div className="image-slider" style={{width: "250px"}}>
+        <div className="image-slider" style={{ width: "250px" }}>
         {Object.keys(files).length > 1 ? (
           <Slider {...settings}>
             {Object.keys(files).map((key, index) => (
-              <div key={index}  onClick={() => handleImageSelect(key)}>
+              <div key={index} onClick={() => handleImageSelect(key)}>
                 <img
                   width={"250px"}
                   height={"200px"}
@@ -311,20 +311,22 @@ try{
               </div>
             ))}
           </Slider>
+        ) : Object.keys(files).length === 0 ? (
+          <Typography style={{marginTop: "35%"}}>No images selected</Typography>
         ) : (
           <div>
-          {Object.keys(files).map((key, index) => (
-            <div key={index} >
-            <img
-              width={"250px"}
-              height={"200px"}
-              src={files[key].href}
-              alt="Event Image"
-              onClick={() => handleImageSelect(key)}
-              className={selectedImageId === key ? "selected-image" : ""}
-            />
-            </div>
-          ))}
+            {Object.keys(files).map((key, index) => (
+              <div key={index}>
+                <img
+                  width={"250px"}
+                  height={"200px"}
+                  src={files[key].href}
+                  alt="Event Image"
+                  onClick={() => handleImageSelect(key)}
+                  className={selectedImageId === key ? "selected-image" : ""}
+                />
+              </div>
+            ))}
           </div>
         )}
 

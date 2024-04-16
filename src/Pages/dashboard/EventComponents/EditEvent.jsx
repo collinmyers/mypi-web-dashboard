@@ -395,7 +395,7 @@ return (
         {Object.keys(imageUrls).map((key, index) => (
           <div key={index} onClick={() => handleImageSelect(key)}>
             <img
-              width={"100%"}
+              width={"300px"}
               height={"225px"}
               src={imageUrls[key].href}
               alt="Event Image"
@@ -404,12 +404,14 @@ return (
           </div>
         ))}
       </Slider>
+    ) : Object.keys(imageUrls).length === 0 ? (
+      <Typography style={{marginTop: "27%"}}>No images</Typography>
     ) : (
       <div>
         {Object.keys(imageUrls).map((key, index) => (
           <img
             key={index}
-            width={"100%"}
+            width={"300px"}
             height={"225px"}
             src={imageUrls[key].href}
             alt="Event Image"
@@ -417,9 +419,10 @@ return (
             className={selectedImageId === key ? "selected-image" : ""}
           />
         ))}
-        </div>
-      )}
       </div>
+    )}
+  </div>
+
 
       <input
         className="event-uploader"
