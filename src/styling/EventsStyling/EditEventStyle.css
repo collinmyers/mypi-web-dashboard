@@ -79,7 +79,6 @@ body {
   margin: auto;
   margin-top: 10%;
   width: 15%;
-
 }
 
 .extra-info{
@@ -100,5 +99,12 @@ gap: 20px;
 display: flex;
 margin: auto;
 width: 50%;
+}
 
+.editEventSubmit {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  background-color: #005588;
+  font-weight: bold;
 }

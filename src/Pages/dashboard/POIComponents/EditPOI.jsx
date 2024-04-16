@@ -18,7 +18,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function EditPOI() {
   const location = useLocation();
@@ -87,12 +87,15 @@ export default function EditPOI() {
       >
         Edit Point of Interest
       </Typography>
-      <Box component="form" noValidate sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}>
-
+      <Box
+        component="form"
+        noValidate
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <TextField
           fullWidth
           label="Name"
@@ -121,7 +124,7 @@ export default function EditPOI() {
         />
 
         <FormControl fullWidth>
-          <InputLabel id="type-label" >Type</InputLabel>
+          <InputLabel id="type-label">Type</InputLabel>
           <Select
             labelId="type-label"
             id="type"
@@ -155,14 +158,17 @@ export default function EditPOI() {
           </Select>
         </FormControl>
 
-
         <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 2 }}>
-          <Button onClick={handleSubmit} variant="contained" >
-            Edit Point
+          <Button onClick={handleSubmit} variant="contained">
+            Edit PoI
           </Button>
 
-          <Button variant="outlined" onClick={() => navigate("/points-of-interest")}>
-            Back to Points
+          <Button
+            startIcon={<ArrowBackIcon />}
+            variant="outlined"
+            onClick={() => navigate("/points-of-interest")}
+          >
+            Go Back
           </Button>
         </Box>
       </Box>
