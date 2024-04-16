@@ -27,7 +27,7 @@ export default function EditUser() {
         ManageEvents: false,
         ManageNotifications: false,
         ManagePermissions: false,
-        ManageParkInfo: false,
+        ManageAbout: false,
         ManageFaq: false,
         FoodTruck: false
     });
@@ -106,17 +106,17 @@ export default function EditUser() {
                 "PATCH",
                 data
             );
-            if (alias != ""  && prevAlias == "") {
+            if (alias != "" && prevAlias == "") {
 
                 await database.createDocument(
                     DATABASE_ID,
                     USER_ALIAS_TABLE_ID,
                     ID.unique(),
-                    { UserID: userID, UserName: alias}
+                    { UserID: userID, UserName: alias }
                 );
             }
 
-            else if(alias != ""){
+            else if (alias != "") {
                 await database.updateDocument(
                     DATABASE_ID,
                     USER_ALIAS_TABLE_ID,
@@ -125,7 +125,7 @@ export default function EditUser() {
                 );
             }
 
-            else if(alias == ""){
+            else if (alias == "") {
                 await database.deleteDocument(
                     DATABASE_ID,
                     USER_ALIAS_TABLE_ID,
@@ -273,11 +273,11 @@ export default function EditUser() {
                 <label>
                     <input
                         type="checkbox"
-                        name="ManageParkInfo"
-                        checked={checkedItems.ManageParkInfo}
+                        name="ManageAbout"
+                        checked={checkedItems.ManageAbout}
                         onChange={handleChange}
                     />
-                    ManageParkInfo
+                    ManageAbout
                 </label>
                 <br></br>
 
