@@ -17,7 +17,7 @@ export const items = [
         <HomeIcon />
       </SvgIcon>
     ),
-    permissions: [""]
+    permissions: ["PrivilegedUser"]
   },
   {
     title: "Users",
@@ -27,6 +27,7 @@ export const items = [
         <UsersIcon />
       </SvgIcon>
     ),
+    permissions: ["ManageUsers"]
   },
   {
     title: "Events",
@@ -36,6 +37,7 @@ export const items = [
         <CalendarMonthIcon />
       </SvgIcon>
     ),
+    permissions:["ManageEvents"]
   },
   {
     title: "Notifications",
@@ -45,6 +47,7 @@ export const items = [
         <AddAlertIcon />
       </SvgIcon>
     ),
+    permissions: ["ManageNotifications"]
   },
   {
     title: "Points of Interest",
@@ -54,6 +57,7 @@ export const items = [
         <MapIcon />
       </SvgIcon>
     ),
+    permissions: ["ManagePoints"]
   },
   {
     title: "Vendor Locations",
@@ -62,7 +66,8 @@ export const items = [
       <SvgIcon fontSize="small">
         <MapIcon />
       </SvgIcon>
-    )
+    ),
+    permissions: ["ManagePoints"]
   },
   {
     title: "About",
@@ -72,6 +77,7 @@ export const items = [
         <InformationCircleIcon />
       </SvgIcon>
     ),
+    permissions: ["ManageAbout"]
   },
   {
     title: "FAQ",
@@ -81,5 +87,6 @@ export const items = [
         <QuestionAnswerTwoTone />
       </SvgIcon>
     ),
+    permissions: ["ManageFaq"]
   },
 ];
