@@ -14,7 +14,6 @@ import { items } from "./config";
 import { SideNavItem } from "./side-nav-item";
 import React from "react";
 import logo from "../../../assets/myPI-Icon.png";
-import App_Logo from "../../../assets/App_Logo.png";
 import LogoutSharp from "@mui/icons-material/LogoutSharp";
 import { useAuth } from "../../../components/AuthContext";
 import { account } from "../../../utils/AppwriteConfig";
@@ -90,8 +89,8 @@ export const SideNav = (props) => {
         >
           <div>
             <img
-              src={App_Logo}
-              alt="App_Logo"
+              src={logo}
+              alt="myPI Logo"
               style={{
                 flex: 1,
                 width: "100%",
