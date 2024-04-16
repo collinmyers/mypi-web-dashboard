@@ -136,7 +136,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
             </TableRow>
           ))}
           {emptyRows > 0 && (
-            <TableRow style={{ height: 60 * emptyRows }}>
+            <TableRow className="row" style={{ height: 60 * emptyRows }}>
               <STableCell  colSpan={9} />
             </TableRow>
           )}
