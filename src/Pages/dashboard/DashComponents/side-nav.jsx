@@ -26,6 +26,7 @@ export const SideNav = (props) => {
   const pathname = location.pathname; // Get the current pathname
   const { setIsSignedIn } = useAuth();
   const [name, setName] = useState("");
+  const [permissions,setPermissions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +35,8 @@ export const SideNav = (props) => {
           .get()
           .then((response) => {
             setName(response.name);
+            setPermissions(response.labels);
+            console.log(response);
           })
           .catch((error) => {
             throw new Error(error);
@@ -64,6 +67,10 @@ export const SideNav = (props) => {
       console.error(error);
     }
   };
+
+  const filteredItems = items.filter((item) =>
+  item.permissions.some((permission) => permissions.includes(permission))
+);
 
   const content = (
     <Box
@@ -127,7 +134,9 @@ export const SideNav = (props) => {
             m: 0,
           }}
         >
-          {items.map((item) => {
+     
+
+          {filteredItems.map((item) => {
             const active = item.path ? pathname === item.path : false;
 
             return (
