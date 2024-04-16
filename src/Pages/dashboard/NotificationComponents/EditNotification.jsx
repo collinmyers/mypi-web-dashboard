@@ -18,6 +18,7 @@ import {
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function EditNotification() {
   const location = useLocation();
@@ -51,7 +52,7 @@ export default function EditNotification() {
         notification.$id,
         data
       );
-     
+
       toast.success("Notification Updated");
     } catch (error) {
       toast.error("Failed to Update Notification");
@@ -137,14 +138,15 @@ export default function EditNotification() {
         <Button
           onClick={handleSubmit}
           variant="contained"
-          sx={{ mb: 2, width: "80%" }}
+          sx={{ mb: 2, width: "40%" }}
         >
           Edit Notification
         </Button>
         <Button
+          startIcon={<ArrowBackIcon />}
           onClick={() => navigate(-1)}
           variant="outlined"
-          sx={{ width: "80%" }}
+          sx={{ width: "40%" }}
         >
           Go Back
         </Button>

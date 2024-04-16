@@ -1,25 +1,27 @@
 import React, { useState } from "react";
-import { useNavigate,useLocation } from "react-router-dom";
-import {Container,TextField,Button,Typography} from "@mui/material";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Container, TextField, Button, Typography } from "@mui/material";
 import { ID } from "appwrite";
 import { database } from "../../../utils/AppwriteConfig";
-import {PARKINFO_COLLECTION_ID,DATABASE_ID,} from "../../../utils/AppwriteConfig";
+import {
+  PARKINFO_COLLECTION_ID,
+  DATABASE_ID,
+} from "../../../utils/AppwriteConfig";
 import { toast, ToastContainer } from "react-toastify";
-import {FormControl,InputLabel,Select,MenuItem,Box} from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
 import { Description } from "@mui/icons-material";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 export default function EditAbout() {
-    const location = useLocation();
-    let about = location.state.About;
+  const location = useLocation();
+  let about = location.state.About;
   const [title, setTitle] = useState(about.Title);
   const [description, setDescription] = useState(about.Description);
-  const [aboutType,setAboutType] = useState(about.AboutType);
-
+  const [aboutType, setAboutType] = useState(about.AboutType);
 
   const navigate = useNavigate();
-  const timeout = () =>{
+  const timeout = () => {
     setTimeout(() => {
-        navigate("/about");
+      navigate("/about");
     }, 2000);
   };
 
@@ -48,12 +50,9 @@ export default function EditAbout() {
       Description: description,
     };
     if (!data.Title || !data.Description) {
-        UnfilledFields();
-        return;
-
+      UnfilledFields();
+      return;
     }
-
-
 
     try {
       await database.updateDocument(
@@ -80,7 +79,12 @@ export default function EditAbout() {
       <ToastContainer />
       <Typography
         variant="h4"
-        sx={{ color: "#005588", fontWeight: "bold", textAlign: "center", my: 2 }}
+        sx={{
+          color: "#005588",
+          fontWeight: "bold",
+          textAlign: "center",
+          my: 2,
+        }}
       >
         Edit About
       </Typography>
@@ -101,13 +105,12 @@ export default function EditAbout() {
         multiline
         margin="normal"
         onChange={(e) => setDescription(e.target.value)}
-
       />
 
       <Box sx={{ my: 2, width: "100%" }}>
         <FormControl fullWidth>
           <InputLabel>About Type</InputLabel>
-          
+
           <Select
             label="About Type"
             value={aboutType}
@@ -118,16 +121,17 @@ export default function EditAbout() {
           </Select>
         </FormControl>
       </Box>
-     
+
       <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 2 }}>
         <Button variant="contained" onClick={handleSubmit}>
           Create About
         </Button>
         <Button
+          startIcon={<ArrowBackIcon />}
           variant="outlined"
           onClick={() => navigate("/about")}
         >
-          Back
+          Go Back
         </Button>
       </Box>
     </Container>

@@ -15,6 +15,7 @@ import { ID } from "appwrite";
 import { database } from "../../../utils/AppwriteConfig";
 import { DATABASE_ID, MAP_COLLECTION_ID } from "../../../utils/AppwriteConfig";
 import { toast, ToastContainer } from "react-toastify";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function CreatePOI() {
   const [name, setName] = useState("");
@@ -71,12 +72,15 @@ export default function CreatePOI() {
         New Point of Interest
       </Typography>
 
-      <Box component="form" noValidate sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}>
-
+      <Box
+        component="form"
+        noValidate
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <TextField
           fullWidth
           label="Name"
@@ -115,7 +119,7 @@ export default function CreatePOI() {
         />
 
         <FormControl fullWidth>
-          <InputLabel id="type-label" >Type</InputLabel>
+          <InputLabel id="type-label">Type</InputLabel>
           <Select
             labelId="type-label"
             id="type"
@@ -149,19 +153,20 @@ export default function CreatePOI() {
           </Select>
         </FormControl>
 
-
         <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 2 }}>
-          <Button onClick={handleSubmit} variant="contained" >
-            Create Point
+          <Button onClick={handleSubmit} variant="contained">
+            Create PoI
           </Button>
 
-          <Button variant="outlined" onClick={() => navigate("/points-of-interest")}>
-            Back to Points
+          <Button
+            startIcon={<ArrowBackIcon />}
+            variant="outlined"
+            onClick={() => navigate("/points-of-interest")}
+          >
+            Go Back
           </Button>
         </Box>
       </Box>
-
-
     </Container>
   );
 }

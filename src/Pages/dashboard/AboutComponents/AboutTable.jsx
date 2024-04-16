@@ -21,10 +21,10 @@ import "../../../styling/TableStyling.css";
 
 const AboutTable = ({ allData, onDelete, onEdit, onCreate }) => {
   const STableCell = styled(TableCell)({
-      padding: ".7rem", 
-      whiteSpace: "nowrap", 
-      overflow: "hidden", 
-      textOverflow: "ellipsis"
+    padding: ".7rem",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0); // Zero-based indexing
@@ -60,7 +60,11 @@ const AboutTable = ({ allData, onDelete, onEdit, onCreate }) => {
           onChange={handleSearchChange}
           className="search-text-field"
         />
-        <Button onClick={() => onCreate()} startIcon={<AddIcon />} />
+        <Button
+          onClick={() => onCreate()}
+          className="add-icon-button"
+          startIcon={<AddIcon />}
+        />
       </Box>
       <Table className="table">
         <TableHead>
@@ -77,12 +81,8 @@ const AboutTable = ({ allData, onDelete, onEdit, onCreate }) => {
               key={item.$id}
               sx={{ textAlign: "center", overflow: "hidden" }}
             >
-              <STableCell>
-                {item.Title}
-              </STableCell>
-              <STableCell>
-                {item.Description}
-              </STableCell>
+              <STableCell>{item.Title}</STableCell>
+              <STableCell>{item.Description}</STableCell>
               <STableCell>
                 <Button
                   className="edit-button"
