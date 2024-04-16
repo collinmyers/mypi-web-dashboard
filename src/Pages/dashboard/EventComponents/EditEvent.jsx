@@ -465,8 +465,6 @@ export default function EditEvent() {
               <Button onClick={() => setIsModalOpen(false)}>Close</Button>
             </Box>
           </Modal>
-
-
         </div>
 
         <div className="input-fields" style={{ height: "300px", width: "25%" }}>
@@ -483,7 +481,7 @@ export default function EditEvent() {
             {dateMode === "range" ? "Toggle Single Date" : "Toggle Date Range"}
           </Button>
           {dateMode === "range" ? (
-            <div className="date-picker">
+            <div style={{ gap: "7%", zIndex: "2000" }} className="date-picker">
               <DatePicker
                 placeholderText="Start Date"
                 className="input-field"
@@ -498,18 +496,20 @@ export default function EditEvent() {
               />
             </div>
           ) : (
-            <DatePicker
-              className="date-field"
-              selected={startDate}
-              onChange={(date) => {
-                setStartDate(date);
-                setEndDate(date); // Set end date to the same date for single date selection
-              }}
-              placeholderText="Select Date"
-            />
+            <div className="date-field" style={{ zIndex: "2000" }}>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => {
+                  setStartDate(date);
+                  setEndDate(date); // Set end date to the same date for single date selection
+                }}
+                placeholderText="Select Date"
+              />
+            </div>
           )}
-          <div className="time-picker">
+          <div className="time-container">
             <TextField
+              className="time-picker"
               type="time"
               label={"Start"}
               value={startTime || ""}
@@ -518,6 +518,7 @@ export default function EditEvent() {
             />
 
             <TextField
+              className="time-picker"
               type="time"
               InputLabelProps={{ shrink: true }}
               label={"End"}
@@ -525,25 +526,33 @@ export default function EditEvent() {
               onChange={(e) => setEndTime(e.target.value)}
             />
           </div>
-
-          <TextField
-            type="number"
-            label="Latitude"
-            value={latitude}
-            onChange={(e) => {
-              const value = e.target.value;
-              setLatitude(parseFloat(value));
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+              gap: "4%",
             }}
-          />
-          <TextField
-            type="number"
-            value={longitude}
-            label="Longitude"
-            onBlur={(e) => {
-              const value = e.target.value;
-              setLongitude(parseFloat(value));
-            }}
-          />
+          >
+            <TextField
+              type="number"
+              label="Latitude"
+              value={latitude}
+              onChange={(e) => {
+                const value = e.target.value;
+                setLatitude(parseFloat(value));
+              }}
+            />
+            <TextField
+              type="number"
+              value={longitude}
+              label="Longitude"
+              onBlur={(e) => {
+                const value = e.target.value;
+                setLongitude(parseFloat(value));
+              }}
+            />
+          </div>
         </div>
 
         <div
@@ -586,14 +595,26 @@ export default function EditEvent() {
             </div>
           ))}
           <Button onClick={addInputs}>Add More</Button>
-
-
         </div>
       </div>
-      <Box className ="buttons" sx={{ mt: 15, display: "flex", justifyContent: "center", gap: 2 }}>
+      <Box
+        className="buttons"
+        sx={{
+          mt: 15,
+          display: "flex",
+          justifyContent: "center",
+          gap: 2,
+        }}
+      >
         <Button
           className="editEventSubmit"
-          sx={{ color: "#FFF", backgroundColor: "#005588" }}
+          sx={{
+            width: "20%",
+            display: "flex",
+            variant: "contained",
+            color: "#FFF",
+            backgroundColor: "#005588",
+          }}
           onClick={handleSubmit}
         >
           Edit Event
@@ -601,6 +622,7 @@ export default function EditEvent() {
         <Button
           startIcon={<ArrowBackIcon />}
           sx={{
+            width: "20%",
             color: "#005588",
             backgroundColor: "#FFF",
             border: "1px solid #005588",

@@ -8,8 +8,7 @@ body {
   display: flex;
   justify-content: center;
   font-size: xx-large;
-  margin-bottom: 5%;
-  margin-top: -5%;
+  margin-bottom: 1%;
 }
 /* Add these styles to adjust the spacing */
 
@@ -64,6 +63,7 @@ body {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  margin:auto;
 }
 .time-picker{
   display: flex;
@@ -79,6 +79,10 @@ body {
   flex-direction: row;
   margin: auto;
   width: 50%;
+}
+.input-field{
+  width: 95%;
+
 }
 
 .extra-info{

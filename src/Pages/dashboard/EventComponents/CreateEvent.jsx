@@ -371,9 +371,12 @@ export default function CreateEvent() {
           />
           <Button onClick={handleNewFileClick}> + New Image</Button>
 
-          <Modal style={{zIndex: "3000"}} open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <Modal
+            style={{ zIndex: "3000" }}
+            open={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          >
             <Box
-            
               sx={{
                 position: "absolute",
                 top: "50%",
@@ -416,7 +419,7 @@ export default function CreateEvent() {
             {dateMode === "range" ? "Select Single Date" : "Select Date Range"}
           </Button>
           {dateMode === "range" ? (
-            <div style={{gap: "7%", zIndex: "2000"}} className="date-picker">
+            <div style={{ gap: "7%", zIndex: "2000" }} className="date-picker">
               <DatePicker
                 className="input-field"
                 selected={startDate}
@@ -438,15 +441,15 @@ export default function CreateEvent() {
               />
             </div>
           ) : (
-            <div className="date-field" style={{zIndex: "2000"}}>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => {
-                setStartDate(date);
-                setEndDate(date); // Set end date to the same date for single date selection
-              }}
-              placeholderText="Select Date"
-            />
+            <div className="date-field" style={{ zIndex: "2000" }}>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => {
+                  setStartDate(date);
+                  setEndDate(date); // Set end date to the same date for single date selection
+                }}
+                placeholderText="Select Date"
+              />
             </div>
           )}
 
@@ -471,7 +474,7 @@ export default function CreateEvent() {
               display: "flex",
               justifyContent: "space-between",
               width: "100%",
-              gap: "4%",
+              gap: "5%",
             }}
           >
             <TextField
