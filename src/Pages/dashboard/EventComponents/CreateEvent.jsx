@@ -18,7 +18,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BorderAllRounded } from "@mui/icons-material";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button,Modal } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function CreateEvent() {
@@ -201,6 +201,7 @@ export default function CreateEvent() {
   };
 
   const fileInputRef = useRef(null);
+  const newFileInputRef = useRef(null);
 
   const handleNewFile = (e) => {
     const newFiles = e.target.files;
@@ -287,23 +288,36 @@ export default function CreateEvent() {
       console.error("Arrays are out of sync");
     }
   };
+
+  const handleNewFileClick = () => {
+    newFileInputRef.current.click();
+  };
+  const handleExtraUrlChange = (index, event) => {
+    const newUrls = [...extraURL];
+    newUrls[index] = event.target.value;
+    setExtraURL(newUrls);
+  };
+const removeInput = (indexToRemove) => {
+    setExtraTitle(extraTitle.filter((_, index) => index !== indexToRemove));
+    setExtraURL(extraURL.filter((_, index) => index !== indexToRemove));
+  };
   return (
     <div>
       <ToastContainer />
-      <h1 className="title">New Event</h1>
+      <h1 className="new-event-title">New Event</h1>
       <div className="newEventContainer">
         <div
           className="slider-and-uploader"
-          style={{ height: "300px", width: "300px" }}
+          style={{ height: "300px", width: "25%" }}
         >
-          <div className="image-slider" style={{ width: "250px" }}>
+          <div className="image-slider">
             {Object.keys(files).length > 1 ? (
               <Slider {...settings}>
                 {Object.keys(files).map((key, index) => (
                   <div key={index} onClick={() => handleImageSelect(key)}>
                     <img
-                      width={"250px"}
-                      height={"200px"}
+                      width={"300px"}
+                      height={"225px"}
                       src={files[key].href}
                       alt={`Image ${index + 1}`}
                       className={
@@ -314,7 +328,7 @@ export default function CreateEvent() {
                 ))}
               </Slider>
             ) : Object.keys(files).length === 0 ? (
-              <Typography style={{ marginTop: "35%" }}>
+              <Typography style={{ marginTop: "27%" }}>
                 No images selected
               </Typography>
             ) : (
@@ -322,8 +336,8 @@ export default function CreateEvent() {
                 {Object.keys(files).map((key, index) => (
                   <div key={index}>
                     <img
-                      width={"250px"}
-                      height={"200px"}
+                      width={"300x"}
+                      height={"225px"}
                       src={files[key].href}
                       alt="Event Image"
                       onClick={() => handleImageSelect(key)}
@@ -335,42 +349,56 @@ export default function CreateEvent() {
                 ))}
               </div>
             )}
-
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              style={{ display: "none" }}
-              onChange={(e) => handleImageReplace(e, selectedImageId)}
-            />
-
-            <input
-              className="uploader"
-              type="file"
-              key={uploaderKey}
-              id="uploader"
-              onChange={handleNewFile}
-              multiple
-            />
-
-            <div>
-              {isModalOpen && (
-                <div className="modal">
-                  <div className="modal-content">
-                    <button onClick={() => openFileExplorer()}>Replace</button>
-                    <button onClick={() => deleteImage()}>Delete</button>
-                    <button onClick={() => setIsModalOpen(false)}>Close</button>
-                  </div>
-                </div>
-              )}
-            </div>
           </div>
+
+          <input
+            className="event-uploader"
+            type="file"
+            key={uploaderKey}
+            id="newImageUploader"
+            style={{ display: "none" }}
+            ref={newFileInputRef}
+            onChange={handleNewFile}
+            multiple
+          />
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={(e) => handleImageReplace(e, selectedImageId)}
+          />
+          <Button onClick={handleNewFileClick}> + New Image</Button>
+
+          <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                borderRadius: "5%",
+                transform: "translate(-50%, -50%)",
+                bgcolor: "background.paper",
+                boxShadow: 100,
+                p: 4,
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+              }}
+            >
+              <Typography variant="h6">Edit Image</Typography>
+              <Button onClick={deleteImage} color="error">
+                Delete
+              </Button>
+              <Button onClick={openFileExplorer} color="primary">
+                Replace
+              </Button>
+              <Button onClick={() => setIsModalOpen(false)}>Close</Button>
+            </Box>
+          </Modal>
         </div>
 
-        <div
-          className="input-fields"
-          style={{ width: "300px", height: "300px" }}
-        >
+        <div className="input-fields" style={{ width: "25%", height: "300px" }}>
           <TextField
             fullWidth
             rows={1}
@@ -408,7 +436,7 @@ export default function CreateEvent() {
             </div>
           ) : (
             <DatePicker
-              className="input-field"
+              className="date-field"
               selected={startDate}
               onChange={(date) => {
                 setStartDate(date);
@@ -418,41 +446,23 @@ export default function CreateEvent() {
             />
           )}
 
-          <div className="time-picker">
+          <div className="time-container">
             <TextField
               label="Start"
+              className="time-picker"
               InputLabelProps={{ shrink: true }}
               type="time"
               onChange={(e) => setStartTime(e.target.value)}
             />
             <TextField
               type="time"
+              className="time-picker"
               onChange={(e) => setEndTime(e.target.value)}
               InputLabelProps={{ shrink: true }}
               label="End"
             />
           </div>
-        </div>
-        <div
-          className="input-fields2"
-          style={{ width: "300px", height: "300px" }}
-        >
-          <TextField
-            type="text"
-            rows={2}
-            multiline
-            label="Short Description"
-            value={shortDescription}
-            onChange={(e) => setShortDescription(e.target.value)}
-          />
-          <TextField
-            type="text"
-            rows={3}
-            multiline
-            label="Long Description"
-            value={longDescription}
-            onChange={(e) => setLongDescription(e.target.value)}
-          />
+
           <TextField
             type="text"
             label="Latitude"
@@ -473,31 +483,53 @@ export default function CreateEvent() {
               }
             }}
           />
-          <div className="extra-info">
-            {extraTitle.map((title, index) => (
-              <div key={index}>
-                <TextField
-                  type="text"
-                  label={`Extra Info Title ${index + 1}`}
-                  value={title}
-                  onChange={(event) => handleExtraTitleChange(index, event)}
-                />
-                {extraURL[index] !== undefined && (
-                  <TextField
-                    type="text"
-                    label={`Extra Info Link ${index + 1}`}
-                    value={extraURL[index]}
-                    onChange={(event) => handleExtraURLChange(index, event)}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
+        </div>
+        <div
+          className="input-fields2"
+          style={{ width: "25%", height: "300px" }}
+        >
+          <TextField
+            type="text"
+            rows={2}
+            multiline
+            label="Short Description"
+            value={shortDescription}
+            onChange={(e) => setShortDescription(e.target.value)}
+          />
+          <TextField
+            type="text"
+            rows={3}
+            multiline
+            label="Long Description"
+            value={longDescription}
+            onChange={(e) => setLongDescription(e.target.value)}
+          />
+
+          {extraTitle.map((title, index) => (
+            <div className="extra-info" key={index}>
+              <TextField
+                type="text"
+                label={`Extra Info Title ${index + 1}`}
+                value={title}
+                onChange={(event) => handleExtraTitleChange(index, event)}
+              />
+              <TextField
+                type="text"
+                label={`Extra Info Link ${index + 1}`}
+                value={extraURL[index]}
+                onChange={(event) => handleExtraUrlChange(index, event)}
+              />
+              <Button onClick={() => removeInput(index)}>Remove</Button>
+            </div>
+          ))}
 
           <Button onClick={addInputs}>Add More</Button>
         </div>
       </div>
-      <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 2 }}>
+      <Box
+        className="buttons"
+        sx={{ mt: 15, display: "flex", justifyContent: "center", gap: 2 }}
+      >
         <Button variant="contained" color="primary" onClick={handleButtonClick}>
           Create Event
         </Button>
