@@ -16,8 +16,20 @@ import {
   Button,
 } from "@mui/material";
 import "../../../styling/TableStyling.css";
+import { styled } from "@mui/system";
+
 
 const UserTable = ({ allData, passwordReset, onEdit, onDelete }) => {
+  const STableCell = styled(TableCell)({
+    padding: ".7rem", 
+    whiteSpace: "nowrap", 
+    overflow: "hidden", 
+    textOverflow: "ellipsis"
+  });
+
+
+
+
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(6);
@@ -66,9 +78,9 @@ const UserTable = ({ allData, passwordReset, onEdit, onDelete }) => {
           <TableRow className="row">
             {["Name", "Email", "Password Reset", "Edit", "Delete"].map(
               (header) => (
-                <TableCell sx={{ padding: "0.7rem" }} key={header}>
+                <STableCell key={header}>
                   {header}
-                </TableCell>
+                </STableCell>
               )
             )}
           </TableRow>
@@ -81,11 +93,11 @@ const UserTable = ({ allData, passwordReset, onEdit, onDelete }) => {
               sx={{ textAlign: "center" }}
             >
               {[item.name, item.email].map((value, index) => (
-                <TableCell sx={{ padding: "0.7rem" }} key={index}>
+                <STableCell key={index}>
                   {value}
-                </TableCell>
+                </STableCell>
               ))}
-              <TableCell sx={{ padding: "0.7rem" }}>
+              <TableCell style={{padding: "0.7rem"}} >
                 <Button
                   className="password-button"
                   onClick={() => handleReset(item.email)}
