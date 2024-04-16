@@ -27,6 +27,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
     overflow: "hidden", 
     textOverflow: "ellipsis",
     padding: ".7rem",
+    maxHeight: "1%",
   });
   
 
@@ -135,7 +136,7 @@ const EventsTable = ({ data, deleteEvent, editEvent, createEvent }) => {
             </TableRow>
           ))}
           {emptyRows > 0 && (
-            <TableRow style={{ height: 55 * emptyRows }}>
+            <TableRow style={{ height: 60 * emptyRows }}>
               <STableCell  colSpan={9} />
             </TableRow>
           )}
