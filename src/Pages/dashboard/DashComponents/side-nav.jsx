@@ -14,11 +14,11 @@ import { items } from "./config";
 import { SideNavItem } from "./side-nav-item";
 import React from "react";
 import logo from "../../../assets/myPI-Icon.png";
+import App_Logo from "../../../assets/App_Logo.png";
 import LogoutSharp from "@mui/icons-material/LogoutSharp";
 import { useAuth } from "../../../components/AuthContext";
 import { account } from "../../../utils/AppwriteConfig";
 import { useState, useEffect } from "react";
-
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
@@ -27,7 +27,6 @@ export const SideNav = (props) => {
   const pathname = location.pathname; // Get the current pathname
   const { setIsSignedIn } = useAuth();
   const [name, setName] = useState("");
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,14 +90,15 @@ export const SideNav = (props) => {
         >
           <div>
             <img
-              src={logo}
-              alt="myPI Logo"
+              src={App_Logo}
+              alt="App_Logo"
               style={{
                 flex: 1,
                 width: "100%",
                 height: "100%",
                 resizeMode: "contain",
-              }} />
+              }}
+            />
             <Typography
               color="neutral.400"
               variant="body2"
@@ -145,7 +145,12 @@ export const SideNav = (props) => {
           })}
         </Stack>
       </Box>
-      <Typography textAlign="center" fontWeight="bold" color="text.tertiary" variant="body2">
+      <Typography
+        textAlign="center"
+        fontWeight="bold"
+        color="text.tertiary"
+        variant="body2"
+      >
         {name}
       </Typography>
       {/* Ensure divider is at the bottom */}

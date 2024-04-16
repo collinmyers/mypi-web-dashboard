@@ -13,6 +13,7 @@ import {
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { account } from "../../utils/AppwriteConfig";
 import myPIIcon from "/src/assets/myPI-Icon.png";
+import App_Logo from "/src/assets/App_Logo.png";
 import { useAuth } from "../../components/AuthContext";
 
 export default function LoginScreen() {
@@ -90,7 +91,7 @@ export default function LoginScreen() {
         >
           <Box
             component="img"
-            src={myPIIcon}
+            src={App_Logo}
             alt="myPI Logo"
             sx={{ height: 120, mb: 2, display: "block", mx: "auto" }}
           />
