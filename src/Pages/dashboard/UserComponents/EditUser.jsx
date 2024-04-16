@@ -125,7 +125,7 @@ export default function EditUser() {
                 );
             }
 
-            else if (alias == "") {
+            else if (alias == "" && prevAlias != "") {
                 await database.deleteDocument(
                     DATABASE_ID,
                     USER_ALIAS_TABLE_ID,
