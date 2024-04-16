@@ -11,6 +11,7 @@ import Layout from "./Layout";
 
 export default function NotificationEdit() {
   const [allData,setAllData] = useState([]);
+  const [screenSize,setScreenSize] = useState();
 
   const navigate = useNavigate();
 
@@ -28,6 +29,7 @@ export default function NotificationEdit() {
 
   useEffect(() => {
     getNotifications();
+    getScreenSizeClass();
   }, []); // Fetch all data initially
 
 
@@ -69,7 +71,16 @@ export default function NotificationEdit() {
       DeletionFailed();
     }
   };
-
+  const getScreenSizeClass = ()=> {
+    const screenWidth = window.innerWidth;
+    if (screenWidth < 768) {
+      setScreenSize(50); // Small screens, less than 768px
+    } else if (screenWidth < 1024) {
+      setScreenSize(60); // Medium screens, between 768px and 1024px
+    } else {
+      setScreenSize(70); // Large screens, greater than 1024px
+    }
+  };
 
 
   return (
@@ -78,7 +89,7 @@ export default function NotificationEdit() {
     <ToastContainer/>
         
       <div className="notificationEdit">
-        <CustomTable allData={allData} onDelete={deleteNotification} onEdit={editNotification} onCreate={createNotification}/>
+        <CustomTable allData={allData} onDelete={deleteNotification} onEdit={editNotification} onCreate={createNotification} size={screenSize}/>
       </div>
     </div>
     </Layout>
