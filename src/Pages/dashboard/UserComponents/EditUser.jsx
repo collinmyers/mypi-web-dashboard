@@ -206,102 +206,93 @@ export default function EditUser() {
           variant="outlined"
         />
 
-        <label>
-          <input
-            type="checkbox"
-            name="PrivilegedUser"
-            checked={checkedItems.PrivilegedUser}
-            onChange={handleChange}
-          />
-          PrivilegedUser
-        </label>
-        <br></br>
-        <label>
-          <input
-            type="checkbox"
-            name="ManageUsers"
-            checked={checkedItems.ManageUsers}
-            onChange={handleChange}
-          />
-          ManageUsers
-        </label>
-        <br></br>
+                <label>
+                    <input
+                        type="checkbox"
+                        name="PrivilegedUser"
+                        checked={checkedItems.PrivilegedUser}
+                        onChange={handleChange}
+                    />
+                    Privileged User
+                </label>
+                <br></br>
+                <label>
+                    <input
+                        type="checkbox"
+                        name="ManageUsers"
+                        checked={checkedItems.ManageUsers}
+                        onChange={handleChange}
+                    />
+                    Manage Users
+                </label>
+                <br></br>
 
-        <label>
-          <input
-            type="checkbox"
-            name="ManagePoints"
-            checked={checkedItems.ManagePoints}
-            onChange={handleChange}
-          />
-          ManagePoints
-        </label>
-        <br></br>
+                <label>
+                    <input
+                        type="checkbox"
+                        name="ManagePoints"
+                        checked={checkedItems.ManagePoints}
+                        onChange={handleChange}
+                    />
+                    Manage Points
+                </label>
+                <br></br>
 
-        <label>
-          <input
-            type="checkbox"
-            name="ManageEvents"
-            checked={checkedItems.ManageEvents}
-            onChange={handleChange}
-          />
-          ManageEvents
-        </label>
-        <br></br>
+                <label>
+                    <input
+                        type="checkbox"
+                        name="ManageEvents"
+                        checked={checkedItems.ManageEvents}
+                        onChange={handleChange}
+                    />
+                    Manage Events
+                </label>
+                <br></br>
 
-        <label>
-          <input
-            type="checkbox"
-            name="ManageNotifications"
-            checked={checkedItems.ManageNotifications}
-            onChange={handleChange}
-          />
-          ManageNotifications
-        </label>
-        <br></br>
+                <label>
+                    <input
+                        type="checkbox"
+                        name="ManageNotifications"
+                        checked={checkedItems.ManageNotifications}
+                        onChange={handleChange}
+                    />
+                    Manage Notifications
+                </label>
+                <br></br>
 
-        <label>
-          <input
-            type="checkbox"
-            name="ManagePermissions"
-            checked={checkedItems.ManagePermissions}
-            onChange={handleChange}
-          />
-          ManagePermissions
-        </label>
-        <br></br>
+                
 
-        <label>
-          <input
-            type="checkbox"
-            name="ManageAbout"
-            checked={checkedItems.ManageAbout}
-            onChange={handleChange}
-          />
-          ManageAbout
-        </label>
-        <br></br>
+                <label>
+                    <input
+                        type="checkbox"
+                        name="ManageAbout"
+                        checked={checkedItems.ManageAbout}
+                        onChange={handleChange}
+                    />
+                    Manage About
+                </label>
+                <br></br>
 
-        <label>
-          <input
-            type="checkbox"
-            name="ManageFaq"
-            checked={checkedItems.ManageFaq}
-            onChange={handleChange}
-          />
-          ManageFaq
-        </label>
-        <br></br>
+                <label>
+                    <input
+                        type="checkbox"
+                        name="ManageFaq"
+                        checked={checkedItems.ManageFaq}
+                        onChange={handleChange}
+                    />
+                    Manage Faq
+                </label>
+                <br></br>
 
-        <label>
-          <input
-            type="checkbox"
-            name="FoodTruck"
-            checked={checkedItems.FoodTruck}
-            onChange={handleChange}
-          />
-          FoodTruck
-        </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        name="FoodTruck"
+                        checked={checkedItems.FoodTruck}
+                        onChange={handleChange}
+                    />
+                    Food Truck
+                </label>
 
         <TextField
           margin="normal"
