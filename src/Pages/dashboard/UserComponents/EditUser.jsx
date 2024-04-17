@@ -212,7 +212,7 @@ export default function EditUser() {
                         checked={checkedItems.PrivilegedUser}
                         onChange={handleChange}
                     />
-                    PrivilegedUser
+                    Privileged User
                 </label>
                 <br></br>
                 <label>
@@ -222,7 +222,7 @@ export default function EditUser() {
                         checked={checkedItems.ManageUsers}
                         onChange={handleChange}
                     />
-                    ManageUsers
+                    Manage Users
                 </label>
                 <br></br>
 
@@ -233,7 +233,7 @@ export default function EditUser() {
                         checked={checkedItems.ManagePoints}
                         onChange={handleChange}
                     />
-                    ManagePoints
+                    Manage Points
                 </label>
                 <br></br>
 
@@ -244,7 +244,7 @@ export default function EditUser() {
                         checked={checkedItems.ManageEvents}
                         onChange={handleChange}
                     />
-                    ManageEvents
+                    Manage Events
                 </label>
                 <br></br>
 
@@ -255,20 +255,11 @@ export default function EditUser() {
                         checked={checkedItems.ManageNotifications}
                         onChange={handleChange}
                     />
-                    ManageNotifications
+                    Manage Notifications
                 </label>
                 <br></br>
 
-                <label>
-                    <input
-                        type="checkbox"
-                        name="ManagePermissions"
-                        checked={checkedItems.ManagePermissions}
-                        onChange={handleChange}
-                    />
-                    ManagePermissions
-                </label>
-                <br></br>
+                
 
                 <label>
                     <input
@@ -277,7 +268,7 @@ export default function EditUser() {
                         checked={checkedItems.ManageAbout}
                         onChange={handleChange}
                     />
-                    ManageAbout
+                    Manage About
                 </label>
                 <br></br>
 
@@ -288,7 +279,7 @@ export default function EditUser() {
                         checked={checkedItems.ManageFaq}
                         onChange={handleChange}
                     />
-                    ManageFaq
+                    Manage Faq
                 </label>
                 <br></br>
 
@@ -299,7 +290,7 @@ export default function EditUser() {
                         checked={checkedItems.FoodTruck}
                         onChange={handleChange}
                     />
-                    FoodTruck
+                    Food Truck
                 </label>
 
                 <TextField
