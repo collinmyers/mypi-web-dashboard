@@ -60,6 +60,17 @@ export default function EditNotification() {
     }
   };
 
+ const SuccessfulEdit = () => {
+   toast.success("User has been Updated", {
+     position: toast.POSITION.TOP_CENTER,
+     autoClose: 2000, // Auto close after 2000 ms
+   });
+   setTimeout(() => {
+     navigate("/events"); // Navigate after 2000 ms
+   }, 1000); // Delay to match the toast autoClose
+ };
+
+
   const schedulePushNotification = async (notifTitle, notifBody) => {
     const params = { title: notifTitle, body: notifBody };
     try {
