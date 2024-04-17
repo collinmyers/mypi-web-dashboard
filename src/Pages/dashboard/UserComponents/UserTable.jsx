@@ -150,5 +150,4 @@ UserTable.propTypes = {
 
 export default UserTable;
 
-// Pagination is weird on this page and Notifications.jsx
-// Good luck figuring out why.
+

@@ -441,7 +441,10 @@ export default function EditEvent() {
             onChange={(e) => handleImageReplace(e, selectedImageId)}
           />
 
-          <Button onClick={handleNewFileClick}> + New Image</Button>
+          <Button sx={{ fontWeight: "bold" }} onClick={handleNewFileClick}>
+            {" "}
+            + New Image
+          </Button>
 
           <Modal
             style={{ zIndex: "3000" }}
@@ -622,6 +625,11 @@ export default function EditEvent() {
             variant: "contained",
             color: "#FFF",
             backgroundColor: "#005588",
+            "&:hover": {
+              // Define hover state styles
+              backgroundColor: "#003355", // Darken button on hover
+              opacity: 0.9, // Slightly transparent on hover
+            },
           }}
           onClick={handleSubmit}
         >
