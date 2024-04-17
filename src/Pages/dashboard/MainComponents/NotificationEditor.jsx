@@ -15,17 +15,17 @@ export default function NotificationEdit() {
 
   const navigate = useNavigate();
 
-  const SuccessfulDeletion = () => {
-    toast.success("Notification Deleted", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  };
+  // const SuccessfulDeletion = () => {
+  //   toast.success("Notification Deleted", {
+  //     position: toast.POSITION.TOP_CENTER,
+  //   });
+  // };
 
-  const DeletionFailed = () => {
-    toast.error("Failed to Delete Notification", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  };
+  // const DeletionFailed = () => {
+  //   toast.error("Failed to Delete Notification", {
+  //     position: toast.POSITION.TOP_CENTER,
+  //   });
+  // };
 
   useEffect(() => {
     getNotifications();
@@ -63,11 +63,9 @@ export default function NotificationEdit() {
   const deleteNotification = async (item) => {
     try {
       await database.deleteDocument(DATABASE_ID, ALERTS_COLLECTION_ID, item.$id);
-      SuccessfulDeletion();
       getNotifications();
     } catch (error) {
       console.error("Error deleting document:", error);
-      DeletionFailed();
     }
   };
   

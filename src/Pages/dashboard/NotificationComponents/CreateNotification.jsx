@@ -32,10 +32,15 @@ export default function CreateNotification() {
   const [notificationType, setNotificationType] = useState("alerts");
   const navigate = useNavigate();
 
+
   const SuccessfulCreation = () => {
-    toast.success("New Notification Created", {
+    toast.success("User has been Updated", {
       position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000, // Auto close after 2000 ms
     });
+    setTimeout(() => {
+      navigate("/notifications"); // Navigate after 2000 ms
+    }, 1000); // Delay to match the toast autoClose
   };
 
   const creationFailed = () => {
