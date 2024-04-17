@@ -1,9 +1,10 @@
-body {
+.body {
     margin: 0;
     padding: 0;
     justify-content: center;
-  }  
-  .new-event-title {
+  }
+
+.new-event-title {
     color: #005588; 
     font-size: xx-large;
     align-items: center;
@@ -18,21 +19,17 @@ body {
  display: flex;
  justify-content: center;
  gap: 8%;
- 
  }
-
-
 
 .slider-and-uploader {
   display: flex;
   flex-direction: column;
-  
   gap: 50px;
 }
+
 .uploader{
 margin-top: 20%;
 }
-
 
 .input-fields {
   margin-top: 1%;
@@ -40,22 +37,22 @@ margin-top: 20%;
   flex-direction: column;
   gap: 20px;
 }
+
 .input-fields2 {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-
-  .image-slider {
-    width: 250px;
-    height: 250px;
-    margin: auto;
-    text-align: center;
-  }
+.image-slider {
+ width: 250px;
+ height: 250px;
+ margin: auto;
+ text-align: center;
+}
 
   
-  .image-slider:hover::after {
+.image-slider:hover::after {
   content: "Click to Replace/Delete";
   top: 29%;
   left: 19%;
@@ -68,9 +65,9 @@ margin-top: 20%;
   pointer-events: none; /* Ensures the hover effect does not interfere with clicking */
   margin-top: 4%;
   }
+
   .input-field{
     width: 95%;
-
   }
 
 .date-picker{
@@ -95,9 +92,8 @@ display: flex;
 flex-direction: row;
 margin: auto;
 gap: 20px;
-
-
 }
+
 .date-field{
   display: flex;
   margin: auto;

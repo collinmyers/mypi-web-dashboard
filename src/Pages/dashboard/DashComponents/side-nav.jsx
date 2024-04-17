@@ -26,7 +26,7 @@ export const SideNav = (props) => {
   const pathname = location.pathname; // Get the current pathname
   const { setIsSignedIn } = useAuth();
   const [name, setName] = useState("");
-  const [permissions,setPermissions] = useState([]);
+  const [permissions, setPermissions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,8 +69,8 @@ export const SideNav = (props) => {
   };
 
   const filteredItems = items.filter((item) =>
-  item.permissions.some((permission) => permissions.includes(permission))
-);
+    item.permissions.some((permission) => permissions.includes(permission))
+  );
 
   const content = (
     <Box
@@ -82,39 +82,42 @@ export const SideNav = (props) => {
         minWidth: "50%",
       }}
     >
-      <Box sx={{ p: 1, ml: 1 }}>
-        <Box
-          sx={{
-            alignItems: "center",
-            borderRadius: 1,
-            cursor: "pointer",
-            display: "flex",
-            justifyContent: "space-between",
-            mt: 0,
-            p: "20px",
-          }}
-        >
-          <div>
-            <img
-              src={logo}
-              alt="myPI Logo"
-              style={{
-                flex: 1,
-                width: "100%",
-                height: "100%",
-                resizeMode: "contain",
-              }}
-            />
-            <Typography
-              color="neutral.400"
-              variant="body2"
-              textAlign="center"
-              style={{ fontWeight: "bold" }}
-            >
-              Admin Dashboard
-            </Typography>
-          </div>
-        </Box>
+      <Box
+        sx={{
+          alignItems: "center",
+          borderRadius: 1,
+          cursor: "pointer",
+          display: "flex",
+          justifyContent: "space-between",
+          mt: 0,
+          p: "20px",
+          backgroundColor: "#005588", // Lighter blue background behind the logo
+        }}
+      >
+        <div>
+          <img
+            src={logo}
+            alt="myPI Logo"
+            style={{
+              flex: 1,
+              width: "100%",
+              height: "100%",
+              resizeMode: "contain",
+              backgroundColor: "#005588",
+            }}
+          />
+          <Typography
+            color="#FFB238"
+            variant="body1"
+            textAlign="center"
+            style={{
+              fontWeight: "bold",
+              borderRadius: "5px",
+            }}
+          >
+            Admin Dashboard
+          </Typography>
+        </div>
       </Box>
       <Box
         component="nav"
@@ -134,8 +137,6 @@ export const SideNav = (props) => {
             m: 0,
           }}
         >
-     
-
           {filteredItems.map((item) => {
             const active = item.path ? pathname === item.path : false;
 

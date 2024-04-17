@@ -161,9 +161,13 @@ export default function EditEvent() {
   }, [selectedItem]);
 
   const SuccessfulEdit = () => {
-    toast.success("Event Edited", {
+    toast.success("User has been Updated", {
       position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000, // Auto close after 2000 ms
     });
+    setTimeout(() => {
+      navigate("/events"); // Navigate after 2000 ms
+    }, 1000); // Delay to match the toast autoClose
   };
 
   const EditFailed = () => {
@@ -238,7 +242,7 @@ export default function EditEvent() {
           data
         );
         SuccessfulEdit();
-        navigate("/events");
+
         clearInput();
       } catch (error) {
         EditFailed();
@@ -439,7 +443,11 @@ export default function EditEvent() {
 
           <Button onClick={handleNewFileClick}> + New Image</Button>
 
-          <Modal style={{zIndex: "3000"}} open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <Modal
+            style={{ zIndex: "3000" }}
+            open={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          >
             <Box
               sx={{
                 position: "absolute",

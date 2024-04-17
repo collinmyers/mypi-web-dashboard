@@ -6,85 +6,68 @@ import {
   IconButton,
   Stack,
   SvgIcon,
-  useMediaQuery,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
-
 import React from "react";
-import { useTheme } from "@mui/material/styles";
-
 
 const SIDE_NAV_WIDTH = 220;
 const TOP_NAV_HEIGHT = 64;
 
-
 export const TopNav = (props) => {
-    const { onNavOpen } = props;
-    const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
-  
-    return (
-      <>
-        <Box
-          component="header"
-          sx={{
-            backdropFilter: "blur(px)",
-            backgroundColor: (theme) => alpha(theme.palette.background.default, 0.8),
-            position: "relative",
-           
-          left: {
-            lg: `${SIDE_NAV_WIDTH +100}px`
-          },
-          top: 1,
-          width: {
-            lg: `calc(100% - ${SIDE_NAV_WIDTH}px)`
-          },
-            zIndex: (theme) => theme.zIndex.appBar
-          }}
-        >
-          <Stack
-             alignItems="center"
-            direction="row"
-            justifyContent="space-between"
-            spacing={2}
-            sx={{
-                flex: 1, // Grow to fill available space
-                ml: "auto", // Move to the right
-                mr: 2,   // Add margin to the right
-              }}
-          >
-         
-            <Stack
-            alignItems="center"
-            direction="row"
-            spacing={2}
+  const theme = useTheme();
+  const { onNavOpen } = props;
+  const lgUp = useMediaQuery(theme.breakpoints.up("lg"));
+
+  return (
+    <Box
+      component="header"
+      sx={{
+        backdropFilter: "blur(4px)",
+        backgroundColor: alpha(theme.palette.background.default, 0.8),
+        position: "relative",
+        left: { lg: `${SIDE_NAV_WIDTH}px` },
+        top: 1,
+        width: { lg: `calc(100% - ${SIDE_NAV_WIDTH}px)` },
+        zIndex: theme.zIndex.appBar,
+      }}
+    >
+      <Stack
+        alignItems="center"
+        direction="row"
+        justifyContent="space-between"
+        spacing={2}
+        sx={{
+          flex: 1, // Grow to fill available space
+          ml: "auto", // Move to the right
+          mr: 2, // Add margin to the right
+        }}
+      >
+        <Stack alignItems="center" direction="row" spacing={2}>
+          {!lgUp && (
+            <IconButton
+              onClick={onNavOpen}
+              style={{ zIndex: 1500 }}
+              edge="start"
+              color="inherit"
+              aria-label="menu"
             >
-              {!lgUp && (
-                  <IconButton onClick={onNavOpen}>
-                  <SvgIcon fontSize="small">
-                    <Bars3Icon />
-                  </SvgIcon>
-                </IconButton>
-              )}
-            </Stack>
-            <Stack
-            alignItems="center"
-            direction="row"
-            spacing={6}
-            >
-           
-            
-            
-            </Stack>
-            </Stack>
-        </Box>
-        
-        
-      </>
-    );
-  };
-  
-  TopNav.propTypes = {
-    onNavOpen: PropTypes.func
-  };
-  
+              <SvgIcon fontSize="small">
+                <Bars3Icon />
+              </SvgIcon>
+            </IconButton>
+          )}
+        </Stack>
+        <Stack alignItems="center" direction="row" spacing={6}>
+          {/* Placeholder or content goes here */}
+        </Stack>
+      </Stack>
+    </Box>
+  );
+};
+
+TopNav.propTypes = {
+  onNavOpen: PropTypes.func.isRequired,
+};
