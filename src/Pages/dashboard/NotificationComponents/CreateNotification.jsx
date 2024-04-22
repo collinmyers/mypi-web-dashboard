@@ -77,6 +77,18 @@ export default function CreateNotification() {
       AlertType: alertType,
       NotificationType: notificationType,
     };
+    const allFieldsFilled =
+    data.Title &&
+    data.Details &&
+    data.AlertType &&
+    data.NotificationType;
+ 
+  if (!allFieldsFilled) {
+    console.log("Please fill in all fields and select at least one file");
+    creationFailed();
+    return;
+  }
+
 
     try {
       if(alertType == "both" || alertType == "in-app"){
