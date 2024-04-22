@@ -35,7 +35,7 @@ export default function EditFAQ(){
   const timeout = () =>{
     setTimeout(() => {
         navigate("/faq");
-    }, 2000);
+    }, 1000);
   };
 
   const Successful = () => {
