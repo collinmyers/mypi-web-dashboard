@@ -79,12 +79,14 @@ export default function CreateNotification() {
     };
 
     try {
+      if(alertType == "both" || alertType == "in-app"){
       await database.createDocument(
         DATABASE_ID,
         ALERTS_COLLECTION_ID,
         ID.unique(),
         data
       );
+    }
       if (alertType == "both" || alertType == "push") {
         schedulePushNotification(title, details);
       }
