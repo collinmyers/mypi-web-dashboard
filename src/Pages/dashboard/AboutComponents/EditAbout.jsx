@@ -26,10 +26,13 @@ export default function EditAbout() {
   };
 
   const SuccessfulCreation = () => {
-    toast.success("About Successfully Edited", {
+    toast.success("About has been edited", {
       position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000, // Auto close after 2000 ms
     });
-    timeout();
+    setTimeout(() => {
+      navigate("/notifications"); // Navigate after 2000 ms
+    }, 1000);
   };
 
   const creationFailed = () => {
