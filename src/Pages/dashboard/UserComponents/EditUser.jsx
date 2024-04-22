@@ -167,7 +167,7 @@ export default function EditUser() {
     <Container>
       <ToastContainer />
       <Typography
-        style={{ textAlign: "center", color: "#005588", fontWeight: "bold" }}
+        style={{ textAlign: "center", color: "#005588", fontWeight: "bold",marginBottom: "0" }}
         variant="h4"
         gutterBottom
         className="editUserTitle"
@@ -175,7 +175,6 @@ export default function EditUser() {
         Edit User
       </Typography>
 
-      <Typography>User ID = {userID}</Typography>
 
       <Box component="form" noValidate sx={{ mt: 1 }}>
         <TextField
