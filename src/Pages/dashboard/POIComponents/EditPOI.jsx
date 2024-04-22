@@ -36,7 +36,11 @@ export default function EditPOI() {
   const Successful = () => {
     toast.success("POI has been Updated", {
       position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000, // Auto close after 2000 ms
     });
+    setTimeout(() => {
+      navigate("/points-of-interest"); // Navigate after 2000 ms
+    }, 1000);
   };
 
   const Failed = () => {

@@ -26,9 +26,13 @@ export default function CreatePOI() {
   const navigate = useNavigate();
 
   const SuccessfulCreation = () => {
-    toast.success("New POI Created", {
+    toast.success("New POI has been created", {
       position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000, // Auto close after 2000 ms
     });
+    setTimeout(() => {
+      navigate("/notifications"); // Navigate after 2000 ms
+    }, 1000);
   };
 
   const creationFailed = () => {
