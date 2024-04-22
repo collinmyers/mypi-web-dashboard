@@ -27,9 +27,13 @@ export default function CreateVendorPOI() {
     const [selectedPOI, setSelectedPOI] = useState("");
 
     const SuccessfulCreation = () => {
-        toast.success("New POI Created", {
+        toast.success("New POI has been Created", {
             position: toast.POSITION.TOP_CENTER,
-        });
+            autoClose: 2000, // Auto close after 2000 ms
+          });
+          setTimeout(() => {
+            navigate("/vendor-points-of-interest"); // Navigate after 2000 ms
+          }, 1000);
     };
 
     const creationFailed = () => {
