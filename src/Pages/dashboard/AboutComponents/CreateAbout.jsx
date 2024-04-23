@@ -1,56 +1,56 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {Container,TextField,Button,Typography} from "@mui/material";
+import {
+  Container,
+  TextField,
+  Button,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
+} from "@mui/material";
 import { ID } from "appwrite";
 import { database } from "../../../utils/AppwriteConfig";
-import {PARKINFO_COLLECTION_ID,DATABASE_ID,} from "../../../utils/AppwriteConfig";
+import {
+  PARKINFO_COLLECTION_ID,
+  DATABASE_ID,
+} from "../../../utils/AppwriteConfig";
 import { toast, ToastContainer } from "react-toastify";
-// import "../../../styling/NotificationStyling/CreateNotificationStyle.css"; // Obsolete styling file
-import {FormControl,InputLabel,Select,MenuItem,Box} from "@mui/material";
 
 export default function CreateAbout() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [aboutType,setAboutType] = useState("partnership");
-
+  const [aboutType, setAboutType] = useState("partnership");
   const navigate = useNavigate();
-  const timeout = () =>{
+
+  const notify = (message, type = "error") => {
+    toast[type](message, { position: toast.POSITION.TOP_CENTER });
+  };
+
+  const clearInput = () => {
+    setTitle("");
+    setDescription("");
+  };
+
+  const navigateToAbout = () => {
     setTimeout(() => {
-        navigate("/about");
+      navigate("/about");
     }, 1000);
   };
 
-  const SuccessfulCreation = () => {
-    toast.success("New About section Created", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-    timeout();
-  };
-
-  const creationFailed = () => {
-    toast.error("Failed to Create", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  };
-  const UnfilledFields = () => {
-    toast.error("All fields must be filled", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  };
-
   const handleSubmit = async () => {
+    if (!title || !description) {
+      notify("All fields must be filled");
+      return;
+    }
+
     const data = {
       AboutType: aboutType,
       Title: title,
       Description: description,
     };
-    if (!data.Title || !data.Description) {
-        UnfilledFields();
-        return;
-
-    }
-
-
 
     try {
       await database.createDocument(
@@ -60,16 +60,12 @@ export default function CreateAbout() {
         data
       );
       clearInput();
-      SuccessfulCreation();
-    } catch (response) {
-      creationFailed();
-      console.log(response);
+      notify("New About section created", "success");
+      navigateToAbout();
+    } catch (error) {
+      console.error(error); // For debugging
+      notify("Failed to create the About section");
     }
-  };
-
-  const clearInput = () => {
-    setTitle("");
-    setDescription("");
   };
 
   return (
@@ -77,7 +73,12 @@ export default function CreateAbout() {
       <ToastContainer />
       <Typography
         variant="h4"
-        sx={{ color: "#005588", fontWeight: "bold", textAlign: "center", my: 2 }}
+        sx={{
+          color: "#005588",
+          fontWeight: "bold",
+          textAlign: "center",
+          my: 2,
+        }}
       >
         New About
       </Typography>
@@ -86,6 +87,7 @@ export default function CreateAbout() {
         label="Title"
         variant="outlined"
         margin="normal"
+        value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
       <TextField
@@ -95,14 +97,12 @@ export default function CreateAbout() {
         variant="outlined"
         multiline
         margin="normal"
+        value={description}
         onChange={(e) => setDescription(e.target.value)}
-
       />
-
       <Box sx={{ my: 2, width: "100%" }}>
         <FormControl fullWidth>
           <InputLabel>About Type</InputLabel>
-          
           <Select
             label="About Type"
             value={aboutType}
@@ -113,15 +113,11 @@ export default function CreateAbout() {
           </Select>
         </FormControl>
       </Box>
-     
       <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 2 }}>
         <Button variant="contained" onClick={handleSubmit}>
           Create About
         </Button>
-        <Button
-          variant="outlined"
-          onClick={() => navigate("/about")}
-        >
+        <Button variant="outlined" onClick={() => navigate("/about")}>
           Back
         </Button>
       </Box>
