@@ -1,80 +1,68 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Container, TextField, Button, Typography } from "@mui/material";
-import { ID } from "appwrite";
+import {
+  Container,
+  TextField,
+  Button,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
+} from "@mui/material";
 import { database } from "../../../utils/AppwriteConfig";
 import {
   PARKINFO_COLLECTION_ID,
   DATABASE_ID,
 } from "../../../utils/AppwriteConfig";
 import { toast, ToastContainer } from "react-toastify";
-import { FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
-import { Description } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 export default function EditAbout() {
-  const location = useLocation();
-  let about = location.state.About;
-  const [title, setTitle] = useState(about.Title);
-  const [description, setDescription] = useState(about.Description);
-  const [aboutType, setAboutType] = useState(about.AboutType);
+  const { state } = useLocation();
+  const { About } = state; // Using destructuring for clarity
+  const [title, setTitle] = useState(About.Title);
+  const [description, setDescription] = useState(About.Description);
+  const [aboutType, setAboutType] = useState(About.AboutType);
 
   const navigate = useNavigate();
-  const timeout = () => {
+
+  const notify = (message, type = "error") => {
+    toast[type](message, { position: toast.POSITION.TOP_CENTER });
+  };
+
+  const navigateAfterEdit = () => {
+    notify("About has been edited", "success");
     setTimeout(() => {
-      navigate("/about");
+      navigate("/about"); // Navigate after a delay
     }, 2000);
   };
 
-  const SuccessfulCreation = () => {
-    toast.success("About has been edited", {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2000, // Auto close after 2000 ms
-    });
-    setTimeout(() => {
-      navigate("/notifications"); // Navigate after 2000 ms
-    }, 1000);
-  };
-
-  const creationFailed = () => {
-    toast.error("Failed to Edit About", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  };
-  const UnfilledFields = () => {
-    toast.error("All fields must be filled", {
-      position: toast.POSITION.TOP_CENTER,
-    });
-  };
-
   const handleSubmit = async () => {
+    if (!title || !description) {
+      notify("All fields must be filled");
+      return;
+    }
+
     const data = {
       AboutType: aboutType,
       Title: title,
       Description: description,
     };
-    if (!data.Title || !data.Description) {
-      UnfilledFields();
-      return;
-    }
 
     try {
       await database.updateDocument(
         DATABASE_ID,
         PARKINFO_COLLECTION_ID,
-        about.$id,
+        About.$id,
         data
       );
-      clearInput();
-      SuccessfulCreation();
-    } catch (response) {
-      creationFailed();
-      console.log(response);
+      navigateAfterEdit();
+    } catch (error) {
+      notify("Failed to edit About");
+      console.error(error); // For debugging purposes
     }
-  };
-
-  const clearInput = () => {
-    setTitle("");
-    setDescription("");
   };
 
   return (
@@ -109,11 +97,9 @@ export default function EditAbout() {
         margin="normal"
         onChange={(e) => setDescription(e.target.value)}
       />
-
       <Box sx={{ my: 2, width: "100%" }}>
         <FormControl fullWidth>
           <InputLabel>About Type</InputLabel>
-
           <Select
             label="About Type"
             value={aboutType}
@@ -124,10 +110,9 @@ export default function EditAbout() {
           </Select>
         </FormControl>
       </Box>
-
       <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 2 }}>
         <Button variant="contained" onClick={handleSubmit}>
-          Create About
+          Save Changes
         </Button>
         <Button
           startIcon={<ArrowBackIcon />}
