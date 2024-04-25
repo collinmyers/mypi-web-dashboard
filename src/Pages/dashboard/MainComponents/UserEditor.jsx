@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { account } from "../../../utils/AppwriteConfig";
 import { toast } from "react-toastify";
 import { ACCOUNT_RECOVERY_DOMAIN } from "../../../utils/AppwriteConfig";
+import { ContactsOutlined } from "@mui/icons-material";
 
 
 export default function Users() {
@@ -24,8 +25,21 @@ export default function Users() {
         "/",
         "GET"
       );
-      const responseBody = JSON.parse(response.responseBody);
-      setUsers(responseBody["userInfo"]);
+      let responseBody = JSON.parse(response.responseBody);
+        // console.log(responseBody);
+        responseBody = [responseBody];
+        const responseBodyArray = responseBody[0].allUsers;
+        const authUsers = responseBodyArray.filter(user => user.email !== "");
+        console.log(authUsers);
+
+        const filteredUsers = authUsers.map(user => ({
+          $id: user.$id,
+          name: user.name,
+          email: user.email,
+          labels: user.labels
+        }));
+      
+      setUsers(filteredUsers);
       setIsLoading(false);
     } catch (err) {
       console.error(err);
@@ -81,8 +95,7 @@ export default function Users() {
     }
   };
 
-  const deletePOI = async (user) => {
-
+  const deleteUser = async (user) => {
     try {
 
       await functions.createExecution(
@@ -108,7 +121,7 @@ export default function Users() {
       <Layout>
         <div>
           <ToastContainer />
-          {isLoading ? <div>Loading...</div> : <UserTable allData={users} passwordReset={handlePasswordReset} onEdit={editUser} onDelete={deletePOI} />}
+          {isLoading ? <div>Loading...</div> : <UserTable allData={users} passwordReset={handlePasswordReset} onEdit={editUser} onDelete={deleteUser} />}
         </div>
       </Layout>
     </div>
