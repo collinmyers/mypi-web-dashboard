@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -14,53 +14,72 @@ import {
   TablePagination,
   TextField,
   Button,
+  styled,
 } from "@mui/material";
 import "../../../styling/TableStyling.css";
-import { styled } from "@mui/system";
 
+const STableCell = styled(TableCell)({
+  padding: ".7rem",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+});
 
 const UserTable = ({ allData, passwordReset, onEdit, onDelete }) => {
-  const STableCell = styled(TableCell)({
-    padding: ".7rem", 
-    whiteSpace: "nowrap", 
-    overflow: "hidden", 
-    textOverflow: "ellipsis"
-  });
-
-
-
-
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(
+    parseInt(sessionStorage.getItem("currentPage") || 0)
+  );
   const [pageSize] = useState(6);
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = useCallback((event) => {
     setSearchTerm(event.target.value.toLowerCase());
-    setCurrentPage(1); // Reset to first page when searching
+    setCurrentPage(0); // Reset to first page when searching
+    sessionStorage.setItem("currentPage", "0"); // Reset page in session storage
+  }, []);
+
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
+    sessionStorage.setItem("currentPage", newPage.toString()); // Save the current page to sessionStorage
   };
 
-  const handleDeleteClick = ($id) => {
-    const isConfirmed = window.confirm("Are you sure you want to delete?");
-    if (isConfirmed) {
-      onDelete($id);
-    }
-  };
-  const handleReset = (email) => {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to send password reset to your email?"
-    );
-    if (isConfirmed) {
-      passwordReset(email);
-    }
-  };
-
-  const filteredData = allData.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const handleDeleteClick = useCallback(
+    ($id) => {
+      const isConfirmed = window.confirm("Are you sure you want to delete?");
+      if (isConfirmed) {
+        onDelete($id);
+      }
+    },
+    [onDelete]
   );
 
-  const startIndex = (currentPage - 1) * pageSize;
-  const currentPageData = filteredData.slice(startIndex, startIndex + pageSize);
-  const emptyRows = pageSize - Math.min(pageSize, currentPageData.length);
+  const handleReset = useCallback(
+    (email) => {
+      const isConfirmed = window.confirm(
+        "Are you sure you want to send password reset to your email?"
+      );
+      if (isConfirmed) {
+        passwordReset(email);
+      }
+    },
+    [passwordReset]
+  );
+
+  const filteredData = useMemo(
+    () =>
+      allData.filter((item) => item.name.toLowerCase().includes(searchTerm)),
+    [allData, searchTerm]
+  );
+
+  const currentPageData = useMemo(() => {
+    const startIndex = currentPage * pageSize;
+    return filteredData.slice(startIndex, startIndex + pageSize);
+  }, [filteredData, currentPage, pageSize]);
+
+  const emptyRows = useMemo(
+    () => pageSize - Math.min(pageSize, currentPageData.length),
+    [pageSize, currentPageData.length]
+  );
 
   return (
     <Card className="card">
@@ -78,42 +97,28 @@ const UserTable = ({ allData, passwordReset, onEdit, onDelete }) => {
           <TableRow className="row">
             {["Name", "Email", "Password Reset", "Edit", "Delete"].map(
               (header) => (
-                <STableCell key={header}>
-                  {header}
-                </STableCell>
+                <STableCell key={header}>{header}</STableCell>
               )
             )}
           </TableRow>
         </TableHead>
         <TableBody>
           {currentPageData.map((item) => (
-            <TableRow
-              className="row"
-              key={item.$id}
-              sx={{ textAlign: "center" }}
-            >
+            <TableRow className="row" key={item.$id}>
               {[item.name, item.email].map((value, index) => (
-                <STableCell key={index}>
-                  {value}
-                </STableCell>
+                <STableCell key={index}>{value}</STableCell>
               ))}
-              <TableCell style={{padding: "0.7rem"}} >
+              <TableCell sx={{ padding: "0.7rem" }}>
                 <Button
-                  className="password-button"
                   onClick={() => handleReset(item.email)}
                   startIcon={<PasswordIcon />}
                 />
               </TableCell>
               <TableCell sx={{ padding: "0.7rem" }}>
-                <Button
-                  className="edit-button"
-                  onClick={() => onEdit(item)}
-                  startIcon={<EditIcon />}
-                />
+                <Button onClick={() => onEdit(item)} startIcon={<EditIcon />} />
               </TableCell>
               <TableCell sx={{ padding: "0.7rem" }}>
                 <Button
-                  className="delete-button"
                   onClick={() => handleDeleteClick(item.$id)}
                   startIcon={<DeleteIcon />}
                 />
@@ -122,17 +127,16 @@ const UserTable = ({ allData, passwordReset, onEdit, onDelete }) => {
           ))}
           {emptyRows > 0 && (
             <TableRow style={{ height: 55 * emptyRows }}>
-              <TableCell sx={{ padding: "0.7rem" }} colSpan={7} />
+              <TableCell colSpan={7} />
             </TableRow>
           )}
         </TableBody>
       </Table>
-
       <TablePagination
         component="div"
         count={filteredData.length}
-        onPageChange={(event, page) => setCurrentPage(page + 1)}
-        page={currentPage - 1}
+        onPageChange={handlePageChange}
+        page={currentPage}
         rowsPerPage={pageSize}
         rowsPerPageOptions={[pageSize]}
         className="pagination"
@@ -149,5 +153,3 @@ UserTable.propTypes = {
 };
 
 export default UserTable;
-
-
