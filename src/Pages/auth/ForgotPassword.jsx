@@ -7,20 +7,17 @@ import {account} from "../../utils/AppwriteConfig";
 import "../../styling/AuthStyling/ForgotPassword.css";
 import { toast,ToastContainer } from "react-toastify";
 
-
-
-export default function ForgotPassword(){
+export default function ForgotPassword(){  // page to allow users to update their password from link sent via email
     const [password, setPassword] = useState("");
     const [confirmPassword,setConfirmPassword] = useState("");
     const [errors,setErrors] = useState([]);
 
     const location = useLocation();
 
+    // Extract user id and secret key to update users password
     const searchParams = new URLSearchParams(location.search);
     const userId = searchParams.get("userId");
     const secret = searchParams.get("secret");
-
-  
 
     const failedReset = (error) => {
       toast.error(error, {

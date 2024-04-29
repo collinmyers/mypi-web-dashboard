@@ -72,12 +72,6 @@ export default function EditUser() {
     getUserAlias();
   }, []);
 
-  const timeout = () => {
-    setTimeout(() => {
-      navigate("/users");
-    }, 2000);
-  };
-
   const Successful = () => {
     toast.success("User has been Updated", {
       position: toast.POSITION.TOP_CENTER,

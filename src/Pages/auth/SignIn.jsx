@@ -32,7 +32,7 @@ export default function LoginScreen() {
       await account.createEmailSession(email, password);
       const response = await account.get();
 
-      if (response.labels.includes("PrivilegedUser")) {
+      if (response.labels.includes("PrivilegedUser")) { // only allow privledged users to login
         notify(true, "Successfully Signed in!");
         setIsSignedIn(true);
         navigate("/");

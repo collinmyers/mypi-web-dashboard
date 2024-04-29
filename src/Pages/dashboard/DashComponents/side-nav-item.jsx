@@ -35,10 +35,10 @@ const theme = useTheme();
           textAlign: "left",
           width: "100%",
           ...(active && {
-            backgroundColor: "rgba(255, 255, 255, 0.04)" //item background color
+            backgroundColor: "rgba(255, 255, 255, 0.04)" 
           }),
           "&:hover": {      
-            backgroundColor: "rgba(255, 255, 255, 0.04)"//item hover background color
+            backgroundColor: "rgba(255, 255, 255, 0.04)"
           }
         }}
         {...linkProps}

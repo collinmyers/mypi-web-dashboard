@@ -23,9 +23,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import zIndex from "@mui/material/styles/zIndex";
 
 export default function CreateEvent() {
-  // const[fileID,setFileID] = useState("");
   const [files, setFiles] = useState({});
-  // const [fileCount,setFileCount] = useState(0);
   const [name, setName] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
@@ -183,7 +181,6 @@ export default function CreateEvent() {
         ID.unique(),
         data
       );
-      // setResponseData(response);
       SuccessfulCreation();
       clearInput();
     } catch (error) {

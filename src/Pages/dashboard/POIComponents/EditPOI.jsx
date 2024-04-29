@@ -22,7 +22,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function EditPOI() {
   const location = useLocation();
-  // get userId
 
   let poi = location.state.poi;
 

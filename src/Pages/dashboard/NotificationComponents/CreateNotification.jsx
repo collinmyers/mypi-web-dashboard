@@ -22,7 +22,7 @@ import {
   DATABASE_ID,
 } from "../../../utils/AppwriteConfig";
 import { toast, ToastContainer } from "react-toastify";
-import "../../../styling/NotificationStyling/CreateNotificationStyle.css"; // Obsolete styling file
+import "../../../styling/NotificationStyling/CreateNotificationStyle.css"; 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function CreateNotification() {

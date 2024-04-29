@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import "../../../styling/TableStyling.css";
-// import "../../../styling/POIStyling/POITableStyle.css";
 
 const VendorPOITable = ({ allData, onDelete, onCreate }) => {
   const [searchTerm, setSearchTerm] = useState("");

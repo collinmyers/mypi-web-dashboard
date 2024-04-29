@@ -21,7 +21,6 @@ import About from "./Pages/dashboard/MainComponents/About";
 import FAQ from "./Pages/dashboard/MainComponents/FAQ";
 import EditFAQ from "./Pages/dashboard/FAQComponents/EditFAQ";
 import CreateFAQ from "./Pages/dashboard/FAQComponents/CreateFAQ";
-import VendorPOITable from "./Pages/dashboard/VendorPOI/VendorPOITable";
 import CreateVendorPOI from "./Pages/dashboard/VendorPOI/CreateVendorPOI";
 import { useAuth } from "./components/AuthContext";
 import VendorPOIEdit from "./Pages/dashboard/MainComponents/VendorPOIEditor";
@@ -42,6 +41,7 @@ export default function App() {
         },
     });
 
+    // Defining initial page to load based on auth state and permissions, and protected routes
     return (
         <ThemeProvider theme={theme}>
             <BrowserRouter>

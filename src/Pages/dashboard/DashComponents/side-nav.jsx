@@ -91,7 +91,7 @@ export const SideNav = (props) => {
           justifyContent: "space-between",
           mt: 0,
           p: "20px",
-          backgroundColor: "#005588", // Lighter blue background behind the logo
+          backgroundColor: "#005588",
         }}
       >
         <div>
@@ -130,7 +130,7 @@ export const SideNav = (props) => {
       >
         <Stack
           component="ul"
-          spacing={"5%"} // Adjust spacing between items
+          spacing={"5%"} // spacing between items
           sx={{
             listStyle: "none",
             p: 0,

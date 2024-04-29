@@ -41,8 +41,8 @@ export const TopNav = (props) => {
         spacing={2}
         sx={{
           flex: 1, // Grow to fill available space
-          ml: "auto", // Move to the right
-          mr: 2, // Add margin to the right
+          ml: "auto", 
+          mr: 2, 
         }}
       >
         <Stack alignItems="center" direction="row" spacing={2}>
@@ -61,7 +61,6 @@ export const TopNav = (props) => {
           )}
         </Stack>
         <Stack alignItems="center" direction="row" spacing={6}>
-          {/* Placeholder or content goes here */}
         </Stack>
       </Stack>
     </Box>

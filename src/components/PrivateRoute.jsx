@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import PropTypes from "prop-types"; // Import PropTypes
+import PropTypes from "prop-types";
 import { account } from "../utils/AppwriteConfig";
 
-const PrivateRoute = ({ allowedRoles }) => {
+const PrivateRoute = ({ allowedRoles }) => { // Private routes to ensure only allowed users can access protected pages
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isPermitted, setIsPermitted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

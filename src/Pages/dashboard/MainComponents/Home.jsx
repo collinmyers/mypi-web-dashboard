@@ -130,14 +130,6 @@ const Home = () => {
           height: "100vh",
         }}
       >
-        {/* Page Title */}
-        {/* <Typography
-          variant="h3"
-          component="h3"
-          sx={{ textAlign: "center", mb: 4, color: "#005588" }}
-        >
-          Platform Statistics
-        </Typography> */}
 
         <Paper
           elevation={5}

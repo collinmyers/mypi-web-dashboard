@@ -1,6 +1,5 @@
 // Imports needed to function
 import { Client, Account, Databases, Storage, Functions } from "appwrite";
-//import { Users } from "node-appwrite";
 
 export const API_ENDPOINT = import.meta.env.VITE_APPWRITE_ENDPOINT;
 export const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT;
@@ -30,6 +29,5 @@ export const account = new Account(client); // Named export use {account} when i
 export const database = new Databases(client); // Named export use {databases} when importing
 export const storage = new Storage(client); // Named export use {storage} when importing
 export const functions = new Functions(client); // Named export use {functions} when importing
-//export const users = new Users(client); //Named export use {users} when importing
 
 export default client; // default export use the word client when exporting

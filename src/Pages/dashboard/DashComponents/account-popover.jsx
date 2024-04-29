@@ -24,7 +24,7 @@ export const AccountPopover = (props) => {
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures this effect runs only once
+  }, []);
 
   const handleSignOut = async () => {
     try {
@@ -41,12 +41,12 @@ export const AccountPopover = (props) => {
     <Popover
       anchorEl={anchorEl}
       anchorOrigin={{
-        horizontal: "right", // Changed to 'right'
-        vertical: "bottom", // Changed to 'top'
+        horizontal: "right", 
+        vertical: "bottom", 
       }}
       transformOrigin={{
-        horizontal: "right", // Align the transform origin to the right
-        vertical: "top", // And the top, so it grows downwards and to the left
+        horizontal: "right", 
+        vertical: "top", 
       }}
       onClose={onClose}
       open={open}

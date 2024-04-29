@@ -80,22 +80,6 @@ export default function EditNotification() {
  };
 
 
-  const schedulePushNotification = async (notifTitle, notifBody) => {
-    const params = { title: notifTitle, body: notifBody };
-    try {
-      await functions.createExecution(
-        PUSH_NOTIFICATION_ID,
-        JSON.stringify(params),
-        false,
-        "/",
-        "POST",
-        params
-      );
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
-
   if (!notification) {
     return <div>No notification data available.</div>;
   }

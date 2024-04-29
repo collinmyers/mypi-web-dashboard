@@ -19,8 +19,7 @@ import { BorderAllOutlined } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function EditEvent() {
-  // const[currentFile,setCurrentFile] = useState("");
-  // const[newFile,setNewFile] = useState("");
+
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -30,7 +29,6 @@ export default function EditEvent() {
   const [imageUrls, setImageUrls] = useState({}); // key value pair imageId: href
 
   const [name, setName] = useState(selectedItem.Name);
-  // const [time, setTime] = useState(selectedItem.Time);
   const [shortDescription, setShortDescription] = useState(
     selectedItem.EventListDescription
   );
@@ -107,7 +105,6 @@ export default function EditEvent() {
   );
 
   const data = {
-    // add lat and long
     Name: name,
     Date: dateRangeString,
     Time: timeRangeString,
@@ -131,9 +128,6 @@ export default function EditEvent() {
   };
 
   useEffect(() => {
-    // getImage();
-    // getCurrentFile();
-
     getAllImages();
 
     if (selectedItem) {
@@ -227,7 +221,6 @@ export default function EditEvent() {
         console.log(response); // Success
       } catch (error) {
         console.log(error); // Failure
-        // ImageDeletionFailed();
       }
     }
   };

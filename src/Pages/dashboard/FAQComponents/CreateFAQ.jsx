@@ -5,7 +5,7 @@ import { ID } from "appwrite";
 import { database } from "../../../utils/AppwriteConfig";
 import {FAQ_COLLECTION_ID,DATABASE_ID,} from "../../../utils/AppwriteConfig";
 import { toast, ToastContainer } from "react-toastify";
-import "../../../styling/NotificationStyling/CreateNotificationStyle.css"; // Obsolete styling file
+import "../../../styling/NotificationStyling/CreateNotificationStyle.css"; 
 
 export default function CreateFAQ() {
   const [question, setQuestion] = useState("");

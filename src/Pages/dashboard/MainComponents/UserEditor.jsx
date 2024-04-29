@@ -26,7 +26,6 @@ export default function Users() {
         "GET"
       );
       let responseBody = JSON.parse(response.responseBody);
-        // console.log(responseBody);
         responseBody = [responseBody];
         const responseBodyArray = responseBody[0].allUsers;
         const authUsers = responseBodyArray.filter(user => user.email !== "");

@@ -15,18 +15,6 @@ export default function NotificationEdit() {
 
   const navigate = useNavigate();
 
-  // const SuccessfulDeletion = () => {
-  //   toast.success("Notification Deleted", {
-  //     position: toast.POSITION.TOP_CENTER,
-  //   });
-  // };
-
-  // const DeletionFailed = () => {
-  //   toast.error("Failed to Delete Notification", {
-  //     position: toast.POSITION.TOP_CENTER,
-  //   });
-  // };
-
   useEffect(() => {
     getNotifications();
   }, []); // Fetch all data initially
@@ -69,8 +57,6 @@ export default function NotificationEdit() {
     }
   };
   
-
-
   return (
     <Layout>
     <div>

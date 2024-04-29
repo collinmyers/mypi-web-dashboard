@@ -8,6 +8,7 @@ import { QuestionAnswerTwoTone } from "@mui/icons-material";
 import { HomeIcon } from "@heroicons/react/24/solid";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 
+// Show content of side menu based on permissions
 export const items = [
   {
     title: "Home",
