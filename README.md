@@ -4,6 +4,7 @@
 3. Vite.config.js will need configured for the hostname and port to be used
 4. For this project Vite has only been used in development mode, it will need to be configured for production. 
 5. The page named "Forgot Password" is used for users of the app to reset their password and will need to be public facing, but we do recommend making this the only public facing page due to this being a administrative dashboard
+6. This project uses ESLint to adhere to coding practices/standards, you can find this in the Extensions Tab if you are using VSCode
 
 ## Vite Documentation
 [Guide](https://vitejs.dev/guide/)
